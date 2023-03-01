@@ -23,6 +23,12 @@ const typeDefs = gql`
         salespeople: [Salesperson]
         clientsBySalesperson(salespersonId: ID!): [Client]
     }
+
+    type Mutation {
+        addSalesperson(first_name: String!, last_name: String!, phone_number: String, email: String!, password: String!): Salesperson
+        addClient(first_name: String!, last_name: String!, phone_number: String, email: String!, sales_person: ID!, status: String!): Client
+      }
+      
 `;
 
 module.exports = typeDefs;
