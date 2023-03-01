@@ -17,6 +17,10 @@ const salespersonSchema = new Schema({
         required: true,
         unique: true,
     },
+    password: {
+        type: String,
+        required: true,
+    }
 });
 
 const Salesperson = model("Salesperson", salespersonSchema);
