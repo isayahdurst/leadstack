@@ -11,6 +11,7 @@ const resolvers = {
             if (!salesperson) {
                 console.error(err);
                 return null;
+                throw new Error("Salesperson not found");
             }
             const clients = await Client.find({
                 sales_person: salesperson._id,
@@ -26,6 +27,7 @@ const resolvers = {
             return Salesperson.findById(parent.sales_person);
         },
     },
+
     Mutation: {
         addSalesperson: async (
             _,
