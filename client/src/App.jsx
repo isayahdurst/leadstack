@@ -1,7 +1,8 @@
+import NavBar from '@components/NavBar/NavBar';
 import './App.css';
 
 function App() {
-    return <div>Let's crush group-project-3!!!</div>;
+    return <NavBar />;
 }
 
 export default App;
