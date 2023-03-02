@@ -73,7 +73,14 @@ const NavBar = () => {
                                         }
                                     />
 
-                                    <Button variant="solid">Sign in</Button>
+                                    <Button
+                                        variant={
+                                            colorMode === 'light'
+                                                ? 'solid'
+                                                : 'ghost'
+                                        }>
+                                        Sign in
+                                    </Button>
                                     <Button variant="solid" colorScheme="red">
                                         Sign up
                                     </Button>
@@ -83,7 +90,7 @@ const NavBar = () => {
                         {!isDesktop && (
                             <IconButton
                                 variant="ghost"
-                                icon={<FiMenu fontSize="1.25rem" />}
+                                icon={<FiMenu fontSize="1.5rem" />}
                                 aria-label="Open Menu"
                             />
                         )}
