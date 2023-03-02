@@ -7,8 +7,8 @@ import './index.css';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: '/graphql',
-  cache: new InMemoryCache(),
+    uri: '/graphql',
+    cache: new InMemoryCache(),
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -20,4 +20,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </ApolloProvider>
     </React.StrictMode>
 );
-
