@@ -23,19 +23,19 @@ const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Box as="section" pb={{ base: '12', md: '24' }}>
-            <Box as="nav" bg="bg-surface" boxShadow="sm" px={5}>
-                <Container py={{ base: '4', lg: '5' }} maxWidth="full">
-                    <HStack spacing="10" justify="space-between">
+        <Box as='section' pb={{ base: '12', md: '24' }}>
+            <Box as='nav' bg='bg-surface' boxShadow='sm' px={5}>
+                <Container py={{ base: '4', lg: '5' }} maxWidth='full'>
+                    <HStack spacing='10' justify='space-between'>
                         {!isDesktop ? (
-                            <Flex justify="center" flex="1">
+                            <Flex justify='center' flex='1'>
                                 <Heading>
                                     <span>Lead</span>
                                     <span style={{ color: 'red' }}>Stack</span>
                                 </Heading>
                             </Flex>
                         ) : (
-                            <Flex justify="space-between" flex="1">
+                            <Flex justify='space-between' flex='1'>
                                 <Heading>
                                     <span>Lead</span>
                                     <span style={{ color: 'red' }}>Stack</span>
@@ -43,7 +43,7 @@ const NavBar = () => {
 
                                 {/* TODO: Add a search bar and ensure this menu is only visible when the user is logged in */}
                                 {/* TODO: Add links to the menu items */}
-                                <ButtonGroup variant="link" spacing="8">
+                                <ButtonGroup variant='link' spacing='8'>
                                     {[
                                         'Dashboard',
                                         'Contacts',
@@ -53,17 +53,17 @@ const NavBar = () => {
                                         <Button key={item}>{item}</Button>
                                     ))}
                                 </ButtonGroup>
-                                <HStack spacing="3">
+                                <HStack spacing='3'>
                                     <IconButton
-                                        variant="ghost"
+                                        variant='ghost'
                                         icon={
                                             colorMode === 'light' ? (
-                                                <ImCool fontSize="1.25rem" />
+                                                <ImCool fontSize='1.25rem' />
                                             ) : (
-                                                <ImCool fontSize="1.25rem" />
+                                                <ImCool fontSize='1.25rem' />
                                             )
                                         }
-                                        aria-label="Open Menu"
+                                        aria-label='Open Menu'
                                         onClick={() =>
                                             toggleColorMode(
                                                 colorMode === 'light'
@@ -81,7 +81,7 @@ const NavBar = () => {
                                         }>
                                         Sign in
                                     </Button>
-                                    <Button variant="solid" colorScheme="red">
+                                    <Button variant='solid' colorScheme='red'>
                                         Sign up
                                     </Button>
                                 </HStack>
@@ -89,9 +89,9 @@ const NavBar = () => {
                         )}
                         {!isDesktop && (
                             <IconButton
-                                variant="ghost"
-                                icon={<FiMenu fontSize="1.5rem" />}
-                                aria-label="Open Menu"
+                                variant='ghost'
+                                icon={<FiMenu fontSize='1.5rem' />}
+                                aria-label='Open Menu'
                             />
                         )}
                     </HStack>

@@ -6,5 +6,7 @@
     "printWidth": 80,
     "bracketSpacing": true,
     "bracketSameLine": true,
-    "arrowParens": "always"
+    "arrowParens": "always",
+    "jsxSingleQuote": true,
+    "jsxBracketSameLine": true
 }
