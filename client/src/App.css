@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 } */
+
+#root {
+    min-height: 100vh;
+}
+
+body {
+    max-height: 100vh;
+    min-height: 100vh;
+}
