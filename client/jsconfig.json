@@ -7,7 +7,7 @@
             "@hooks/*": ["./hooks/*"],
             "@pages/*": ["./pages/*"],
             "@theme/*": ["./theme/*"],
-            "@utils/*": ["./utils/*"]
+            "@utils/*": ["src/utils/*"]
         }
     }
 }
