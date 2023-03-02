@@ -13,8 +13,9 @@ import {
 import { FiMenu } from 'react-icons/fi';
 import { ImCool, ImCool2 } from 'react-icons/im';
 import { useColorMode } from '@chakra-ui/react';
+import { Children } from 'react';
 
-const NavBar = () => {
+const NavBar = ({ children }) => {
     const isDesktop = useBreakpointValue({
         base: false,
         lg: true,
@@ -23,8 +24,17 @@ const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Box as='section' pb={{ base: '12', md: '24' }}>
-            <Box as='nav' bg='bg-surface' boxShadow='sm' px={5}>
+        <Box
+            as='section'
+            pb={{ base: '12', md: '24' }}
+            minHeight={'100vh'}
+            maxHeight={'100vh'}>
+            <Box
+                as='nav'
+                bg='bg-surface'
+                boxShadow='sm'
+                px={5}
+                mb={{ base: '5', md: '5' }}>
                 <Container py={{ base: '4', lg: '5' }} maxWidth='full'>
                     <HStack spacing='10' justify='space-between'>
                         {!isDesktop ? (
@@ -97,6 +107,7 @@ const NavBar = () => {
                     </HStack>
                 </Container>
             </Box>
+            {children}
         </Box>
     );
 };
