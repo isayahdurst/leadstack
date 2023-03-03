@@ -16,9 +16,7 @@ import { useState, useEffect } from 'react';
 
 const EmailIntegrationMenu = () => {
     const [account, setAccount] = useState('');
-    useEffect(() => {
-        console.log(account);
-    }, [account]);
+
     return (
         <Menu>
             <MenuButton as={Button} colorScheme={'red'} variant={'outline'}>
@@ -26,7 +24,7 @@ const EmailIntegrationMenu = () => {
                 {account && account}
             </MenuButton>
             <MenuList>
-                {['Google', 'Outlook', 'Yahoo'].map((account) => {
+                {['Google', 'Outlook (coming soon)'].map((account) => {
                     return (
                         <MenuItem
                             onClick={() => setAccount(account)}

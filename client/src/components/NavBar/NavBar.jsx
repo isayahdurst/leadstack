@@ -9,11 +9,11 @@ import {
     useBreakpointValue,
     Heading,
     Text,
+    useColorModeValue,
+    useColorMode,
 } from '@chakra-ui/react';
 import { FiMenu } from 'react-icons/fi';
 import { ImCool, ImCool2 } from 'react-icons/im';
-import { useColorMode } from '@chakra-ui/react';
-import { Children } from 'react';
 
 const NavBar = ({ children }) => {
     const isDesktop = useBreakpointValue({

@@ -6,12 +6,15 @@ import {
     Text,
     HStack,
     Flex,
+    useColorModeValue,
 } from '@chakra-ui/react';
 import EmailIntegrationMenu from './EmailIntegrationMenu';
+import EmailPreview from './EmailPreview';
 
 const EmailCard = () => {
+    const color = useColorModeValue('gray.100', 'gray.700');
     return (
-        <Card height={'100%'} flexGrow={1}>
+        <Card height={'100%'} flexGrow={1} flexBasis={'60%'} bg={color}>
             <CardHeader>
                 <HStack>
                     <Heading size={'lg'}>Email:</Heading>
@@ -19,7 +22,12 @@ const EmailCard = () => {
                 </HStack>
             </CardHeader>
             <CardBody>
-                <Flex height={'100%'}></Flex>
+                <Flex height={'100%'} flexDirection={'column'} gap={2}>
+                    <EmailPreview />
+                    <EmailPreview />
+                    <EmailPreview />
+                    <EmailPreview />
+                </Flex>
             </CardBody>
         </Card>
     );

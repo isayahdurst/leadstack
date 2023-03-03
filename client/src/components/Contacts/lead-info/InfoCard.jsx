@@ -1,7 +1,15 @@
-import { Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    Heading,
+    Text,
+    useColorModeValue,
+} from '@chakra-ui/react';
 const InfoCard = () => {
+    const color = useColorModeValue('gray.100', 'gray.700');
     return (
-        <Card>
+        <Card bg={color}>
             <CardHeader>
                 <Heading>Lead Information:</Heading>
             </CardHeader>

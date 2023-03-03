@@ -8,6 +8,7 @@ import {
     Text,
     Heading,
     Button,
+    useColorModeValue,
 } from '@chakra-ui/react';
 
 import InfoCard from '@components/Contacts/lead-info/InfoCard';
@@ -16,14 +17,15 @@ import SMSCard from '@components/Contacts/sms/SMSCard';
 import Clients from '@components/Contacts/clients/Clients';
 
 const Contacts = () => {
+    const color = useColorModeValue('gray.100', 'gray.700');
     return (
-        <Flex px={10} height={'90vh'}>
+        <Flex px={10} height={'90vh'} maxHeight={'90vh'}>
             <Flex
                 height={'100%'}
                 justifyContent={'space-between'}
                 gap={5}
                 flexGrow={1}>
-                <Card height={'100%'} width={'20rem'}>
+                <Card height={'100%'} width={'20rem'} flexShrink={0} bg={color}>
                     <CardHeader>
                         <Heading>Contacts</Heading>
                     </CardHeader>
