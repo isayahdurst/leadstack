@@ -3,8 +3,12 @@ const bcrypt = require('bcrypt');
 
 const resolvers = {
     Query: {
+        // clients: async () => {
+        //     return Client.find({}).populate("sales_person");
+        // },
         clients: async () => {
-            return Client.find({}).populate("sales_person");
+            const clients = await Client.find({}).populate("sales_person");
+            return clients.length > 0 ? clients : [{ name: "No clients found" }];
         },
         clientsBySalesperson: async (parent, args) => {
             const salesperson = await Salesperson.findById(args.salespersonId);
@@ -48,7 +52,7 @@ const resolvers = {
                 return salesperson;
             } catch (err) {
                 console.error(err);
-                return null;
+                return {err};
             }
         },
 
