@@ -3,11 +3,11 @@ import { CLIENTS } from './../../../utils/queries';
 import { useQuery } from '@apollo/client';
 
 const Clients = () => {
-    const clientsData =  useQuery(CLIENTS).data.clients;
+    const clientsData = useQuery(CLIENTS).data?.clients;
     console.log(`clientsData`);
     console.log(clientsData);
 
-    if (!clientsData.length) {
+    if (!clientsData?.length) {
         return <p>No Clients</p>;
     }
 
@@ -21,8 +21,7 @@ const Clients = () => {
                         phone={contact.phone_number}
                         email={contact.email}
                     />
-                ))
-            }
+                ))}
         </>
     );
 };
