@@ -5,6 +5,8 @@ import { useQuery } from '@apollo/client';
 const Clients = () => {
     const clientsData = useQuery(CLIENTS);
     console.log('clients data');
+    const clientsData = useQuery(CLIENTS).data?.clients;
+    console.log(`clientsData`);
     console.log(clientsData);
 
     if (!clientsData.data) {

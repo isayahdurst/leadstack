@@ -13,12 +13,16 @@ import {
 import InfoCard from '@components/Contacts/lead-info/InfoCard';
 import EmailCard from '@components/Contacts/email/EmailCard';
 import SMSCard from '@components/Contacts/sms/SMSCard';
-import Clients from '@components/Contacts/clients/Clients'
+import Clients from '@components/Contacts/clients/Clients';
 
 const Contacts = () => {
     return (
-        <Box px={10} height={'90vh'}>
-            <Flex height={'100%'} justifyContent={'space-between'} gap={5}>
+        <Flex px={10} height={'90vh'}>
+            <Flex
+                height={'100%'}
+                justifyContent={'space-between'}
+                gap={5}
+                flexGrow={1}>
                 <Card height={'100%'} width={'20rem'}>
                     <CardHeader>
                         <Heading>Contacts</Heading>
@@ -35,7 +39,7 @@ const Contacts = () => {
                     </Flex>
                 </Flex>
             </Flex>
-        </Box>
+        </Flex>
     );
 };
 
