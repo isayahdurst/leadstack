@@ -13,6 +13,7 @@ import {
 import InfoCard from '@components/Contacts/lead-info/InfoCard';
 import EmailCard from '@components/Contacts/email/EmailCard';
 import SMSCard from '@components/Contacts/sms/SMSCard';
+import Clients from '@components/Contacts/clients/Clients'
 
 const Contacts = () => {
     return (
@@ -23,7 +24,7 @@ const Contacts = () => {
                         <Heading>Contacts</Heading>
                     </CardHeader>
                     <CardBody>
-                        <Text>Contacts</Text>
+                        <Clients />
                     </CardBody>
                 </Card>
                 <Flex flexGrow={1} flexDirection={'column'} gap={5}>
