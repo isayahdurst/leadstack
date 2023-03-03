@@ -3,9 +3,6 @@ const bcrypt = require('bcrypt');
 
 const resolvers = {
     Query: {
-        // clients: async () => {
-        //     return Client.find({}).populate("sales_person");
-        // },
         clients: async () => {
             const clients = await Client.find({}).populate("sales_person");
             return clients.length > 0 ? clients : [{ name: "No clients found" }];
@@ -14,7 +11,7 @@ const resolvers = {
             const salesperson = await Salesperson.findById(args.salespersonId);
             if (!salesperson) {
                 console.error(err);
-                return null;
+                return { error: "record not found" }
                 throw new Error("Salesperson not found");
             }
             const clients = await Client.find({
@@ -25,6 +22,13 @@ const resolvers = {
         salespeople: async () => {
             return Salesperson.find({});
         },
+        salespersonById: async (parent, args) => {
+            // return Salesperson.findById(args.id);
+            const user = await Salesperson.find({
+                _id: args.id,
+            });
+            return user;
+        }
     },
     Client: {
         sales_person: async (parent) => {

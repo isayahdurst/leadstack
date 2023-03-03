@@ -4,9 +4,6 @@ import { useQuery } from '@apollo/client';
 
 const Clients = () => {
     const clientsData = useQuery(CLIENTS);
-    console.log('clients data');
-    console.log(`clientsData`);
-    console.log(clientsData);
 
     if (!clientsData.data) {
         return <p>No Clients</p>;
