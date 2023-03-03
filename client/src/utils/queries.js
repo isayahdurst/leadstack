@@ -50,3 +50,15 @@ query {
     }
   }
 `;
+
+export const PROFILE_QUERY = gql`
+query SalespersonById($id: ID!) {
+  salespersonById(id: $id) {
+    _id
+    email
+    first_name
+    last_name
+    phone_number
+  }
+}
+`;
