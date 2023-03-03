@@ -1,12 +1,25 @@
-import { Card, CardHeader, CardBody, Heading, Text } from '@chakra-ui/react';
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    Heading,
+    Text,
+    HStack,
+    Flex,
+} from '@chakra-ui/react';
+import EmailIntegrationMenu from './EmailIntegrationMenu';
+
 const EmailCard = () => {
     return (
         <Card height={'100%'} flexGrow={1}>
             <CardHeader>
-                <Heading>Email:</Heading>
+                <HStack>
+                    <Heading size={'lg'}>Email:</Heading>
+                    <EmailIntegrationMenu />
+                </HStack>
             </CardHeader>
             <CardBody>
-                <Text>Conversations</Text>
+                <Flex height={'100%'}></Flex>
             </CardBody>
         </Card>
     );

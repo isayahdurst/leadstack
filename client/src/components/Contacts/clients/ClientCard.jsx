@@ -8,8 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { PhoneIcon, EmailIcon } from '@chakra-ui/icons';
 
-const ClientCard = ({key, name, phone, email}) => {
-    
+const ClientCard = ({ key, name, phone, email }) => {
     return (
         <Box
             maxW={'20rem'}
@@ -18,9 +17,7 @@ const ClientCard = ({key, name, phone, email}) => {
             boxShadow={'2xl'}
             rounded={'md'}
             overflow={'hidden'}
-            mb={2}
-            key={key}
-            >
+            mb={2}>
             <Box bg={useColorModeValue('gray.50', 'gray.900')} px={4} py={4}>
                 <List spacing={3}>
                     <ListItem>
