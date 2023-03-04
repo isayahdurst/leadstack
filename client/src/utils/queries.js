@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 // create a GraphQL query to be executed by Apollo Client
 export const CLIENTS = gql`
 query {
-    clients {
+    getAllClients {
       _id
       first_name
       last_name
@@ -22,7 +22,7 @@ query {
 
 export const SALESPEOPLE = gql`
 query {
-    salespeople {
+    getAllSalespeople {
       _id
       first_name
       last_name
@@ -34,7 +34,7 @@ query {
 
 export const CLIENTS_BY_SALESPERSON = gql`
 query {
-    clientsBySalesperson(salespersonId: "salesperson_id") {
+    getClientsBySalesperson(salespersonId: "salesperson_id") {
       _id
       first_name
       last_name
@@ -52,7 +52,7 @@ query {
 `;
 
 export const PROFILE_QUERY = gql`
-query SalespersonById($id: ID!) {
+query getSalespersonById($id: ID!) {
   salespersonById(id: $id) {
     _id
     email
