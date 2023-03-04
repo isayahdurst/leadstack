@@ -70,5 +70,6 @@ db.once("open", async () => {
     await c4.save();
 
     console.log("Clients seeded!");
+
     process.exit(0);
 });
