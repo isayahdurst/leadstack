@@ -33,6 +33,12 @@ const resolvers = {
             });
             return user;
         },
+        clientById: async(paren, args) => {
+            const client = await Client.find({
+                _id: args.id,
+            });
+            return client;
+        },
         allClientEmails: async (parent, { clientId }, context) => {
             // Validate input
             if (!ObjectId.isValid(clientId)) {

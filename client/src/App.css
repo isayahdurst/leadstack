@@ -49,3 +49,13 @@ body {
     max-height: 100vh;
     min-height: 100vh;
 }
+
+.client-card {
+  cursor: pointer;
+}
+
+.client-card:hover {
+  border: 0.1rem solid brown;
+  color: brown;
+  cursor: pointer;
+}
