@@ -1,5 +1,7 @@
 const { Client, Salesperson, Email, Sms } = require('../models');
 const { ObjectId } = require('mongodb');
+const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
     Query: {
@@ -143,6 +145,24 @@ const resolvers = {
                 console.error(err);
                 return null;
             }
+        },
+
+        login: async (parent, { email, password }) => {
+            const salesperson = await Salesperson.findOne({ email });
+      
+            if (!salesperson) {
+              throw new AuthenticationError('No user found with this email address');
+            }
+      
+            const correctPw = await salesperson.isCorrectPassword(password);
+      
+            if (!correctPw) {
+              throw new AuthenticationError('Incorrect credentials');
+            }
+      
+            const token = signToken(salesperson);
+      
+            return { token, salesperson };
         },
 
         addClient: async (

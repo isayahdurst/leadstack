@@ -14,5 +14,8 @@
   "license": "",
   "devDependencies": {
     "concurrently": "^5.3.0"
+  },
+  "dependencies": {
+    "apollo-server-express": "^3.12.0"
   }
 }
