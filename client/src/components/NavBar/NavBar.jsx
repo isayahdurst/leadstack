@@ -14,6 +14,7 @@ import { FiMenu } from 'react-icons/fi';
 import { ImCool, ImCool2 } from 'react-icons/im';
 import { useColorMode } from '@chakra-ui/react';
 import { Children } from 'react';
+import Signup from '../Signup/Signup';
 
 const NavBar = ({ children }) => {
     const isDesktop = useBreakpointValue({
@@ -91,9 +92,7 @@ const NavBar = ({ children }) => {
                                         }>
                                         Sign in
                                     </Button>
-                                    <Button variant='solid' colorScheme='red'>
-                                        Sign up
-                                    </Button>
+                                    <Signup />
                                 </HStack>
                             </Flex>
                         )}
