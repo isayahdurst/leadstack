@@ -43,6 +43,7 @@ const typeDefs = gql`
         salespeople: [Salesperson]
         clientsBySalesperson(salespersonId: ID!): [Client]
         salespersonById(id: ID!): [Salesperson]
+        clientById(id: ID!): [Client]
         allClientEmails(clientId: ID!): [Email]
         allClientSms(clientId: ID!): [Sms]
         allSalespersonEmails(salespersonId: ID!): [Email]

@@ -1,5 +1,4 @@
 const { Client, Salesperson, Email, Sms } = require('../models');
-const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 
 const resolvers = {
@@ -32,6 +31,12 @@ const resolvers = {
                 _id: args.id,
             });
             return user;
+        },
+        clientById: async (paren, args) => {
+            const client = await Client.find({
+                _id: args.id,
+            });
+            return client;
         },
         allClientEmails: async (parent, { clientId }, context) => {
             // Validate input
@@ -123,14 +128,12 @@ const resolvers = {
             parent,
             { first_name, last_name, phone_number, email, password }
         ) => {
-            const hashedPassword = await bcrypt.hash(password, 10);
-
             const salesperson = new Salesperson({
                 first_name,
                 last_name,
                 phone_number,
                 email,
-                password: hashedPassword,
+                password,
             });
 
             try {
