@@ -16,12 +16,18 @@ import { useColorMode } from '@chakra-ui/react';
 import { Children } from 'react';
 import Signup from '../Signup/Signup';
 import Login from '../Login/Login';
+import Auth from '../../utils/auth';
 
 const NavBar = ({ children }) => {
     const isDesktop = useBreakpointValue({
         base: false,
         lg: true,
     });
+
+    const logout = (event) => {
+        event.preventDefault();
+        Auth.logout();
+    };
 
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -84,9 +90,19 @@ const NavBar = ({ children }) => {
                                             )
                                         }
                                     />
-
-                                    <Login />
-                                    <Signup />
+                                    {Auth.loggedIn() ? (
+                                        <>
+                                            <Button colorScheme='red' onClick={logout}>
+                                                Logout
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Login />
+                                            <Signup />
+                                        </>      
+                                    )}
+                                    
                                 </HStack>
                             </Flex>
                         )}
