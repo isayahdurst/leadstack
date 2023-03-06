@@ -2,13 +2,16 @@ const express = require("express");
 const { ApolloServer } = require("@apollo/server");
 const { expressMiddleware } = require("@apollo/server/express4");
 const { typeDefs, resolvers } = require("./schemas");
+const { authMiddleware } = require('./utils/auth');
 const db = require("./config/connection");
 const path = require("path");
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: authMiddleware,
 });
 
 app.use(express.urlencoded({ extended: false }));

@@ -15,6 +15,7 @@ import { ImCool, ImCool2 } from 'react-icons/im';
 import { useColorMode } from '@chakra-ui/react';
 import { Children } from 'react';
 import Signup from '../Signup/Signup';
+import Login from '../Login/Login';
 
 const NavBar = ({ children }) => {
     const isDesktop = useBreakpointValue({
@@ -84,14 +85,7 @@ const NavBar = ({ children }) => {
                                         }
                                     />
 
-                                    <Button
-                                        variant={
-                                            colorMode === 'light'
-                                                ? 'solid'
-                                                : 'ghost'
-                                        }>
-                                        Sign in
-                                    </Button>
+                                    <Login />
                                     <Signup />
                                 </HStack>
                             </Flex>

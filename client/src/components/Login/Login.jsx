@@ -18,31 +18,28 @@ import {
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { useMutation } from '@apollo/client';
-import SignupConfirmation from './SignupConfirmation';
-import { ADD_SALESPERSON } from 'utils/mutations';
+import { LOGIN_SALESPERSON } from 'utils/mutations';
 import Auth from '../../utils/auth';
 
-function Signup() {
+function Login() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const firstField = useRef();
     const btnRef = useRef();
-    const [formState, setFormState] = useState({ firstName: '', lastName: '', phoneNumber: '', email: '', password: '' });
-    const [addUser] = useMutation(ADD_SALESPERSON);
+    const [formState, setFormState] = useState({ email: '', password: '' });
+    const [login] = useMutation(LOGIN_SALESPERSON);
 
-    const addSalesperson = async () => {
-        const { data } = await addUser({
+    const loginSalesperson = async () => {
+        const { data } = await login({
             variables: {
-                first_name: formState.firstName,
-                last_name: formState.lastName,
-                phone_number: formState.phoneNumber,
                 email: formState.email,
                 password: formState.password,
             }
         });
 
-        const token = data.addSalesperson.token;
+        const token = data.login.token;
         Auth.login(token);
         console.log('auth logged in?');
+        console.log(data.login.sales_person);
         console.log(Auth.loggedIn());
 
     };
@@ -58,8 +55,8 @@ function Signup() {
 
     return (
         <>
-          <Button ref={btnRef} colorScheme='red' onClick={onOpen}>
-                Sign up
+          <Button ref={btnRef} onClick={onOpen} >
+                Sign in
           </Button>
           <Drawer
                 isOpen={isOpen}
@@ -72,7 +69,7 @@ function Signup() {
             <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader borderBottomWidth='1px'>Create your account</DrawerHeader>
+                    <DrawerHeader borderBottomWidth='1px'>Sign into your account! </DrawerHeader>
 
                     <DrawerBody>
                         <form
@@ -82,7 +79,7 @@ function Signup() {
                                 e.preventDefault()
                                 console.log('submitted')
                                 try {
-                                    addSalesperson();
+                                    loginSalesperson();
                                 } catch (e) {
                                     console.error(e);
                                 }
@@ -90,39 +87,9 @@ function Signup() {
                         >
                             <Stack spacing='24px'>
                                 <Box>
-                                    <FormLabel htmlFor='firstName'>First Name:</FormLabel> 
-                                    <Input 
-                                        ref={firstField}
-                                        name="firstName"
-                                        type="firstName"
-                                        id='firstName' 
-                                        onChange={handleChange}
-                                    />
-                                </Box>
-                                
-                                <Box>
-                                    <FormLabel htmlFor='lastName'>Last Name:</FormLabel> 
-                                    <Input 
-                                        id='lastName'
-                                        name="lastName"
-                                        type="lastName"
-                                        onChange={handleChange}
-                                    />
-                                </Box>
-                                    
-                                <Box>
-                                    <FormLabel htmlFor='phoneNumber'>Phone Number:</FormLabel> 
-                                    <Input 
-                                        id='phoneNumber'
-                                        name="phoneNumber"
-                                        type="phoneNumber"
-                                        onChange={handleChange}
-                                    />
-                                </Box>
-
-                                <Box>
                                     <FormLabel htmlFor='email'>Email:</FormLabel> 
                                     <Input 
+                                        ref={firstField}
                                         id='email'
                                         name="email"
                                         type="email"
@@ -147,7 +114,7 @@ function Signup() {
                         <Button variant='outline' mr={3} onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button type='submit' form='loginForm' colorScheme='red'>Create Account!</Button>
+                        <Button type='submit' form='loginForm' colorScheme='red'>Sign In</Button>
                     </DrawerFooter>
                 </DrawerContent>
           </Drawer>
@@ -155,4 +122,4 @@ function Signup() {
       )
 }
 
-export default Signup;
+export default Login;
