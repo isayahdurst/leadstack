@@ -52,7 +52,6 @@ const typeDefs = gql`
     }
 
     type Mutation {
-
         addSalesperson(
             first_name: String!
             last_name: String!
@@ -104,6 +103,13 @@ const typeDefs = gql`
             client: ID!
             received: Boolean!
         ): Sms
+
+        sendEmail(
+            subject: String
+            body: String
+            to: String
+            from: String
+        ): Email
     }
 `;
 

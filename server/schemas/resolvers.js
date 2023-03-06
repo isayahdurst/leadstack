@@ -226,6 +226,16 @@ const resolvers = {
                 return null;
             }
         },
+        sendEmail: async (parent, { to, from, subject, text }) => {
+            this.addEmail({
+                subject,
+                body: text,
+                date: new Date(),
+                sales_person: from,
+                client: to,
+                received: false,
+            });
+        },
     },
 };
 
