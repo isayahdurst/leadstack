@@ -130,17 +130,16 @@ const resolvers = {
             parent,
             { first_name, last_name, phone_number, email, password }
         ) => {
-            const salesperson = new Salesperson({
-                first_name,
-                last_name,
-                phone_number,
-                email,
-                password,
-            });
-
             try {
-                await salesperson.save();
-                return salesperson;
+                const salesperson = await Salesperson.create({
+                    first_name,
+                    last_name,
+                    phone_number,
+                    email,
+                    password,
+                });
+                const token = signToken(salesperson);
+                return { token: token, sales_person: salesperson };
             } catch (err) {
                 console.error(err);
                 return null;
@@ -162,7 +161,7 @@ const resolvers = {
       
             const token = signToken(salesperson);
       
-            return { token, salesperson };
+            return { token, sales_person: salesperson };
         },
 
         addClient: async (

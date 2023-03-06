@@ -15,14 +15,29 @@ export const ADD_SALESPERSON = gql`
             email: $email
             password: $password
         ) {
-            _id
-            first_name
-            last_name
-            phone_number
-            email
-            password
+            token
+            sales_person {
+              _id
+              first_name
+              last_name
+              phone_number
+              email
+              password
+            }
         }
     }
+`;
+
+export const LOGIN_SALESPERSON = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      sales_person {
+        _id
+        email
+      }
+    }
+  }
 `;
 
 export const ADD_CLIENT = gql`
