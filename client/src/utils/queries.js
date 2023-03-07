@@ -34,22 +34,20 @@ export const SALESPEOPLE = gql`
 `;
 
 export const CLIENTS_BY_SALESPERSON = gql`
-    query getClientsBySalesperson {
-        clientsBySalesperson(salespersonId: "salesperson_id") {
-            _id
-            first_name
-            last_name
-            phone_number
-            email
-            sales_person {
-                _id
-                first_name
-                last_name
-                phone_number
-                email
-            }
-        }
+query ClientsBySalesperson($salespersonId: ID!) {
+    clientsBySalesperson(salespersonId: $salespersonId) {
+      _id
+      email
+      first_name
+      last_name
+      phone_number
+      status
+      sales_person {
+        _id
+        email
+      }
     }
+  }
 `;
 
 export const PROFILE_QUERY = gql`
@@ -65,23 +63,23 @@ export const PROFILE_QUERY = gql`
 `;
 
 export const CLIENT_INFO_BY_ID = gql`
-query getClientById($clientId: ID!) {
-  clientById(id: $clientId) {
-    _id
-    email
-    first_name
-    last_name
-    phone_number
-    sales_person {
-      _id
-      email
-      first_name
-      last_name
-      phone_number
+    query getClientById($clientId: ID!) {
+        clientById(id: $clientId) {
+            _id
+            email
+            first_name
+            last_name
+            phone_number
+            sales_person {
+                _id
+                email
+                first_name
+                last_name
+                phone_number
+            }
+        }
     }
-  }
-}
-`
+`;
 
 export const CLIENT_EMAILS = gql`
     query getAllEmailByClientId($clientId: ID!) {
