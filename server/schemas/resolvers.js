@@ -1,6 +1,7 @@
 const { Client, Salesperson, Email, Sms } = require('../models');
-const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
+const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
     Query: {
@@ -32,6 +33,12 @@ const resolvers = {
                 _id: args.id,
             });
             return user;
+        },
+        clientById: async (paren, args) => {
+            const client = await Client.find({
+                _id: args.id,
+            });
+            return client;
         },
         allClientEmails: async (parent, { clientId }, context) => {
             // Validate input
@@ -123,23 +130,40 @@ const resolvers = {
             parent,
             { first_name, last_name, phone_number, email, password }
         ) => {
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            const salesperson = new Salesperson({
-                first_name,
-                last_name,
-                phone_number,
-                email,
-                password: hashedPassword,
-            });
-
             try {
-                await salesperson.save();
-                return salesperson;
+                const salesperson = await Salesperson.create({
+                    first_name,
+                    last_name,
+                    phone_number,
+                    email,
+                    password,
+                });
+                const token = signToken(salesperson);
+                return { token: token, sales_person: salesperson };
             } catch (err) {
                 console.error(err);
                 return null;
             }
+        },
+
+        login: async (parent, { email, password }) => {
+            const salesperson = await Salesperson.findOne({ email });
+
+            if (!salesperson) {
+                throw new AuthenticationError(
+                    'No user found with this email address'
+                );
+            }
+
+            const correctPw = await salesperson.isCorrectPassword(password);
+
+            if (!correctPw) {
+                throw new AuthenticationError('Incorrect credentials');
+            }
+
+            const token = signToken(salesperson);
+
+            return { token, sales_person: salesperson };
         },
 
         addClient: async (

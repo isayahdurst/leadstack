@@ -10,6 +10,11 @@ const typeDefs = gql`
         password: String!
     }
 
+    type Auth {
+        token: ID!
+        sales_person: Salesperson
+    }
+
     type Client {
         _id: ID!
         first_name: String!
@@ -43,6 +48,7 @@ const typeDefs = gql`
         salespeople: [Salesperson]
         clientsBySalesperson(salespersonId: ID!): [Client]
         salespersonById(id: ID!): [Salesperson]
+        clientById(id: ID!): [Client]
         allClientEmails(clientId: ID!): [Email]
         allClientSms(clientId: ID!): [Sms]
         allSalespersonEmails(salespersonId: ID!): [Email]
@@ -52,13 +58,15 @@ const typeDefs = gql`
     }
 
     type Mutation {
+        login(email: String!, password: String!): Auth
+
         addSalesperson(
             first_name: String!
             last_name: String!
             phone_number: String
             email: String!
             password: String!
-        ): Salesperson
+        ): Auth
 
         updateSalesperson(
             id: ID!
@@ -67,6 +75,7 @@ const typeDefs = gql`
             phone_number: String
             email: String
             password: String
+            google_password: String
         ): Salesperson
 
         addClient(

@@ -14,12 +14,20 @@ import {
 } from '@chakra-ui/react';
 import { FiMenu } from 'react-icons/fi';
 import { ImCool, ImCool2 } from 'react-icons/im';
+import Signup from '../Signup/Signup';
+import Login from '../Login/Login';
+import Auth from '../../utils/auth';
 
 const NavBar = ({ children }) => {
     const isDesktop = useBreakpointValue({
         base: false,
         lg: true,
     });
+
+    const logout = (event) => {
+        event.preventDefault();
+        Auth.logout();
+    };
 
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -82,18 +90,20 @@ const NavBar = ({ children }) => {
                                             )
                                         }
                                     />
-
-                                    <Button
-                                        variant={
-                                            colorMode === 'light'
-                                                ? 'solid'
-                                                : 'ghost'
-                                        }>
-                                        Sign in
-                                    </Button>
-                                    <Button variant='solid' colorScheme='red'>
-                                        Sign up
-                                    </Button>
+                                    {Auth.loggedIn() ? (
+                                        <>
+                                            <Button
+                                                colorScheme='red'
+                                                onClick={logout}>
+                                                Logout
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Login />
+                                            <Signup />
+                                        </>
+                                    )}
                                 </HStack>
                             </Flex>
                         )}
