@@ -14,17 +14,21 @@ import {
     PopoverArrow,
     PopoverHeader,
     PopoverBody,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalCloseButton,
     Button,
-    Heading,
-    Input,
-    InputGroup,
-    InputLeftElement,
+    useDisclosure,
     Avatar,
     HStack,
     Text,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { SearchIcon } from '@chakra-ui/icons';
+
+import { useColorMode } from '@chakra-ui/react';
 
 const ClientsTable = ({ clients }) => {
     // Handle page pagination
@@ -67,6 +71,25 @@ const ClientsTable = ({ clients }) => {
 
     // Avatar colors
     const colors = ['#173F5F', '#20639B', '#3CAEA3', '#F6D55C', '#ED553B'];
+    const { colorMode } = useColorMode();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [formState, setFormState] = useState({
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        email: '',
+        salesPerson: '',
+        status: '',
+    });
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
+    };
 
     const getColorIndex = (name) => {
         const charCodeSum = name
@@ -75,25 +98,9 @@ const ClientsTable = ({ clients }) => {
             .reduce((sum, code) => sum + code, 0);
         return charCodeSum % colors.length;
     };
-
+    console.log(clients);
     return (
         <div style={{ margin: '0 150px' }}>
-            <Flex justify='space-between' alignItems='center' mt={10}>
-                <InputGroup>
-                    <InputLeftElement
-                        pointerEvents='none'
-                        children={<SearchIcon color='gray.300' />}
-                    />
-                    <Input
-                        type='text'
-                        placeholder='Search by name, email, or phone'
-                        value={searchQuery}
-                        onChange={handleSearch}
-                        style={{ width: '35%' }}
-                        mb={4}
-                    />
-                </InputGroup>
-            </Flex>
             <TableContainer>
                 <Table variant='simple'>
                     <Thead>
@@ -106,17 +113,12 @@ const ClientsTable = ({ clients }) => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {displayedClients.map((client) => (
+                        {clients.map((client) => (
                             <Tr key={client.id} style={{ fontSize: '16px' }}>
                                 <Td>
                                     <HStack>
                                         <Avatar
-                                            name={
-                                                client.first_name +
-                                                ' ' +
-                                                client.last_name
-                                            }
-                                            size='sm'
+                                            name={`${client.first_name} ${client.last_name}`}
                                         />
                                         <Text>
                                             {client.first_name}{' '}
@@ -158,7 +160,8 @@ const ClientsTable = ({ clients }) => {
                                                 <span
                                                     style={{
                                                         cursor: 'pointer',
-                                                    }}>
+                                                    }}
+                                                    onClick={onOpen}>
                                                     Edit
                                                 </span>
                                             </PopoverHeader>

@@ -8,6 +8,8 @@ const typeDefs = gql`
         phone_number: String
         email: String!
         password: String!
+        google_password: String
+        google_email: String
     }
 
     type Auth {
@@ -67,6 +69,8 @@ const typeDefs = gql`
             phone_number: String
             email: String!
             password: String!
+            google_password: String
+            google_email: String
         ): Auth
 
         updateSalesperson(
@@ -77,6 +81,7 @@ const typeDefs = gql`
             email: String
             password: String
             google_password: String
+            google_email: String
         ): Salesperson
 
         addClient(

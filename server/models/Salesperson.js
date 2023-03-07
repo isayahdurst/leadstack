@@ -22,7 +22,11 @@ const salespersonSchema = new Schema({
         type: String,
         required: true,
     },
-    googlePassword: {
+    google_password: {
+        type: String,
+        required: false,
+    },
+    google_email: {
         type: String,
         required: false,
     },
