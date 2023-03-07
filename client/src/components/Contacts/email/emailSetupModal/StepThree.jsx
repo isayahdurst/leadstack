@@ -68,8 +68,7 @@ const StepThree = () => {
             <Center marginTop={5}>
                 <Button
                     colorScheme={'green'}
-                    isDisabled={password.length !== 16}
-                    onClick={addGooglePassword}>
+                    isDisabled={password.length !== 16}>
                     Save
                 </Button>
             </Center>
