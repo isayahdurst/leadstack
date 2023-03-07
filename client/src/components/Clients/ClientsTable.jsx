@@ -21,9 +21,12 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
+    useDisclosure,
+    Avatar,
+    HStack,
+    Text,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import Avatar from 'react-avatar';
 
 import { useColorMode } from '@chakra-ui/react';
 
@@ -113,20 +116,15 @@ const ClientsTable = ({ clients }) => {
                         {clients.map((client) => (
                             <Tr key={client.id} style={{ fontSize: '16px' }}>
                                 <Td>
-                                    <Avatar
-                                        name={`${client.first_name} ${client.last_name}`}
-                                        size='30'
-                                        round={true}
-                                        style={{ marginRight: '5px' }}
-                                        color={
-                                            colors[
-                                                getColorIndex(
-                                                    `${client.first_name} ${client.last_name}`
-                                                )
-                                            ]
-                                        }
-                                    />{' '}
-                                    {client.first_name} {client.last_name}
+                                    <HStack>
+                                        <Avatar
+                                            name={`${client.first_name} ${client.last_name}`}
+                                        />
+                                        <Text>
+                                            {client.first_name}{' '}
+                                            {client.last_name}
+                                        </Text>
+                                    </HStack>
                                 </Td>
                                 <Td>{client.email}</Td>
                                 <Td>{client.phone_number}</Td>
