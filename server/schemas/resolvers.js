@@ -2,6 +2,11 @@ const { Client, Salesperson, Email, Sms } = require('../models');
 const { ObjectId } = require('mongodb');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
+const http = require('http');
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const resolvers = {
     Query: {
@@ -247,6 +252,7 @@ const resolvers = {
                 return null;
             }
         },
+
         addSms: async (
             parent,
             { body, date, sales_person, client, received }
@@ -260,6 +266,47 @@ const resolvers = {
                 return null;
             }
         },
+
+        sendSMS: async (_, { clientPhoneNumber, salesPersonPhoneNumber, smsBody }) => {
+            try {
+                const message = await client.messages.create({
+                body: smsBody,
+                from: salesPersonPhoneNumber,
+                to: clientPhoneNumber
+                });
+                console.log(message.sid);
+                return {
+                success: true,
+                message: 'SMS sent successfully'
+                };
+            } catch (err) {
+                console.log(err);
+                return {
+                success: false,
+                message: 'Failed to send SMS'
+                };
+            }
+        },
+
+        replySMS: async (_, { clientPhoneNumber, smsBody, salesPersonPhoneNumber }) => {
+        try {
+            const response = await client.messages.create({
+            body: smsBody,
+            to: clientPhoneNumber,
+            from: salesPersonPhoneNumber,
+            });
+    
+            // Send TwiML auto-response message
+            const twiml = new twilio.twiml.MessagingResponse();
+            twiml.message('I received your message and will respond shortly.');
+    
+            return twiml.toString();
+            } catch (err) {
+                console.error(err);
+                throw new Error('Failed to send SMS message');
+            }
+        }, 
+    
         sendEmail: async (parent, { to, from, subject, text }) => {
             this.addEmail({
                 subject,
@@ -272,5 +319,6 @@ const resolvers = {
         },
     },
 };
+
 
 module.exports = resolvers;

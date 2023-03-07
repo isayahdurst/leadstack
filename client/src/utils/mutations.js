@@ -216,3 +216,20 @@ export const ADD_SMS = gql`
         }
     }
 `;
+
+export const SEND_SMS = gql`
+    mutation SendSms(
+        $clientPhone: String!, 
+        $smsBody: String!
+        )
+        {
+            sendSms(
+                clientPhone: $clientPhone
+                smsBody: $smsBody
+            ){
+                id
+                smsBody
+            }
+        }
+`;
+
