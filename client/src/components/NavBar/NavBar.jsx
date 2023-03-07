@@ -9,12 +9,12 @@ import {
     useBreakpointValue,
     Heading,
     Text,
+    useColorModeValue,
+    useColorMode,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { FiMenu } from 'react-icons/fi';
 import { ImCool, ImCool2 } from 'react-icons/im';
-import { useColorMode } from '@chakra-ui/react';
-import { Children } from 'react';
 import Signup from '../Signup/Signup';
 import Login from '../Login/Login';
 import Auth from '../../utils/auth';
@@ -31,6 +31,14 @@ const NavBar = ({ children }) => {
     };
 
     const { colorMode, toggleColorMode } = useColorMode();
+
+    const links = {
+        Dashboard: '/',
+        Contacts: '/contacts',
+        Profile: '/profile',
+        Conversations: '/conversations',
+        Support: '/support',
+    };
 
     return (
         <Box
@@ -68,16 +76,12 @@ const NavBar = ({ children }) => {
                                         'Contacts',
                                         'Conversations',
                                         'Support',
+                                        'Profile',
                                     ].map((item) => (
-                                        <Button key={item}>{item}</Button>
-                                    ))}
-                                    
-                                    <Button>
-                                        <Link key='profile' to='/profile'>
-                                            Profile
+                                        <Link key={item} to={links[item]}>
+                                            <Button>{item}</Button>
                                         </Link>
-                                    </Button>
-                                    
+                                    ))}
                                 </ButtonGroup>
                                 <HStack spacing='3'>
                                     <IconButton
@@ -100,7 +104,9 @@ const NavBar = ({ children }) => {
                                     />
                                     {Auth.loggedIn() ? (
                                         <>
-                                            <Button colorScheme='red' onClick={logout}>
+                                            <Button
+                                                colorScheme='red'
+                                                onClick={logout}>
                                                 Logout
                                             </Button>
                                         </>
@@ -108,9 +114,8 @@ const NavBar = ({ children }) => {
                                         <>
                                             <Login />
                                             <Signup />
-                                        </>      
+                                        </>
                                     )}
-                                    
                                 </HStack>
                             </Flex>
                         )}

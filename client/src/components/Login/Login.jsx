@@ -14,12 +14,12 @@ import {
     FormErrorMessage,
     FormHelperText,
     Stack,
-    Box
+    Box,
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_SALESPERSON } from 'utils/mutations';
-import Auth from '../../utils/auth';
+import Auth from '@utils/auth';
 
 function Login() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,7 +33,7 @@ function Login() {
             variables: {
                 email: formState.email,
                 password: formState.password,
-            }
+            },
         });
 
         const token = data.login.token;
@@ -42,71 +42,73 @@ function Login() {
         console.log(data.login.sales_person);
         console.log(Auth.loggedIn());
         console.log(Auth.getProfile().data);
-
     };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormState({
-          ...formState,
-          [name]: value,
+            ...formState,
+            [name]: value,
         });
     };
-    
 
     return (
         <>
-          <Button ref={btnRef} onClick={onOpen} >
+            <Button ref={btnRef} onClick={onOpen}>
                 Sign in
-          </Button>
-          <Drawer
+            </Button>
+            <Drawer
                 isOpen={isOpen}
                 placement='top'
                 onClose={onClose}
                 initialFocusRef={firstField}
                 finalFocusRef={btnRef}
-                size='xl'
-          >
-            <DrawerOverlay />
+                size='xl'>
+                <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader borderBottomWidth='1px'>Sign into your account! </DrawerHeader>
+                    <DrawerHeader borderBottomWidth='1px'>
+                        Sign into your account!{' '}
+                    </DrawerHeader>
 
                     <DrawerBody>
                         <form
                             id='loginForm'
                             className='visible'
                             onSubmit={(e) => {
-                                e.preventDefault()
-                                console.log('submitted')
+                                e.preventDefault();
+                                console.log('submitted');
                                 try {
                                     loginSalesperson();
                                 } catch (e) {
                                     console.error(e);
                                 }
-                            }}
-                        >
+                            }}>
                             <Stack spacing='24px'>
                                 <Box>
-                                    <FormLabel htmlFor='email'>Email:</FormLabel> 
-                                    <Input 
+                                    <FormLabel htmlFor='email'>
+                                        Email:
+                                    </FormLabel>
+                                    <Input
                                         ref={firstField}
                                         id='email'
-                                        name="email"
-                                        type="email"
+                                        name='email'
+                                        type='email'
                                         onChange={handleChange}
                                     />
                                 </Box>
 
                                 <Box>
-                                    <FormLabel  htmlFor='password'>Password:</FormLabel> 
-                                    <Input 
-                                        id='password' 
-                                        name="password"
+                                    <FormLabel htmlFor='password'>
+                                        Password:
+                                    </FormLabel>
+                                    <Input
+                                        id='password'
+                                        name='password'
                                         type='password'
                                         onChange={handleChange}
                                     />
-                                </Box>                          
+                                </Box>
                             </Stack>
                         </form>
                     </DrawerBody>
@@ -115,12 +117,17 @@ function Login() {
                         <Button variant='outline' mr={3} onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button type='submit' form='loginForm' colorScheme='red'>Sign In</Button>
+                        <Button
+                            type='submit'
+                            form='loginForm'
+                            colorScheme='red'>
+                            Sign In
+                        </Button>
                     </DrawerFooter>
                 </DrawerContent>
-          </Drawer>
+            </Drawer>
         </>
-      )
+    );
 }
 
 export default Login;

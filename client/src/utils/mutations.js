@@ -17,27 +17,27 @@ export const ADD_SALESPERSON = gql`
         ) {
             token
             sales_person {
-              _id
-              first_name
-              last_name
-              phone_number
-              email
-              password
+                _id
+                first_name
+                last_name
+                phone_number
+                email
+                password
             }
         }
     }
 `;
 
 export const LOGIN_SALESPERSON = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      sales_person {
-        _id
-        email
-      }
+    mutation login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            token
+            sales_person {
+                _id
+                email
+            }
+        }
     }
-  }
 `;
 
 export const ADD_CLIENT = gql`
@@ -78,6 +78,7 @@ export const UPDATE_SALESPERSON = gql`
         $phoneNumber: String
         $email: String
         $password: String
+        $googlePassword: String
     ) {
         updateSalesperson(
             id: $salespersonId
@@ -86,6 +87,7 @@ export const UPDATE_SALESPERSON = gql`
             phone_number: $phoneNumber
             email: $email
             password: $password
+            google_password: $googlePassword
         ) {
             _id
             email
@@ -93,6 +95,7 @@ export const UPDATE_SALESPERSON = gql`
             last_name
             phone_number
             password
+            google_password
         }
     }
 `;

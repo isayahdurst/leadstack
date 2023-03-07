@@ -148,19 +148,21 @@ const resolvers = {
 
         login: async (parent, { email, password }) => {
             const salesperson = await Salesperson.findOne({ email });
-      
+
             if (!salesperson) {
-              throw new AuthenticationError('No user found with this email address');
+                throw new AuthenticationError(
+                    'No user found with this email address'
+                );
             }
-      
+
             const correctPw = await salesperson.isCorrectPassword(password);
-      
+
             if (!correctPw) {
-              throw new AuthenticationError('Incorrect credentials');
+                throw new AuthenticationError('Incorrect credentials');
             }
-      
+
             const token = signToken(salesperson);
-      
+
             return { token, sales_person: salesperson };
         },
 
@@ -247,6 +249,16 @@ const resolvers = {
                 console.error(err);
                 return null;
             }
+        },
+        sendEmail: async (parent, { to, from, subject, text }) => {
+            this.addEmail({
+                subject,
+                body: text,
+                date: new Date(),
+                sales_person: from,
+                client: to,
+                received: false,
+            });
         },
     },
 };

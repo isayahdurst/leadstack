@@ -27,7 +27,12 @@ const ClientCard = ({ name, phone, email, selected, onClick }) => {
                 <Box
                     bg={useColorModeValue('gray.50', 'gray.900')}
                     px={4}
-                    py={4}>
+                    py={4}
+                    // TODO: Border can be added to toggle "Active" lead.
+                    /* border={'2px'}
+                    borderColor={'red.300'}
+                    borderRadius={6} */
+                >
                     <List spacing={3}>
                         <ListItem key={name}>
                             <Text as='b'>{name}</Text>

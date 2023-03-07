@@ -75,6 +75,7 @@ const typeDefs = gql`
             phone_number: String
             email: String
             password: String
+            google_password: String
         ): Salesperson
 
         addClient(
@@ -111,6 +112,13 @@ const typeDefs = gql`
             client: ID!
             received: Boolean!
         ): Sms
+
+        sendEmail(
+            subject: String
+            body: String
+            to: String
+            from: String
+        ): Email
     }
 `;
 
