@@ -9,7 +9,7 @@ import {
     Heading,
     Button,
 } from '@chakra-ui/react';
-import { useState } from 'react'
+import { useState } from 'react';
 
 import InfoCard from '@components/Contacts/lead-info/InfoCard';
 import EmailCard from '@components/Contacts/email/EmailCard';
@@ -17,7 +17,13 @@ import SMSCard from '@components/Contacts/sms/SMSCard';
 import Clients from '@components/Contacts/clients/Clients';
 
 const Contacts = () => {
-    const [selectedClient, setSelectedClient] = useState(null);
+    const [selectedClient, setSelectedClient] = useState();
+    const [selectedClientId, setSelectedClientId] = useState();
+
+    const handleClientClick = (clientId, client) => {
+        setSelectedClientId(clientId);
+        setSelectedClient(client);
+    };
 
     return (
         <Flex px={10} height={'90vh'}>
@@ -31,7 +37,10 @@ const Contacts = () => {
                         <Heading>Contacts</Heading>
                     </CardHeader>
                     <CardBody>
-                        <Clients selectedClient={selectedClient} setSelectedClient={setSelectedClient}/>
+                        <Clients
+                            selectedClientId={selectedClientId}
+                            handleClientClick={handleClientClick}
+                        />
                     </CardBody>
                 </Card>
                 <Flex flexGrow={1} flexDirection={'column'} gap={5}>
