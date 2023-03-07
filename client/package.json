@@ -17,7 +17,9 @@
     "framer-motion": "^10.0.1",
     "graphql": "^16.6.0",
     "jwt-decode": "^3.1.2",
+    "randomcolor": "^0.6.2",
     "react": "^18.2.0",
+    "react-avatar": "^5.0.3",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.8.2"
