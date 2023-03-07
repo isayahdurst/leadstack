@@ -1,5 +1,5 @@
 import React from 'react';
-import Avatar from 'react-avatar';
+import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react';
 
 const ClientAvatar = ({ clients }) => {
     const MAX_CLIENTS = 5;
@@ -12,7 +12,7 @@ const ClientAvatar = ({ clients }) => {
 
     // Avatar colors
     const colors = ['#173F5F', '#20639B', '#3CAEA3', '#F6D55C', '#ED553B'];
-	
+
     const getColorIndex = (name) => {
         const charCodeSum = name
             .split('')
@@ -27,11 +27,7 @@ const ClientAvatar = ({ clients }) => {
                 {clients.slice(0, MAX_CLIENTS).map((client) => (
                     <div key={client._id} style={{ marginRight: '4px' }}>
                         <Avatar
-                            name={`${client.first_name} ${client.last_name}`}
-                            size="50"
-                            round={true}
-                            color={colors[getColorIndex(`${client.first_name} ${client.last_name}`)]}
-                            style={{ marginRight: '0' }}
+                            name={client.first_name + ' ' + client.last_name}
                         />
                     </div>
                 ))}
@@ -45,8 +41,7 @@ const ClientAvatar = ({ clients }) => {
                             background: '#344E5C',
                             borderRadius: '50%',
                             color: '#FFF',
-                        }}
-                    >
+                        }}>
                         <span
                             style={{
                                 paddingTop: '11px',
@@ -56,8 +51,7 @@ const ClientAvatar = ({ clients }) => {
                                 height: '50px',
                                 lineHeight: 'initial',
                                 textAlign: 'center',
-                            }}
-                        >
+                            }}>
                             +{remainingClientsCount}
                         </span>
                     </div>
