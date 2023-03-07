@@ -22,6 +22,7 @@ const typeDefs = gql`
         phone_number: String
         email: String!
         sales_person: Salesperson
+        status: String!
     }
 
     type Sms {
