@@ -12,6 +12,7 @@ import {
     useColorModeValue,
     useColorMode,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom'
 import { FiMenu } from 'react-icons/fi';
 import { ImCool, ImCool2 } from 'react-icons/im';
 import Signup from '../Signup/Signup';
@@ -70,6 +71,13 @@ const NavBar = ({ children }) => {
                                     ].map((item) => (
                                         <Button key={item}>{item}</Button>
                                     ))}
+                                    
+                                    <Button>
+                                        <Link key='profile' to='/profile'>
+                                            Profile
+                                        </Link>
+                                    </Button>
+                                    
                                 </ButtonGroup>
                                 <HStack spacing='3'>
                                     <IconButton

@@ -14,10 +14,14 @@ import {
 } from '@chakra-ui/react';
 
 import { PROFILE_QUERY } from './../utils/queries';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
+import Auth from '../utils/auth';
+import Login from '../components/Login/Login';
+import Signup from '../components/Signup/Signup';
 
 const Profile = (props) => {
-    const { loading, error, data } = useQuery(PROFILE_QUERY, {
+    /*const { loading, error, data } = useQuery(PROFILE_QUERY, {
         variables: { id: props.id },
     });
 
@@ -32,45 +36,60 @@ const Profile = (props) => {
     const user = data.salespersonById[0];
     const initials =
         user.first_name.substring(0, 1) + user.last_name.substring(0, 1);
-
+    */
     return (
         <Box p={6}>
-            <Tabs>
-                <TabList>
-                    <Tab>Personal Information</Tab>
-                    <Tab>Configure Email Signature</Tab>
-                </TabList>
-                <TabPanels>
-                    <TabPanel>
-                        <HStack>
-                            <Avatar
-                                src='/defaultAvatar.jpg'
-                                size='lg'
-                                alt='avatar image'>
-                            </Avatar>
-                            <VStack>
-                                <Heading fontSize='xl' pt={4}>
-                                    {user.first_name} {user.last_name}
-                                </Heading>
-                                <Text pl={10}>
-                                    Phone number: {user.phone_number}
-                                </Text>
-                                <Text pl={10}>Email: {user.email}</Text>
-                            </VStack>
-                        </HStack>
-                        <Box pt={10}>
-                        <Button>Edit profile information</Button>
-                        </Box>
-                    </TabPanel>
-                    <TabPanel>
-                        <Button>Add Signature</Button>
-                        <Box>
-                            Fincationaly with email signature will de added
-                            soon...
-                        </Box>
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
+            {Auth.loggedIn() ? (
+                <>
+                    <Tabs>
+                        <TabList>
+                            <Tab>Personal Information</Tab>
+                            <Tab>Configure Email Signature</Tab>
+                        </TabList>
+                        <TabPanels>
+                            <TabPanel>
+                                <HStack>
+                                    <Avatar
+                                        src='/defaultAvatar.jpg'
+                                        size='lg'
+                                        alt='avatar image'>
+                                    </Avatar>
+                                    <VStack>
+                                        <Heading fontSize='xl' pt={4}>
+                                            {Auth.getProfile().data.first_name} {Auth.getProfile().data.last_name}
+                                        </Heading>
+                                        <Text pl={10}>
+                                            Phone number: {Auth.getProfile().data.phone_number}
+                                        </Text>
+                                        <Text pl={10}>Email: {Auth.getProfile().data.email}</Text>
+                                    </VStack>
+                                </HStack>
+                                <Box pt={10}>
+                                <Button>Edit profile information</Button>
+                                </Box>
+                            </TabPanel>
+                            <TabPanel>
+                                <Button>Add Signature</Button>
+                                <Box>
+                                    Fincationaly with email signature will de added
+                                    soon...
+                                </Box>
+                            </TabPanel>
+                        </TabPanels>
+                    </Tabs>
+                </>
+            ) : (
+                <>
+                <div>
+                    Please log in or sign up to view this page:
+                    <Login />
+                    <Signup />
+                </div>
+                    
+                </>      
+            )}
+            
+            
         </Box>
     );
 };

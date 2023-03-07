@@ -18,7 +18,13 @@ import SMSCard from '@components/Contacts/sms/SMSCard';
 import Clients from '@components/Contacts/clients/Clients';
 
 const Contacts = () => {
-    const [selectedClient, setSelectedClient] = useState(null);
+    const [selectedClient, setSelectedClient] = useState();
+    const [selectedClientId, setSelectedClientId] = useState();
+
+    const handleClientClick = (clientId, client) => {
+        setSelectedClientId(clientId);
+        setSelectedClient(client);
+    };
 
     const color = useColorModeValue('gray.100', 'gray.700');
     return (
@@ -34,8 +40,8 @@ const Contacts = () => {
                     </CardHeader>
                     <CardBody>
                         <Clients
-                            selectedClient={selectedClient}
-                            setSelectedClient={setSelectedClient}
+                            selectedClientId={selectedClientId}
+                            handleClientClick={handleClientClick}
                         />
                     </CardBody>
                 </Card>

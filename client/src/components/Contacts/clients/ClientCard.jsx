@@ -9,7 +9,9 @@ import {
 } from '@chakra-ui/react';
 import { PhoneIcon, EmailIcon } from '@chakra-ui/icons';
 
-const ClientCard = ({ key, name, phone, email, onClick }) => {
+const ClientCard = ({ name, phone, email, selected, onClick }) => {
+    const className = `client-card${selected ? ' active' : ''}`;
+
     return (
         <ScaleFade initialScale={0.9} in={true}>
             <Box
@@ -20,7 +22,7 @@ const ClientCard = ({ key, name, phone, email, onClick }) => {
                 rounded={'md'}
                 overflow={'hidden'}
                 mb={2}
-                className='client-card'
+                className={className}
                 onClick={onClick}>
                 <Box
                     bg={useColorModeValue('gray.50', 'gray.900')}

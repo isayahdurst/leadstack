@@ -51,11 +51,15 @@ body {
 }
 
 .client-card {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .client-card:hover {
-  border: 0.1rem solid brown;
-  color: brown;
-  cursor: pointer;
+    border: 0.2rem solid #c55253;
+    color: #c55253;
+    cursor: pointer;
+}
+
+.client-card.active {
+    border: 0.2rem solid #c55253;
 }
