@@ -56,10 +56,12 @@ const NavBar = ({ children }) => {
                     <HStack spacing='10' justify='space-between'>
                         {!isDesktop ? (
                             <Flex justify='center' flex='1'>
-                                <Heading>
-                                    <span>Lead</span>
-                                    <span style={{ color: 'red' }}>Stack</span>
-                                </Heading>
+                                <Link to='/'>
+                                    <Heading>
+                                        <span>Lead</span>
+                                        <span style={{ color: 'red' }}>Stack</span>
+                                    </Heading>
+                                </Link>
                             </Flex>
                         ) : (
                             <Flex justify='space-between' flex='1'>
@@ -69,6 +71,7 @@ const NavBar = ({ children }) => {
                                         <span style={{ color: 'red' }}>Stack</span>
                                     </Heading>
                                 </Link>
+
                                 {/* TODO: Add a search bar and ensure this menu is only visible when the user is logged in */}
                                 <ButtonGroup variant='link' spacing='8'>
                                     {[
