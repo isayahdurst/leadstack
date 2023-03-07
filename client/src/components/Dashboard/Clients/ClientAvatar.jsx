@@ -25,7 +25,7 @@ const ClientAvatar = ({ clients }) => {
         <div>
             <div style={{ display: 'flex' }}>
                 {clients.slice(0, MAX_CLIENTS).map((client) => (
-                    <div key={client._id} style={{ marginRight: '4px' }}>
+                    <div key={client._id} style={{ marginRight: '6px' }}>
                         <Avatar
                             name={`${client.first_name} ${client.last_name}`}
                             size="50"

@@ -15,7 +15,7 @@ import {
     PopoverHeader,
     PopoverBody,
     Button,
-    Heading,
+    Tag,
     Input,
     InputGroup,
     InputLeftElement,
@@ -31,7 +31,7 @@ const ClientsTable = ({ clients }) => {
     // Handle page pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
-    const rowsPerPage = 10;
+    const rowsPerPage = 8;
     const totalRows = clients.length;
     const totalPages = Math.ceil(totalRows / rowsPerPage);
   
@@ -74,7 +74,6 @@ const ClientsTable = ({ clients }) => {
     return (
       <div style={{ margin: '0 150px' }}>
         <Flex justify='space-between' alignItems='center' mt={10}>
-            
             <InputGroup>
                 <InputLeftElement
                     pointerEvents='none'
@@ -116,17 +115,19 @@ const ClientsTable = ({ clients }) => {
                     </Td>
                     <Td>{client.email}</Td>
                     <Td>{client.phone_number}</Td>
-                    <Td
-                      variant='solid'
-                      style={{
-                        padding: '10px 20px',
-                        width: '90px',
-                        fontSize: '0.85rem',
-                        fontWeight: '600',
-                        color: client.status === 'Inactive' ? '#F14C41' : 'green',
-                      }}
-                    >
-                      {client.status}
+                    <Td>
+                        <Tag 
+                            variant='solid'
+                            style={{
+                            width: '90px',
+                            fontSize: '0.85rem',
+                            fontWeight: '600',
+                            color: client.status === 'Inactive' ? '#e78b2f' : '#75CC68',
+                            backgroundColor: client.status === 'Inactive' ? '#FCF2E8' : '#EEFBEC',
+                            padding: '10px 20px',
+                            }}>
+                            {client.status}
+                      </Tag>
                     </Td>
                     <Td>
                       <Popover>
@@ -153,7 +154,7 @@ const ClientsTable = ({ clients }) => {
 
             <div style={{ position: 'relative', bottom: '0'}}>
             {totalPages > 1 && (
-                <Flex justify='center' alignItems='center' mt={4}     style={{ marginBottom: '50px'}}>                
+                <Flex justify='center' alignItems='center' mt={4} style={{ marginBottom: '50px'}}>                
                 <ButtonGroup>
                   <Button
                     isDisabled={currentPage === 1}
