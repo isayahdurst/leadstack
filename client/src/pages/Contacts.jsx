@@ -16,6 +16,7 @@ import InfoCard from '@components/Contacts/lead-info/InfoCard';
 import EmailCard from '@components/Contacts/email/EmailCard';
 import SMSCard from '@components/Contacts/sms/SMSCard';
 import Clients from '@components/Contacts/clients/Clients';
+import ClientCard from '@components/Contacts/clients/ClientCard';
 
 const Contacts = () => {
     const [selectedClient, setSelectedClient] = useState();
