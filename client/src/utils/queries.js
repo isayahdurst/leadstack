@@ -9,6 +9,7 @@ export const CLIENTS = gql`
             last_name
             phone_number
             email
+            status
             sales_person {
                 _id
                 first_name

@@ -63,13 +63,13 @@ const NavBar = ({ children }) => {
                             </Flex>
                         ) : (
                             <Flex justify='space-between' flex='1'>
-                                <Heading>
-                                    <span>Lead</span>
-                                    <span style={{ color: 'red' }}>Stack</span>
-                                </Heading>
-
+                                <Link to="/">
+                                    <Heading>
+                                        <span>Lead</span>
+                                        <span style={{ color: 'red' }}>Stack</span>
+                                    </Heading>
+                                </Link>
                                 {/* TODO: Add a search bar and ensure this menu is only visible when the user is logged in */}
-                                {/* TODO: Add links to the menu items */}
                                 <ButtonGroup variant='link' spacing='8'>
                                     {[
                                         'Dashboard',
