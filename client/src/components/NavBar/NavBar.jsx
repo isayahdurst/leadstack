@@ -59,10 +59,12 @@ const NavBar = ({ children }) => {
                     <HStack spacing='10' justify='space-between' mt={4}>
                         {!isDesktop ? (
                             <Flex justify='center' flex='1'>
-                                <Heading>
-                                    <span>Lead</span>
-                                    <span style={{ color: 'red' }}>Stack</span>
-                                </Heading>
+                                <Link to="/">
+                                    <Heading>
+                                        <span>Lead</span>
+                                        <span style={{ color: 'red' }}>Stack</span>
+                                    </Heading>
+                                </Link>
                             </Flex>
                         ) : (
                             <Flex justify='space-between' flex='1'>
