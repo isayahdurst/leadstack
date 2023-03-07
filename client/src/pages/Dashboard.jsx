@@ -3,7 +3,7 @@ import {
     WrapItem,
     Center
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React from 'react';
 import ClientsModule from '@components/Dashboard/Clients/ClientsModule';
 
 

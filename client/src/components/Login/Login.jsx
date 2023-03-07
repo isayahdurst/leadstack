@@ -41,6 +41,7 @@ function Login() {
         console.log('auth logged in?');
         console.log(data.login.sales_person);
         console.log(Auth.loggedIn());
+        console.log(token);
         console.log(Auth.getProfile().data);
     };
 
