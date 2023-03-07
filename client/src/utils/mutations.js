@@ -7,6 +7,8 @@ export const ADD_SALESPERSON = gql`
         $phone_number: String
         $email: String!
         $password: String!
+        $google_password: String
+        $google_email: String
     ) {
         addSalesperson(
             first_name: $first_name
@@ -14,6 +16,8 @@ export const ADD_SALESPERSON = gql`
             phone_number: $phone_number
             email: $email
             password: $password
+            google_password: $google_password
+            google_email: $google_email
         ) {
             token
             sales_person {
@@ -79,6 +83,7 @@ export const UPDATE_SALESPERSON = gql`
         $email: String
         $password: String
         $googlePassword: String
+        $googleEmail: String
     ) {
         updateSalesperson(
             id: $salespersonId
@@ -88,6 +93,7 @@ export const UPDATE_SALESPERSON = gql`
             email: $email
             password: $password
             google_password: $googlePassword
+            google_email: $googleEmail
         ) {
             _id
             email
@@ -96,6 +102,7 @@ export const UPDATE_SALESPERSON = gql`
             phone_number
             password
             google_password
+            google_email
         }
     }
 `;

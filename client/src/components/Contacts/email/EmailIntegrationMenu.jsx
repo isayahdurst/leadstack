@@ -15,6 +15,8 @@ import { useState, useEffect } from 'react';
 
 import EmailTutorialModal from './emailSetupModal/EmailTutorialModal';
 
+import Auth from '@utils/auth';
+
 // TODO: Pull accounts from database and map them to the menu.
 
 const EmailIntegrationMenu = () => {

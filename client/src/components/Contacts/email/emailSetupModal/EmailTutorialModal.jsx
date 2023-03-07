@@ -16,6 +16,7 @@ import {
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import StepThree from './StepThree';
+import StepFour from './StepFour';
 
 import { useState } from 'react';
 
@@ -33,10 +34,11 @@ const EmailTutorialModal = ({ isOpen, onOpen, onClose }) => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>
-                        Step {step + 1} of 3 -{' '}
+                        Step {step + 1} of 4 -{' '}
                         {step === 0 && 'Select Email Provider'}
                         {step === 1 && 'Generate App Password'}
-                        {step === 2 && 'Generate App Password'}:
+                        {step === 2 && 'Generate App Password'}
+                        {step === 3 && 'Add Email Address'}:
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
@@ -46,7 +48,12 @@ const EmailTutorialModal = ({ isOpen, onOpen, onClose }) => {
                         {step === 1 && (
                             <StepTwo step={step} setStep={setStep} />
                         )}
-                        {step === 2 && <StepThree />}
+                        {step === 2 && (
+                            <StepThree step={step} setStep={setStep} />
+                        )}
+                        {step === 3 && (
+                            <StepFour step={step} setStep={setStep} />
+                        )}
                     </ModalBody>
                     <ModalFooter>
                         <HStack>

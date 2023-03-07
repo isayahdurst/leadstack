@@ -128,7 +128,15 @@ const resolvers = {
     Mutation: {
         addSalesperson: async (
             parent,
-            { first_name, last_name, phone_number, email, password }
+            {
+                first_name,
+                last_name,
+                phone_number,
+                email,
+                password,
+                google_password,
+                google_email,
+            }
         ) => {
             try {
                 const salesperson = await Salesperson.create({
@@ -137,6 +145,8 @@ const resolvers = {
                     phone_number,
                     email,
                     password,
+                    google_password,
+                    google_email,
                 });
                 const token = signToken(salesperson);
                 return { token: token, sales_person: salesperson };

@@ -15,21 +15,22 @@ import Auth from '@utils/auth';
 import { useMutation } from '@apollo/client';
 import { UPDATE_SALESPERSON } from '@utils/mutations';
 
-const StepThree = () => {
+const StepThree = ({ step, setStep }) => {
     const [show, setShow] = useState(false);
     const [password, setPassword] = useState('');
     const [updateSalesperson] = useMutation(UPDATE_SALESPERSON);
 
-    /* const addGooglePassword = async () => {
+    const addGooglePassword = async () => {
         const { _id } = Auth.getProfile().data;
-        const sp = await updateSalesperson({
+        await updateSalesperson({
             variables: {
                 salespersonId: _id,
                 googlePassword: password,
             },
         });
-        console.log(Auth.getProfile());
-    }; */
+        setStep(step + 1);
+    };
+
     return (
         <>
             <Stack marginBottom={5}>
@@ -68,7 +69,8 @@ const StepThree = () => {
             <Center marginTop={5}>
                 <Button
                     colorScheme={'green'}
-                    isDisabled={password.length !== 16}>
+                    isDisabled={password.length !== 16}
+                    onClick={addGooglePassword}>
                     Save
                 </Button>
             </Center>
