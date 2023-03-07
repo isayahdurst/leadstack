@@ -17,7 +17,7 @@ function App() {
                     <Route path='/contacts' element={<Clients />} />
                     <Route path='/conversations' element={<Contacts />} />
                     <Route path='/profile' element={<Profile />} />
-                    <Route path="/"  element={<Dashboard />} />
+                    <Route path='/' element={<Dashboard />} />
                 </Routes>
             </NavBar>
         </Router>

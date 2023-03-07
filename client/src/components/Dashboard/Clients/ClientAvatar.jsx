@@ -12,7 +12,7 @@ const ClientAvatar = ({ clients }) => {
 
     // Avatar colors
     const colors = ['#173F5F', '#20639B', '#3CAEA3', '#F6D55C', '#ED553B'];
-	
+
     const getColorIndex = (name) => {
         const charCodeSum = name
             .split('')
@@ -28,9 +28,15 @@ const ClientAvatar = ({ clients }) => {
                     <div key={client._id} style={{ marginRight: '4px' }}>
                         <Avatar
                             name={`${client.first_name} ${client.last_name}`}
-                            size="50"
+                            size='50'
                             round={true}
-                            color={colors[getColorIndex(`${client.first_name} ${client.last_name}`)]}
+                            color={
+                                colors[
+                                    getColorIndex(
+                                        `${client.first_name} ${client.last_name}`
+                                    )
+                                ]
+                            }
                             style={{ marginRight: '0' }}
                         />
                     </div>
@@ -45,8 +51,7 @@ const ClientAvatar = ({ clients }) => {
                             background: '#344E5C',
                             borderRadius: '50%',
                             color: '#FFF',
-                        }}
-                    >
+                        }}>
                         <span
                             style={{
                                 paddingTop: '11px',
@@ -56,8 +61,7 @@ const ClientAvatar = ({ clients }) => {
                                 height: '50px',
                                 lineHeight: 'initial',
                                 textAlign: 'center',
-                            }}
-                        >
+                            }}>
                             +{remainingClientsCount}
                         </span>
                     </div>
