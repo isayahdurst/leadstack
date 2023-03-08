@@ -22,7 +22,7 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_SALESPERSON } from 'utils/mutations';
 import Auth from '@utils/auth';
 
-function Login() {
+function Login({ setLoggedIn }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const firstField = useRef();
     const btnRef = useRef();
@@ -45,6 +45,7 @@ function Login() {
         console.log(Auth.loggedIn());
         console.log(token);
         console.log(Auth.getProfile().data);
+        setLoggedIn(Auth.loggedIn());
     };
 
     const navToHome = () => {
