@@ -2,11 +2,14 @@ const { Client, Salesperson, Email, Sms } = require('../models');
 const { ObjectId } = require('mongodb');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const http = require('http');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+
 
 const resolvers = {
     Query: {
@@ -253,7 +256,7 @@ const resolvers = {
             }
         },
 
-        addSms: async (
+        addSMS: async (
             parent,
             { body, date, sales_person, client, received }
         ) => {

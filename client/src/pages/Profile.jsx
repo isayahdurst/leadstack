@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react';
 
 import { PROFILE_QUERY } from './../utils/queries';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
 import Login from '../components/Login/Login';

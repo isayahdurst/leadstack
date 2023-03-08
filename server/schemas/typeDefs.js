@@ -111,7 +111,7 @@ const typeDefs = gql`
             received: Boolean!
         ): Email
 
-        addSms(
+        addSMS(
             body: String
             date: String!
             sales_person: ID!
@@ -126,9 +126,17 @@ const typeDefs = gql`
             from: String
         ): Email
 
-        sendSms(
+        sendSMS(
             to: String
             message: String
+        ): Sms
+
+        replySMS(
+            date: String
+            body: String!
+            sales_person: ID!
+            client: ID!
+            received: Boolean!
         ): Sms
     }
 `;
