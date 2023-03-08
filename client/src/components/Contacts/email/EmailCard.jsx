@@ -21,7 +21,7 @@ const EmailCard = () => {
                     <EmailIntegrationMenu />
                 </HStack>
             </CardHeader>
-            <CardBody>
+            <CardBody overflowY={'scroll'} marginBottom={5}>
                 <Flex height={'100%'} flexDirection={'column'} gap={2}>
                     <EmailPreview />
                     <EmailPreview />

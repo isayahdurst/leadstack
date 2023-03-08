@@ -93,7 +93,7 @@ return (
                 />
                 <Input
                     type='text'
-                    placeholder='Search by name, email'
+                    placeholder='Search by name, email, or phone'
                     value={searchQuery}
                     onChange={handleSearch}
                     style={{ width: '35%' }}

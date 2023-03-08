@@ -1,15 +1,14 @@
 const { Client, Salesperson, Email, Sms } = require('../models');
 const { ObjectId } = require('mongodb');
 const { signToken } = require('../utils/auth');
-const { AuthenticationError } = require('apollo-server-express');
+const { GraphQLError } = require('graphql');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
+/* const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const http = require('http');
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
-
+const MessagingResponse = require('twilio').twiml.MessagingResponse; */
 
 const resolvers = {
     Query: {
@@ -167,15 +166,17 @@ const resolvers = {
             const salesperson = await Salesperson.findOne({ email });
 
             if (!salesperson) {
-                throw new AuthenticationError(
-                    'No user found with this email address'
-                );
+                throw new GraphQLError('No user found with this email address', {
+                    extensions: { code: 'NO_USER_FOUND'},
+                });
             }
 
             const correctPw = await salesperson.isCorrectPassword(password);
 
             if (!correctPw) {
-                throw new AuthenticationError('Incorrect credentials');
+                throw new GraphQLError('Incorrect credentials', {
+                    extensions: { code: 'INCORRECT_CREDENTIALS'},
+                });
             }
 
             const token = signToken(salesperson);
@@ -378,8 +379,8 @@ const resolvers = {
                 console.error(err);
                 throw new Error('Failed to send SMS message');
             }
-        }, 
-    
+        },
+
         sendEmail: async (parent, { to, from, subject, text }) => {
             this.addEmail({
                 subject,
@@ -392,6 +393,5 @@ const resolvers = {
         },
     },
 };
-
 
 module.exports = resolvers;
