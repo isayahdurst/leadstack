@@ -4,6 +4,8 @@ import Profile from '@pages/Profile';
 import NavBar from 'components/NavBar/NavBar';
 import Dashboard from '@pages/Dashboard';
 import Clients from '@pages/Clients';
+import Landing from '@pages/Landing';
+import Footer from 'components/Footer/Footer';
 
 import DrawerComp from 'components/Contacts/drawer/Drawer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -17,10 +19,13 @@ function App() {
                     <Route path='/contacts' element={<Clients />} />
                     <Route path='/conversations' element={<Contacts />} />
                     <Route path='/profile' element={<Profile />} />
-                    <Route path='/' element={<Dashboard />} />
+                    <Route path='/dashboard' element={<Dashboard />} />
+                    <Route path='/' element={<Landing />} />
+
                 </Routes>
             </NavBar>
         </Router>
+        
     );
 }
 
