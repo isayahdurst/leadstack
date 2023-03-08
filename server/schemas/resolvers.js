@@ -1,7 +1,7 @@
 const { Client, Salesperson, Email, Sms } = require('../models');
 const { ObjectId } = require('mongodb');
 const { signToken } = require('../utils/auth');
-const { AuthenticationError } = require('apollo-server-express');
+const { GraphQLError } = require('graphql');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 /* const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -167,15 +167,17 @@ const resolvers = {
             const salesperson = await Salesperson.findOne({ email });
 
             if (!salesperson) {
-                throw new AuthenticationError(
-                    'No user found with this email address'
-                );
+                throw new GraphQLError('No user found with this email address', {
+                    extensions: { code: 'NO_USER_FOUND'},
+                });
             }
 
             const correctPw = await salesperson.isCorrectPassword(password);
 
             if (!correctPw) {
-                throw new AuthenticationError('Incorrect credentials');
+                throw new GraphQLError('Incorrect credentials', {
+                    extensions: { code: 'INCORRECT_CREDENTIALS'},
+                });
             }
 
             const token = signToken(salesperson);

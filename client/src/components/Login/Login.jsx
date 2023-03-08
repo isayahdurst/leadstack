@@ -17,6 +17,7 @@ import {
     Box,
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_SALESPERSON } from 'utils/mutations';
 import Auth from '@utils/auth';
@@ -27,6 +28,7 @@ function Login() {
     const btnRef = useRef();
     const [formState, setFormState] = useState({ email: '', password: '' });
     const [login] = useMutation(LOGIN_SALESPERSON);
+    const navigate = useNavigate();
 
     const loginSalesperson = async () => {
         const { data } = await login({
@@ -43,6 +45,10 @@ function Login() {
         console.log(Auth.loggedIn());
         console.log(token);
         console.log(Auth.getProfile().data);
+    };
+
+    const navToHome = () => {
+        navigate('/');
     };
 
     const handleChange = (event) => {
@@ -81,6 +87,8 @@ function Login() {
                                 console.log('submitted');
                                 try {
                                     loginSalesperson();
+                                    onClose();
+                                    navToHome();
                                 } catch (e) {
                                     console.error(e);
                                 }
