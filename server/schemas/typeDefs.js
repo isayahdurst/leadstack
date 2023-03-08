@@ -120,11 +120,17 @@ const typeDefs = gql`
         ): Sms
 
         sendEmail(
-            subject: String
-            body: String
-            to: String
-            from: String
-        ): Email
+            from: String!
+            to: String!
+            subject: String!
+            text: String!
+            auth: AuthInput!
+        ): String
+    }
+
+    input AuthInput {
+        user: String!
+        password: String!
     }
 `;
 

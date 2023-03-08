@@ -2,6 +2,7 @@ const { Client, Salesperson, Email, Sms } = require('../models');
 const { ObjectId } = require('mongodb');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
+const { useEmail } = require('../utils/sendEmail');
 
 const resolvers = {
     Query: {
@@ -260,15 +261,14 @@ const resolvers = {
                 return null;
             }
         },
-        sendEmail: async (parent, { to, from, subject, text }) => {
-            this.addEmail({
-                subject,
-                body: text,
-                date: new Date(),
-                sales_person: from,
-                client: to,
-                received: false,
-            });
+        sendEmail: async (parent, args) => {
+            try {
+                await useEmail(args);
+                return 'Email sent';
+            } catch (err) {
+                console.error(err);
+                return 'Something went wrong';
+            }
         },
     },
 };

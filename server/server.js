@@ -8,11 +8,11 @@ const path = require('path');
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-/* const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const http = require('http');
-const MessagingResponse = require('twilio').twiml.MessagingResponse; */
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-//catch form submit sms
+/* //catch form submit sms
 app.post('/send-sms', async (req, res) => {
     res.send(req.body);
     console.log('body=', req.body);
@@ -55,7 +55,7 @@ app.post('/respond-sms', (req, res) => {
     twiml.message('I received your message and will respond shortly.');
     res.writeHead(200, { 'Content-type': 'text/xml' });
     res.end(twiml.toString());
-});
+}); */
 
 //TODO: create post route for sending emails
 
