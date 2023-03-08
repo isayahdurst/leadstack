@@ -20,9 +20,11 @@ import Login from '../Login/Login';
 import Auth from '../../utils/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCubes } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '@contexts/AuthContext';
 
 const NavBar = ({ children }) => {
+    const { loggedIn, updateAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const isDesktop = useBreakpointValue({
@@ -48,8 +50,6 @@ const NavBar = ({ children }) => {
         Conversations: '/conversations',
         Support: '/support',
     };
-
-    const [loggedIn, setLoggedIn] = useState(Auth.loggedIn());
 
     return (
         <Box
@@ -134,6 +134,7 @@ const NavBar = ({ children }) => {
                                                 colorScheme='red'
                                                 onClick={(event) => {
                                                     logout(event);
+                                                    updateAuth(Auth.loggedIn());
                                                     setLoggedIn(
                                                         Auth.loggedIn()
                                                     );

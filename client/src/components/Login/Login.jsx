@@ -16,11 +16,12 @@ import {
     Stack,
     Box,
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_SALESPERSON } from 'utils/mutations';
 import Auth from '@utils/auth';
+import { AuthContext } from '@contexts/AuthContext';
 
 function Login({ setLoggedIn }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,6 +30,7 @@ function Login({ setLoggedIn }) {
     const [formState, setFormState] = useState({ email: '', password: '' });
     const [login] = useMutation(LOGIN_SALESPERSON);
     const navigate = useNavigate();
+    const { loggedIn, updateAuth } = useContext(AuthContext);
 
     const loginSalesperson = async () => {
         const { data } = await login({
@@ -45,6 +47,7 @@ function Login({ setLoggedIn }) {
         console.log(Auth.loggedIn());
         console.log(token);
         console.log(Auth.getProfile().data);
+        updateAuth(Auth.loggedIn());
         setLoggedIn(Auth.loggedIn());
     };
 
