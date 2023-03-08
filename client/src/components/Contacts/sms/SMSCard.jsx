@@ -6,11 +6,25 @@ import {
     Text,
     useColorModeValue,
     List,
-    ListItem
+    ListItem,
+    useToast,
+    Flex,
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    FormControl,
+    ModalFooter,
+    
 } from '@chakra-ui/react';
+import { useMutation } from '@apollo/client'
 import { useRef, useState } from 'react';
-import Auth from '../../../utils/auth';
+import Auth from '@utils/auth';
 import SmsPreview from './smsPreview';
+import { SEND_SMS } from '@utils/mutations';
 
 
 const SMSCard = ({selected}) => {
@@ -60,9 +74,9 @@ const SMSCard = ({selected}) => {
                 <CardBody>
                 <Flex height={'100%'} flexDirection={'column'} gap={2}>
                     <List>
-                        <ListItem key={sms.id} onClick={() => setSelectedSMS(sms)}>
+                        {/*<ListItem key={sms.id} onClick={() => setSelectedSMS(sms)}>
                             {sms.message}
-                        </ListItem>
+                        </ListItem>*/}
                     </List>
                     <SmsPreview />
                     <SmsPreview />
@@ -78,14 +92,14 @@ const SMSCard = ({selected}) => {
           <ModalHeader>Compose SMS</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          <Form>
+          {/*<Form>
             <FormControl>
                 <Text>Sales Person Phone Number: {Auth.getProfile().data.phone_number}</Text>
                 <Text>Client Phone Number: {selected.phone_number}</Text>
                 <FormHelperText>Enter Body of SMS</FormHelperText>
                 <Input value={body} onChange={(e) => setBody(e.target.value)} />
             </FormControl>
-          </Form>  
+            </Form>  */}
           </ModalBody>
           <ModalFooter>
             <Button variant='outline' mr={3} onClick={onClose}>Cancel</Button>
