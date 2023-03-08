@@ -18,6 +18,8 @@ import { ImCool, ImCool2 } from 'react-icons/im';
 import Signup from '../Signup/Signup';
 import Login from '../Login/Login';
 import Auth from '../../utils/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCubes } from '@fortawesome/free-solid-svg-icons'
 
 const NavBar = ({ children }) => {
     const isDesktop = useBreakpointValue({
@@ -51,12 +53,13 @@ const NavBar = ({ children }) => {
                 bg='bg-surface'
                 boxShadow='sm'
                 px={5}
+                style={{margin: '0 125px'}}
                 mb={{ base: '5', md: '5' }}>
-                <Container py={{ base: '4', lg: '5' }} maxWidth='full'>
-                    <HStack spacing='10' justify='space-between'>
+                <Container py={{ base: '4', lg: '5' }}  maxWidth='full'>
+                    <HStack spacing='10' justify='space-between' mt={4}>
                         {!isDesktop ? (
                             <Flex justify='center' flex='1'>
-                                <Link to='/'>
+                                <Link to="/">
                                     <Heading>
                                         <span>Lead</span>
                                         <span style={{ color: 'red' }}>Stack</span>
@@ -66,14 +69,14 @@ const NavBar = ({ children }) => {
                         ) : (
                             <Flex justify='space-between' flex='1'>
                                 <Link to="/">
-                                    <Heading>
-                                        <span>Lead</span>
-                                        <span style={{ color: 'red' }}>Stack</span>
-                                    </Heading>
-                                </Link>
+                                <Heading style={{ fontSize: '1.8rem' }}>
+                                    <span><FontAwesomeIcon style={{ margin: '2px 2px 0 0' }} icon={faCubes} />Lead</span>
+                                    <span style={{ color: 'red' }}>Stack</span>
+                                </Heading>
 
+                                </Link>
                                 {/* TODO: Add a search bar and ensure this menu is only visible when the user is logged in */}
-                                <ButtonGroup variant='link' spacing='8'>
+                                <ButtonGroup variant='link' spacing='8' mt={2}>
                                     {[
                                         'Dashboard',
                                         'Contacts',
