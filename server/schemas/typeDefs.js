@@ -125,6 +125,11 @@ const typeDefs = gql`
             to: String
             from: String
         ): Email
+
+        sendSms(
+            to: String
+            message: String
+        ): Sms
     }
 `;
 

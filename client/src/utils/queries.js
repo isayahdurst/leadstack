@@ -199,7 +199,6 @@ export const EMAIL_BY_ID = gql`
             }
             sales_person {
                 _id
-
                 first_name
                 last_name
                 phone_number
@@ -224,7 +223,6 @@ export const SMS_BY_ID = gql`
             }
             sales_person {
                 _id
-
                 first_name
                 last_name
                 phone_number
@@ -232,4 +230,19 @@ export const SMS_BY_ID = gql`
             }
         }
     }
+`;
+
+export const GET_ALL_CLIENT_SMS = gql`
+  query allClientSms($clientId: ID!) {
+    allClientSms(clientId: $clientId) {
+      _id
+      message
+      sent_at
+      sales_person {
+        _id
+        first_name
+        last_name
+      }
+    }
+  }
 `;
