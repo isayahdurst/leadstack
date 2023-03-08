@@ -12,7 +12,7 @@ import {
     useColorModeValue,
     useColorMode,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiMenu } from 'react-icons/fi';
 import { ImCool, ImCool2 } from 'react-icons/im';
 import Signup from '../Signup/Signup';
@@ -22,6 +22,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCubes } from '@fortawesome/free-solid-svg-icons'
 
 const NavBar = ({ children }) => {
+    const navigate = useNavigate();
+    
     const isDesktop = useBreakpointValue({
         base: false,
         lg: true,
@@ -31,6 +33,10 @@ const NavBar = ({ children }) => {
         event.preventDefault();
         Auth.logout();
     };
+
+    const navToHome = () => {
+        navigate('/');
+    }
 
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -112,7 +118,10 @@ const NavBar = ({ children }) => {
                                         <>
                                             <Button
                                                 colorScheme='red'
-                                                onClick={logout}>
+                                                onClick={(event) => {
+                                                    logout(event);
+                                                    navToHome();
+                                                }}>
                                                 Logout
                                             </Button>
                                         </>
