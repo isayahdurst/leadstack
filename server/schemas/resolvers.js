@@ -20,11 +20,10 @@ const resolvers = {
                 : [{ name: 'No clients found' }];
         },
         clientsBySalesperson: async (parent, args) => {
+            console.log(args);
             const salesperson = await Salesperson.findById(args.salespersonId);
             if (!salesperson) {
-                console.error(err);
                 return { error: 'record not found' };
-                throw new Error('Salesperson not found');
             }
             const clients = await Client.find({
                 sales_person: salesperson._id,
@@ -246,7 +245,6 @@ const resolvers = {
                 client,
                 received,
             });
-
             try {
                 await email.save();
                 return email.populate('sales_person client');
@@ -270,40 +268,112 @@ const resolvers = {
             }
         },
 
-        sendSMS: async (_, { clientPhoneNumber, salesPersonPhoneNumber, smsBody }) => {
+        sendSMS: async (
+            parent,
+            { body, sales_person_id, client_id},
+            { Salesperson, Client }
+        ) => {
             try {
+                // Find the sales person in the database
+                const salesperson = await Salesperson.findById(sales_person_id);
+
+                // Check if the sales person exists
+                if (!salesperson) {
+                    return {
+                        success: false,
+                        message: 'Failed to send SMS: Sales person not found'
+                    };
+                }
+
+                // Find the client in the database
+                const client = await Client.findById(client_id);
+
+                //Check if the client exists
+                if (!client) {
+                    return {
+                        success: false,
+                        message: 'Failed to send SMS: Client not found'
+                    };
+                }
+
                 const message = await client.messages.create({
-                body: smsBody,
-                from: salesPersonPhoneNumber,
-                to: clientPhoneNumber
+                    body: body,
+                    from: salesperson.phone_number,
+                    to: client.phone_number
                 });
                 console.log(message.sid);
+        
+                // Create a new Sms document and save it to the database
+                const sms = new Sms({
+                    date: new Date(),
+                    body: body,
+                    from: from,
+                    to: to,
+                    received: false
+                });
+                await sms.save();
+        
                 return {
-                success: true,
-                message: 'SMS sent successfully'
+                    success: true,
+                    message: 'SMS sent successfully'
                 };
             } catch (err) {
                 console.log(err);
                 return {
-                success: false,
-                message: 'Failed to send SMS'
+                    success: false,
+                    message: 'Failed to send SMS'
                 };
             }
         },
 
-        replySMS: async (_, { clientPhoneNumber, smsBody, salesPersonPhoneNumber }) => {
-        try {
-            const response = await client.messages.create({
-            body: smsBody,
-            to: clientPhoneNumber,
-            from: salesPersonPhoneNumber,
-            });
-    
-            // Send TwiML auto-response message
-            const twiml = new twilio.twiml.MessagingResponse();
-            twiml.message('I received your message and will respond shortly.');
-    
-            return twiml.toString();
+        replySMS: async (
+            parent,
+            { body, sales_person_id, client_id},
+            { Salesperson, Client }
+        ) => {
+            try {
+                // Find the sales person in the database
+                const salesperson = await Salesperson.findById(sales_person_id);
+
+                // Check if the sales person exists
+                if (!salesperson) {
+                    return {
+                        success: false,
+                        message: 'Failed to send SMS: Sales person not found'
+                    };
+                }
+
+                // Find the client in the database
+                const client = await Client.findById(client_id);
+
+                //Check if the client exists
+                if (!client) {
+                    return {
+                        success: false,
+                        message: 'Failed to send SMS: Client not found'
+                    };
+                }
+                const response = await client.messages.create({
+                    body: body,
+                    from: salesperson.phone_number,
+                    to: client.phone_number
+                });
+        
+                // Create a new Sms document and save it to the database
+                const sms = new Sms({
+                    date: new Date(),
+                    body: body,
+                    from: from,
+                    to: to,
+                    received: true
+                });
+                await sms.save();
+        
+                // Send TwiML auto-response message
+                const twiml = new twilio.twiml.MessagingResponse();
+                twiml.message('I received your message and will respond shortly.');
+        
+                return twiml.toString();
             } catch (err) {
                 console.error(err);
                 throw new Error('Failed to send SMS message');

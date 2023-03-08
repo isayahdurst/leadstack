@@ -180,25 +180,19 @@ export const ADD_EMAIL = gql`
     }
 `;
 
-export const ADD_SMS = gql`
-    mutation AddSms(
-        $body: String
-        $date: String!
-        $received: Boolean!
+export const SEND_SMS = gql`
+    mutation SendSMS(
+        $body: String!
         $salesPerson: ID!
         $client: ID!
     ) {
-        addSms(
+        sendSMS(
             body: $body
-            date: $date
-            received: $received
             sales_person: $salesPerson
             client: $client
         ) {
             _id
             body
-            date
-            received
             client {
                 _id
                 email
@@ -216,20 +210,3 @@ export const ADD_SMS = gql`
         }
     }
 `;
-
-export const SEND_SMS = gql`
-    mutation SendSms(
-        $clientPhone: String!, 
-        $smsBody: String!
-        )
-        {
-            sendSms(
-                clientPhone: $clientPhone
-                smsBody: $smsBody
-            ){
-                id
-                smsBody
-            }
-        }
-`;
-

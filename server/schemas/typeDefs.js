@@ -127,16 +127,15 @@ const typeDefs = gql`
         ): Email
 
         sendSMS(
-            to: String
-            message: String
-        ): Sms
-
-        replySMS(
-            date: String
             body: String!
             sales_person: ID!
             client: ID!
-            received: Boolean!
+        ): Sms
+
+        replySMS(
+            body: String!
+            sales_person: ID!
+            client: ID!
         ): Sms
     }
 `;

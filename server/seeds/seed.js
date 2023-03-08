@@ -6,10 +6,18 @@ db.once("open", async () => {
     await Client.deleteMany({});
 
     // Create some salespeople
+    const emily = new Salesperson({
+        first_name: "Emily",
+        last_name: "Langworth",
+        phone_number: "2765985134",
+        email: "e24murph@gmail.com",
+        password: "Testing123,"
+    });
+
     const alice = new Salesperson({
         first_name: "Alice",
         last_name: "Smith",
-        phone_number: "555-1234",
+        phone_number: "2765985134",
         email: "alice@example.com",
         password: "password",
     });
@@ -17,13 +25,14 @@ db.once("open", async () => {
     const bob = new Salesperson({
         first_name: "Bob",
         last_name: "Jones",
-        phone_number: "555-5678",
+        phone_number: "2765985134",
         email: "bob@example.com",
         password: "password",
     });
 
     await alice.save();
     await bob.save();
+    await emily.save;
 
     console.log("Salespeople seeded!");
 
@@ -31,7 +40,7 @@ db.once("open", async () => {
     const c1 = new Client({
         first_name: "John",
         last_name: "Brown",
-        phone_number: "949-111-0000",
+        phone_number: "5083950012",
         email: "john@example.com",
         sales_person: alice._id,
         status: "Active",
@@ -40,7 +49,7 @@ db.once("open", async () => {
     const c2 = new Client({
         first_name: "Christopher",
         last_name: "Ingham",
-        phone_number: "813-495-0244",
+        phone_number: "5083950012",
         email: "chris@example.com",
         sales_person: alice._id,
         status: "Active",
@@ -49,7 +58,7 @@ db.once("open", async () => {
     const c3 = new Client({
         first_name: "Anna",
         last_name: "Green",
-        phone_number: "626-222-1111",
+        phone_number: "5083950012",
         email: "anna@example.com",
         sales_person: bob._id,
         status: "Active",
@@ -58,7 +67,7 @@ db.once("open", async () => {
     const c4 = new Client({
         first_name: "Diana",
         last_name: "Bowles",
-        phone_number: "701-124-4422",
+        phone_number: "5083950012",
         email: "diana@example.com",
         sales_person: bob._id,
         status: "Inactive",
@@ -67,7 +76,7 @@ db.once("open", async () => {
     const c5 = new Client({
         first_name: "Bobby",
         last_name: "Lee",
-        phone_number: "231-662-2322",
+        phone_number: "5083950012",
         email: "bobbylee@example.com",
         sales_person: bob._id,
         status: "Inactive",
@@ -76,7 +85,7 @@ db.once("open", async () => {
     const c6 = new Client({
         first_name: "Samantha",
         last_name: "Morris",
-        phone_number: "111-444-669",
+        phone_number: "5083950012",
         email: "samanthamorris@example.com",
         sales_person: bob._id,
         status: "Active",
@@ -85,7 +94,7 @@ db.once("open", async () => {
     const c7 = new Client({
         first_name: "Wayne",
         last_name: "Bryant",
-        phone_number: "123-432-2412",
+        phone_number: "5083950012",
         email: "wayneb@example.com",
         sales_person: alice._id,
         status: "Active",
@@ -94,7 +103,7 @@ db.once("open", async () => {
     const c8 = new Client({
         first_name: "Marrisa",
         last_name: "Kent",
-        phone_number: "244-123-5343",
+        phone_number: "5083950012",
         email: "marrisakent@example.com",
         sales_person: alice._id,
         status: "Active",
@@ -103,7 +112,7 @@ db.once("open", async () => {
     const c9 = new Client({
         first_name: "Thomas",
         last_name: "Shelby",
-        phone_number: "244-123-5343",
+        phone_number: "5083950012",
         email: "shelby@example.com",
         sales_person: bob._id,
         status: "Active",
@@ -112,7 +121,7 @@ db.once("open", async () => {
     const c10 = new Client({
         first_name: "Karla",
         last_name: "Webber",
-        phone_number: "244-123-5343",
+        phone_number: "5083950012",
         email: "karlawebb@example.com",
         sales_person: bob._id,
         status: "Active",
@@ -121,7 +130,7 @@ db.once("open", async () => {
     const c11 = new Client({
         first_name: "Harry",
         last_name: "Smith",
-        phone_number: "233-111-3333",
+        phone_number: "5083950012",
         email: "hsmith@example.com",
         sales_person: alice._id,
         status: "Active",
@@ -130,7 +139,7 @@ db.once("open", async () => {
     const c12 = new Client({
         first_name: "Mary",
         last_name: "Shultz",
-        phone_number: "555-222-1111",
+        phone_number: "5083950012",
         email: "hsmith@example.com",
         sales_person: alice._id,
         status: "Active",

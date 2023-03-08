@@ -70,7 +70,7 @@ const Profile = (props) => {
                             <TabPanel>
                                 <Button>Add Signature</Button>
                                 <Box>
-                                    Fincationaly with email signature will de added
+                                    Functionality with email signature will de added
                                     soon...
                                 </Box>
                             </TabPanel>
