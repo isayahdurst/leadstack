@@ -96,19 +96,24 @@ const NavBar = ({ children }) => {
                                     </Heading>
                                 </Link>
                                 {/* TODO: Add a search bar and ensure this menu is only visible when the user is logged in */}
-                                <ButtonGroup variant='link' spacing='8' mt={2}>
-                                    {[
-                                        'Dashboard',
-                                        'Contacts',
-                                        'Conversations',
-                                        'Support',
-                                        'Profile',
-                                    ].map((item) => (
-                                        <Link key={item} to={links[item]}>
-                                            <Button>{item}</Button>
-                                        </Link>
-                                    ))}
-                                </ButtonGroup>
+                                {loggedIn && (
+                                    <ButtonGroup
+                                        variant='link'
+                                        spacing='8'
+                                        mt={2}>
+                                        {[
+                                            'Dashboard',
+                                            'Contacts',
+                                            'Conversations',
+                                            'Support',
+                                            'Profile',
+                                        ].map((item) => (
+                                            <Link key={item} to={links[item]}>
+                                                <Button>{item}</Button>
+                                            </Link>
+                                        ))}
+                                    </ButtonGroup>
+                                )}
                                 <HStack spacing='3'>
                                     <IconButton
                                         variant='ghost'
@@ -135,9 +140,7 @@ const NavBar = ({ children }) => {
                                                 onClick={(event) => {
                                                     logout(event);
                                                     updateAuth(Auth.loggedIn());
-                                                    setLoggedIn(
-                                                        Auth.loggedIn()
-                                                    );
+
                                                     navToHome();
                                                 }}>
                                                 Logout
@@ -145,10 +148,7 @@ const NavBar = ({ children }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <Login
-                                                loggedIn={loggedIn}
-                                                setLoggedIn={setLoggedIn}
-                                            />
+                                            <Login loggedIn={loggedIn} />
                                             <Signup />
                                         </>
                                     )}
