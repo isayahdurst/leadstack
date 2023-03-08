@@ -36,6 +36,11 @@ const typeDefs = gql`
         received: Boolean
     }
 
+    type SendSMSResponse {
+        success: Boolean!
+        error: String!
+    }
+
     type Email {
         _id: ID!
         subject: String
@@ -130,7 +135,7 @@ const typeDefs = gql`
             body: String!
             sales_person: ID!
             client: ID!
-        ): Sms
+        ): SendSMSResponse
 
         replySMS(
             body: String!

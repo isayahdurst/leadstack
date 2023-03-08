@@ -191,22 +191,8 @@ export const SEND_SMS = gql`
             sales_person: $salesPerson
             client: $client
         ) {
-            _id
-            body
-            client {
-                _id
-                email
-                first_name
-                last_name
-                phone_number
-            }
-            sales_person {
-                _id
-                email
-                first_name
-                last_name
-                phone_number
-            }
+            success
+            error
         }
     }
 `;

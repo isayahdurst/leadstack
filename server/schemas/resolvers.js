@@ -4,11 +4,11 @@ const { signToken } = require('../utils/auth');
 const { GraphQLError } = require('graphql');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
-/* const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
+const twilio = require('twilio')(accountSid, authToken);
 const http = require('http');
-const MessagingResponse = require('twilio').twiml.MessagingResponse; */
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const resolvers = {
     Query: {
@@ -38,7 +38,8 @@ const resolvers = {
             const user = await Salesperson.find({
                 _id: args.id,
             });
-            return user;
+            //return user;
+            return user ? user._id : null;
         },
         clientById: async (paren, args) => {
             const client = await Client.find({
@@ -271,58 +272,60 @@ const resolvers = {
 
         sendSMS: async (
             parent,
-            { body, sales_person_id, client_id},
-            { Salesperson, Client }
+            { body, sales_person, client}
         ) => {
             try {
                 // Find the sales person in the database
-                const salesperson = await Salesperson.findById(sales_person_id);
+                const salespersonObj = await Salesperson.findById(sales_person);
 
                 // Check if the sales person exists
-                if (!salesperson) {
+                if (!salespersonObj) {
                     return {
                         success: false,
-                        message: 'Failed to send SMS: Sales person not found'
+                        error: 'Failed to send SMS: Sales person not found'
                     };
                 }
 
                 // Find the client in the database
-                const client = await Client.findById(client_id);
+                const clientObj = await Client.findById(client);
 
                 //Check if the client exists
-                if (!client) {
+                if (!clientObj) {
                     return {
                         success: false,
-                        message: 'Failed to send SMS: Client not found'
+                        error: 'Failed to send SMS: Client not found'
                     };
                 }
 
-                const message = await client.messages.create({
-                    body: body,
-                    from: salesperson.phone_number,
-                    to: client.phone_number
+                const from = salespersonObj.phone_number;
+                const to = clientObj.phone_number;
+
+                const message = await twilio.messages.create({
+                    body,
+                    from,
+                    to
                 });
                 console.log(message.sid);
         
                 // Create a new Sms document and save it to the database
                 const sms = new Sms({
                     date: new Date(),
-                    body: body,
-                    from: from,
-                    to: to,
+                    body,
+                    from,
+                    to,
                     received: false
                 });
                 await sms.save();
         
                 return {
                     success: true,
-                    message: 'SMS sent successfully'
+                    error: 'SMS sent successfully'
                 };
             } catch (err) {
                 console.log(err);
                 return {
                     success: false,
-                    message: 'Failed to send SMS'
+                    error: 'Failed to send SMS'
                 };
             }
         },

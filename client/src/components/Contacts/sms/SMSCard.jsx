@@ -47,11 +47,10 @@ const SMSCard = ({selectedClientId}) => {
 
     //define function to handle sending sms
     const handleSendSMS = () => {
-        debugger
         sendSMS({
           variables: {
             client: selectedClientId,
-            sales_person: Auth.getProfile().data._id,
+            salesPerson: Auth.getProfile().data._id,
             body,
           },
         })
@@ -107,7 +106,7 @@ const SMSCard = ({selectedClientId}) => {
           </ModalBody>
           <ModalFooter>
             <Button variant='outline' mr={3} onClick={onClose}>Cancel</Button>
-            <Button onClick={handleSendSMS} disabled={loading}>Send Message</Button>
+            <Button onClick={handleSendSMS} disabled={loading} colorScheme={'red'} variant={'outline'}>Send</Button>
             {error && <p>Error: {error.message}</p>}
           </ModalFooter>
         </ModalContent>
