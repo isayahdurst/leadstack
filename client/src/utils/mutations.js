@@ -146,25 +146,22 @@ export const UPDATE_CLIENT = gql`
 export const ADD_EMAIL = gql`
     mutation AddEmail(
         $subject: String
-        $body: String
+        $text: String
         $date: String!
-        $received: Boolean!
-        $salesPerson: ID!
+        $sales_person: ID!
         $client: ID!
     ) {
         addEmail(
             subject: $subject
-            body: $body
+            text: $text
             date: $date
-            received: $received
-            sales_person: $salesPerson
+            sales_person: $sales_person
             client: $client
         ) {
             _id
             subject
-            body
+            text
             date
-            received
             client {
                 _id
                 email

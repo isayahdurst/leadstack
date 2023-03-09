@@ -12,8 +12,8 @@ const StepFour = () => {
         const { _id } = Auth.getProfile().data;
         await updateSalesperson({
             variables: {
-                salespersonId: _id,
-                googleEmail: email,
+                salesperson_id: _id,
+                google_email: email,
             },
         });
     };

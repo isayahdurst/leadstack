@@ -11,7 +11,7 @@ import {
     Input,
 } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@apollo/client';
-import { SEND_EMAIL } from '@utils/mutations';
+import { SEND_EMAIL, ADD_EMAIL } from '@utils/mutations';
 import { LeadContext } from '@contexts/LeadContext';
 import { PROFILE_QUERY } from '@utils/queries';
 import Auth from '@utils/auth';
@@ -21,6 +21,7 @@ const EmailEditor = ({ setShowEditor }) => {
     const editorRef = useRef(null);
 
     const [sendEmail] = useMutation(SEND_EMAIL);
+    const [addEmail] = useMutation(ADD_EMAIL);
     const [sending, setSending] = useState(false);
     const [subject, setSubject] = useState('');
     const [email, setEmail] = useState('');
@@ -34,22 +35,42 @@ const EmailEditor = ({ setShowEditor }) => {
 
     const toast = useToast();
 
+    // Get sales profile data
+
+    const { loading, error, data } = useQuery(PROFILE_QUERY, {
+        variables: { id: salesID },
+    });
+
+    const salesProfile = data?.salespersonById[0];
+
     const onSubmitHandler = async () => {
         setSending(true);
         try {
             const data = await sendEmail({
                 variables: {
-                    from: 'leadstackucb@gmail.com',
+                    from: salesProfile.google_email,
                     to: email,
                     subject: subject,
                     text: editorRef.current.getContent({ format: 'text' }),
                     html: editorRef.current.getContent(),
                     auth: {
-                        user: 'leadstackucb@gmail.com',
-                        pass: 'jolqrikqvczhaajj',
+                        user: salesProfile.google_email,
+                        pass: salesProfile.google_password,
                     },
                 },
             });
+
+            // TODO: Add email to database.
+
+            /* const emailData = await addEmail({
+                variables: {
+                    subject: subject,
+                    text: editorRef.current.getContent({ format: 'text' }),
+                    date: new Date().toString(),
+                    sales_person: salesProfile._id,
+                    client: lead._id,
+                },
+            }); */
             toast({
                 title: 'Success!',
                 description: 'Email sent successfully.',
@@ -71,14 +92,6 @@ const EmailEditor = ({ setShowEditor }) => {
         }
         setSending(false);
     };
-
-    // Get sales profile data
-
-    const { loading, error, data } = useQuery(PROFILE_QUERY, {
-        variables: { id: salesID },
-    });
-    console.log(salesID);
-    console.log(data);
 
     return (
         <>
@@ -107,7 +120,11 @@ const EmailEditor = ({ setShowEditor }) => {
             <Button
                 colorScheme={'green'}
                 onClick={onSubmitHandler}
-                isLoading={sending}>
+                isLoading={sending}
+                isDisabled={
+                    !salesProfile?.google_email &&
+                    !salesProfile?.google_password
+                }>
                 Send
             </Button>
             <Button colorScheme={'red'} onClick={() => setShowEditor(false)}>

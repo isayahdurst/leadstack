@@ -45,7 +45,7 @@ const resolvers = {
             });
             console.log(user);
             //return user;
-            return user ? user._id : null;
+            return user ? user : null;
         },
         clientById: async (paren, args) => {
             const client = await Client.find({
@@ -278,16 +278,17 @@ const resolvers = {
 
         addEmail: async (
             parent,
-            { subject, body, date, sales_person, client, received }
+            { subject, text, date, sales_person, client }
         ) => {
+            console.log('addEmail', subject, text, date, sales_person, client);
             const email = new Email({
                 subject,
-                body,
+                text,
                 date,
                 sales_person,
                 client,
-                received,
             });
+
             try {
                 await email.save();
                 return email.populate('sales_person client');

@@ -58,6 +58,8 @@ export const PROFILE_QUERY = gql`
             first_name
             last_name
             phone_number
+            google_email
+            google_password
         }
     }
 `;

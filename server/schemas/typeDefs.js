@@ -109,11 +109,10 @@ const typeDefs = gql`
 
         addEmail(
             subject: String
-            body: String
+            text: String
             date: String!
             sales_person: ID!
             client: ID!
-            received: Boolean!
         ): Email
 
         addSMS(

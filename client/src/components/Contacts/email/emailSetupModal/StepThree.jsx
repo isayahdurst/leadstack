@@ -24,8 +24,8 @@ const StepThree = ({ step, setStep }) => {
         const { _id } = Auth.getProfile().data;
         await updateSalesperson({
             variables: {
-                salespersonId: _id,
-                googlePassword: password,
+                salesperson_id: _id,
+                google_password: password,
             },
         });
         setStep(step + 1);
