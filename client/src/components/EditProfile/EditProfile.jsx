@@ -31,18 +31,15 @@ import { UPDATE_SALESPERSON } from 'utils/mutations';
 import Auth from '../../utils/auth';
 import { useFormik } from 'formik';
 import ProfileContext from '../../pages/Profile';
-import { useNavigate } from 'react-router-dom'
-//import AuthContext from '@contexts/AuthContext';
+import { AuthContext } from '@contexts/AuthContext';
 
 function EditProfile() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const firstField = useRef();
     const btnRef = useRef();
     const [editUser] = useMutation(UPDATE_SALESPERSON);
-    const navigate = useNavigate();
-
-    //const { updateProfile } = useContext(AuthContext);
-
+    const { updateProfileData, profileData } = useContext(AuthContext);
+    
     
     
     const validate = values => {
@@ -103,7 +100,6 @@ function EditProfile() {
         try {
             let data;
             if (!formik.values.password){
-                console.log('awefawefaf')
                 data = await editUser({
                     variables: {
                         salesperson_id: Auth.getProfile().data._id,
@@ -114,7 +110,6 @@ function EditProfile() {
                     }
                 })
             } else {
-                console.log('includes password');
                 data = await editUser({
                     variables: {
                         salesperson_id: Auth.getProfile().data._id,
@@ -132,20 +127,13 @@ function EditProfile() {
             Auth.login(token);
             console.log('auth logged in?');
             console.log(Auth.loggedIn());
-            //updateProfile(Auth.getProfile().data);
+            updateProfileData(Auth.getProfile().data);
 
 
         } catch (e) {
             console.error(e);
         };
     };
-
-    const refresh = () => {
-        
-        navigate('/profile');
-        navigate(0);
-        
-    }
 
     // Show and hide password helper functions:
     const [show, setShow] = useState(false)

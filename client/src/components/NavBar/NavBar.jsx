@@ -24,7 +24,7 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '@contexts/AuthContext';
 
 const NavBar = ({ children }) => {
-    const { loggedIn, updateAuth } = useContext(AuthContext);
+    const { loggedIn, updateAuth, updateProfileData } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const isDesktop = useBreakpointValue({

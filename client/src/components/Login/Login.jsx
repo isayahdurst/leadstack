@@ -32,7 +32,7 @@ function Login({ setLoggedIn }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [login] = useMutation(LOGIN_SALESPERSON);
     const navigate = useNavigate();
-    const { loggedIn, updateAuth } = useContext(AuthContext);
+    const { loggedIn, updateAuth, profileData, updateProfileData } = useContext(AuthContext);
 
     const loginSalesperson = async () => {
         const { data } = await login({
@@ -41,20 +41,13 @@ function Login({ setLoggedIn }) {
                 password: formState.password,
             },
         });
-
+        
         const token = data.login.token;
         Auth.login(token);
-        console.log('auth logged in?');
-        console.log(data.login.sales_person);
-        console.log(Auth.loggedIn());
-        console.log(token);
-        console.log(Auth.getProfile().data);
         updateAuth(Auth.loggedIn());
-        setLoggedIn(Auth.loggedIn());
-    };
+        //setLoggedIn(Auth.loggedIn());
+        updateProfileData(Auth.getProfile().data);
 
-    const navToHome = () => {
-        navigate('/dashboard');
     };
 
     const handleChange = (event) => {
@@ -93,11 +86,9 @@ function Login({ setLoggedIn }) {
                             className='visible'
                             onSubmit={async (e) => {
                                 e.preventDefault();
-                                console.log('submitted');
                                 try {
                                     await loginSalesperson();
                                     onClose();
-                                    updateAuth()
                                 } catch (e) {
                                     setErrorMessage(e.message);
                                 }

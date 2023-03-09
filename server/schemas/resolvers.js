@@ -239,7 +239,6 @@ const resolvers = {
                 const token = signToken(updatedSalesperson);
                 return { token: token, sales_person: updatedSalesperson };
             } else {
-                console.log('no password');
                 // Update the salesperson in the database
                 updatedSalesperson = await Salesperson.findByIdAndUpdate(
                     id,
