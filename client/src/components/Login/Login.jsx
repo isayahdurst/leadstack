@@ -16,21 +16,25 @@ import {
     Stack,
     Box,
 } from '@chakra-ui/react';
-import { useRef, useState, useContext } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_SALESPERSON } from 'utils/mutations';
 import Auth from '@utils/auth';
-import { AuthContext } from '@contexts/AuthContext';
+//import { AuthContext } from '@contexts/AuthContext';
+
 
 function Login({ setLoggedIn }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const firstField = useRef();
     const btnRef = useRef();
     const [formState, setFormState] = useState({ email: '', password: '' });
+    const [errorMessage, setErrorMessage] = useState('');
     const [login] = useMutation(LOGIN_SALESPERSON);
     const navigate = useNavigate();
-    const { loggedIn, updateAuth } = useContext(AuthContext);
+
+    //const { updateLogin, updateToken, updateData } = useContext(AuthContext); 
+
 
     const loginSalesperson = async () => {
         const { data } = await login({
@@ -47,12 +51,13 @@ function Login({ setLoggedIn }) {
         console.log(Auth.loggedIn());
         console.log(token);
         console.log(Auth.getProfile().data);
-        updateAuth(Auth.loggedIn());
-        setLoggedIn(Auth.loggedIn());
+        //updateLogin(Auth.loggedIn());
+        //updateToken(Auth.getToken());
+        //updateData(Auth.getProfile());
     };
 
     const navToHome = () => {
-        navigate('/');
+        navigate('/dashboard');
     };
 
     const handleChange = (event) => {
@@ -71,7 +76,10 @@ function Login({ setLoggedIn }) {
             <Drawer
                 isOpen={isOpen}
                 placement='top'
-                onClose={onClose}
+                onClose={()=>{
+                            onClose();
+                            setErrorMessage('');
+                        }}
                 initialFocusRef={firstField}
                 finalFocusRef={btnRef}
                 size='xl'>
@@ -86,15 +94,15 @@ function Login({ setLoggedIn }) {
                         <form
                             id='loginForm'
                             className='visible'
-                            onSubmit={(e) => {
+                            onSubmit={async (e) => {
                                 e.preventDefault();
                                 console.log('submitted');
                                 try {
-                                    loginSalesperson();
+                                    await loginSalesperson();
                                     onClose();
                                     navToHome();
                                 } catch (e) {
-                                    console.error(e);
+                                    setErrorMessage(e.message);
                                 }
                             }}>
                             <Stack spacing='24px'>
@@ -122,12 +130,20 @@ function Login({ setLoggedIn }) {
                                         onChange={handleChange}
                                     />
                                 </Box>
+
+                                {errorMessage && (
+                                    <div>
+                                        <p className="error-text">{errorMessage}</p>
+                                    </div>
+                                )}  
                             </Stack>
                         </form>
                     </DrawerBody>
 
                     <DrawerFooter>
-                        <Button variant='outline' mr={3} onClick={onClose}>
+                        <Button variant='outline' mr={3} onClick={()=> {
+                                                                    onClose()
+                                                                    setErrorMessage('')}}>
                             Cancel
                         </Button>
                         <Button

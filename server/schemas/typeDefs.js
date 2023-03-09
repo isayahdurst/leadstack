@@ -36,6 +36,11 @@ const typeDefs = gql`
         received: Boolean
     }
 
+    type SendSMSResponse {
+        success: Boolean!
+        error: String!
+    }
+
     type Email {
         _id: ID!
         subject: String
@@ -82,7 +87,7 @@ const typeDefs = gql`
             password: String
             google_password: String
             google_email: String
-        ): Salesperson
+        ): Auth
 
         addClient(
             first_name: String!
@@ -127,16 +132,15 @@ const typeDefs = gql`
         ): Email
 
         sendSMS(
-            to: String
-            message: String
-        ): Sms
-
-        replySMS(
-            date: String
             body: String!
             sales_person: ID!
             client: ID!
-            received: Boolean!
+        ): SendSMSResponse
+
+        replySMS(
+            body: String!
+            sales_person: ID!
+            client: ID!
         ): Sms
     }
 `;

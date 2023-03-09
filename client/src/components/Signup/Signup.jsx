@@ -31,14 +31,17 @@ import SignupConfirmation from './SignupConfirmation';
 import { ADD_SALESPERSON } from 'utils/mutations';
 import Auth from '../../utils/auth';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const firstField = useRef();
     const btnRef = useRef();
     const [formState, setFormState] = useState({ firstName: '', lastName: '', phoneNumber: '', email: '', password: '', passwordConfirm: '' });
+    const [errorMessage, setErrorMessage] = useState('');
     const [addUser] = useMutation(ADD_SALESPERSON);
-    
+    const navigate = useNavigate();
+
     const validate = values => {
         const errors = {};
         if (!values.firstName) {
@@ -93,12 +96,18 @@ function Signup() {
         },
     });
 
+    const moveToDash = () => {
+        navigate('/dashboard');
+    };
+
+
     
+
 
     const addSalesperson = async (event) => {
         event.preventDefault()
         
-        try {
+        
             const { data } = await addUser({
                 variables: {
                     first_name: formik.values.firstName,
@@ -113,9 +122,7 @@ function Signup() {
             Auth.login(token);
             console.log('auth logged in?');
             console.log(Auth.loggedIn());
-        } catch (e) {
-            console.error(e);
-        };
+       
     };
 
     const handleChange = (event) => {
@@ -152,7 +159,18 @@ function Signup() {
                         <form
                             id='loginForm'
                             className='visible'
-                            onSubmit={addSalesperson}
+                            onSubmit={async (event) => {
+                                try{
+                                    await addSalesperson(event);
+                                    onClose();
+                                    moveToDash();
+                                } catch (e) {
+                                    setErrorMessage(
+                                        e.message
+                                    );
+                                    console.log(e)  
+                                }
+                            }}
                         >
                             <Stack spacing='24px'>
                                 <Box>
@@ -289,7 +307,14 @@ function Signup() {
                                         </InputRightElement>
                                     </InputGroup>
                                     {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? <div>{formik.errors.passwordConfirm}</div> : null}
-                                </Box>                         
+                                </Box>
+
+                                
+                                    {errorMessage && (
+                                        <div>
+                                            <p className="error-text">{errorMessage}</p>
+                                        </div>
+                                    )}                                  
                             </Stack>
                         </form>
                     </DrawerBody>
