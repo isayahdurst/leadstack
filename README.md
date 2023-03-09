@@ -75,9 +75,12 @@ npm run seed
 
 - Open the application
 - You need to sign up to use this application
-- Navigate to Contacts tab to create Clients 
+- Make sure your phone number is 2765985134 (our Twilio number)
+- Navigate to Contacts tab to create Clients
+- To send an actual text message right now the only verified number in Twilio is 5083950012 
 - Navigate to Conversations tab
 - You will see the list of your Clients at the left side
+- Select a client on the left to see email /sms cards
 - Use email /sms section to contact your clients
 
 ## Credits
