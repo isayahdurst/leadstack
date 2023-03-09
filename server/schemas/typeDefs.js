@@ -87,7 +87,7 @@ const typeDefs = gql`
             password: String
             google_password: String
             google_email: String
-        ): Salesperson
+        ): Auth
 
         addClient(
             first_name: String!

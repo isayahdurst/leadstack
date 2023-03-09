@@ -23,14 +23,16 @@ import { LOGIN_SALESPERSON } from 'utils/mutations';
 import Auth from '@utils/auth';
 import { AuthContext } from '@contexts/AuthContext';
 
+
 function Login({ setLoggedIn }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const firstField = useRef();
     const btnRef = useRef();
     const [formState, setFormState] = useState({ email: '', password: '' });
+    const [errorMessage, setErrorMessage] = useState('');
     const [login] = useMutation(LOGIN_SALESPERSON);
     const navigate = useNavigate();
-    const { loggedIn, updateAuth } = useContext(AuthContext);
+    const { loggedIn, updateAuth, profileData, updateProfileData } = useContext(AuthContext);
 
     const loginSalesperson = async () => {
         const { data } = await login({
@@ -39,20 +41,13 @@ function Login({ setLoggedIn }) {
                 password: formState.password,
             },
         });
-
+        
         const token = data.login.token;
         Auth.login(token);
-        console.log('auth logged in?');
-        console.log(data.login.sales_person);
-        console.log(Auth.loggedIn());
-        console.log(token);
-        console.log(Auth.getProfile().data);
         updateAuth(Auth.loggedIn());
-        setLoggedIn(Auth.loggedIn());
-    };
+        //setLoggedIn(Auth.loggedIn());
+        updateProfileData(Auth.getProfile().data);
 
-    const navToHome = () => {
-        navigate('/');
     };
 
     const handleChange = (event) => {
@@ -71,7 +66,10 @@ function Login({ setLoggedIn }) {
             <Drawer
                 isOpen={isOpen}
                 placement='top'
-                onClose={onClose}
+                onClose={()=>{
+                            onClose();
+                            setErrorMessage('');
+                        }}
                 initialFocusRef={firstField}
                 finalFocusRef={btnRef}
                 size='xl'>
@@ -86,15 +84,13 @@ function Login({ setLoggedIn }) {
                         <form
                             id='loginForm'
                             className='visible'
-                            onSubmit={(e) => {
+                            onSubmit={async (e) => {
                                 e.preventDefault();
-                                console.log('submitted');
                                 try {
-                                    loginSalesperson();
+                                    await loginSalesperson();
                                     onClose();
-                                    navToHome();
                                 } catch (e) {
-                                    console.error(e);
+                                    setErrorMessage(e.message);
                                 }
                             }}>
                             <Stack spacing='24px'>
@@ -122,12 +118,20 @@ function Login({ setLoggedIn }) {
                                         onChange={handleChange}
                                     />
                                 </Box>
+
+                                {errorMessage && (
+                                    <div>
+                                        <p className="error-text">{errorMessage}</p>
+                                    </div>
+                                )}  
                             </Stack>
                         </form>
                     </DrawerBody>
 
                     <DrawerFooter>
-                        <Button variant='outline' mr={3} onClick={onClose}>
+                        <Button variant='outline' mr={3} onClick={()=> {
+                                                                    onClose()
+                                                                    setErrorMessage('')}}>
                             Cancel
                         </Button>
                         <Button

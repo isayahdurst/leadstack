@@ -25,20 +25,25 @@ import {
     LockIcon,
     SpinnerIcon
 } from '@chakra-ui/icons'
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import SignupConfirmation from './SignupConfirmation';
 import { ADD_SALESPERSON } from 'utils/mutations';
 import Auth from '../../utils/auth';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '@contexts/AuthContext';
 
 function Signup() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const firstField = useRef();
     const btnRef = useRef();
     const [formState, setFormState] = useState({ firstName: '', lastName: '', phoneNumber: '', email: '', password: '', passwordConfirm: '' });
+    const [errorMessage, setErrorMessage] = useState('');
     const [addUser] = useMutation(ADD_SALESPERSON);
-    
+    const navigate = useNavigate();
+    const { profileData, updateProfileData, loggedIn, updateAuth } = useContext(AuthContext);
+
     const validate = values => {
         const errors = {};
         if (!values.firstName) {
@@ -93,12 +98,15 @@ function Signup() {
         },
     });
 
-    
+    const moveToDash = () => {
+        navigate('/dashboard');
+    };
+
 
     const addSalesperson = async (event) => {
         event.preventDefault()
         
-        try {
+        
             const { data } = await addUser({
                 variables: {
                     first_name: formik.values.firstName,
@@ -111,19 +119,12 @@ function Signup() {
     
             const token = data.addSalesperson.token;
             Auth.login(token);
-            console.log('auth logged in?');
-            console.log(Auth.loggedIn());
-        } catch (e) {
-            console.error(e);
-        };
-    };
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormState({
-          ...formState,
-          [name]: value,
-        });
+            updateAuth(Auth.loggedIn());
+            console.log(loggedIn);
+            updateProfileData(Auth.getProfile().data);
+            console.log(profileData);
+            
+       
     };
 
     // Show and hide password helper functions:
@@ -152,7 +153,18 @@ function Signup() {
                         <form
                             id='loginForm'
                             className='visible'
-                            onSubmit={addSalesperson}
+                            onSubmit={async (event) => {
+                                try{
+                                    await addSalesperson(event);
+                                    onClose();
+                                    moveToDash();
+                                } catch (e) {
+                                    setErrorMessage(
+                                        e.message
+                                    );
+                                    console.log(e)  
+                                }
+                            }}
                         >
                             <Stack spacing='24px'>
                                 <Box>
@@ -289,7 +301,12 @@ function Signup() {
                                         </InputRightElement>
                                     </InputGroup>
                                     {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? <div>{formik.errors.passwordConfirm}</div> : null}
-                                </Box>                         
+                                </Box>
+                                {errorMessage && (
+                                    <div>
+                                        <p className="error-text">{errorMessage}</p>
+                                    </div>
+                                )}                                  
                             </Stack>
                         </form>
                     </DrawerBody>

@@ -11,31 +11,27 @@ import {
     TabList,
     TabPanel,
     TabPanels,
+    
 } from '@chakra-ui/react';
 
 import { PROFILE_QUERY } from './../utils/queries';
 import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
-import Login from '../components/Login/Login';
-import Signup from '../components/Signup/Signup';
+import Login from '@components/Login/Login';
+import Signup from '@components/Signup/Signup';
+import { useContext, useEffect } from 'react'
+import EditProfile from '@components/EditProfile/EditProfile'
+import {AuthContext} from '@contexts/AuthContext';
+
+
+
+
+
 
 const Profile = (props) => {
-    /*const { loading, error, data } = useQuery(PROFILE_QUERY, {
-        variables: { id: props.id },
-    });
+    
+    const { updateProfileData, profileData} = useContext(AuthContext);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) {
-        console.log(error.message);
-        return <p>Error :(</p>;
-    }
-    if (!data || !data.salespersonById || data.salespersonById.length === 0)
-        return <p>No user found</p>;
-
-    const user = data.salespersonById[0];
-    const initials =
-        user.first_name.substring(0, 1) + user.last_name.substring(0, 1);
-    */
     return (
         <Box p={6}>
             {Auth.loggedIn() ? (
@@ -53,18 +49,18 @@ const Profile = (props) => {
                                         size='lg'
                                         alt='avatar image'>
                                     </Avatar>
-                                    <VStack>
-                                        <Heading fontSize='xl' pt={4}>
-                                            {Auth.getProfile().data.first_name} {Auth.getProfile().data.last_name}
+                                    <VStack align='left'>
+                                        <Heading fontSize='xl' pl={10} pt={4}>
+                                            {profileData.first_name} {profileData.last_name}
                                         </Heading>
                                         <Text pl={10}>
-                                            Phone number: {Auth.getProfile().data.phone_number}
+                                            Phone number: {profileData.phone_number}
                                         </Text>
-                                        <Text pl={10}>Email: {Auth.getProfile().data.email}</Text>
+                                        <Text pl={10}>Email: {profileData.email}</Text>
                                     </VStack>
                                 </HStack>
                                 <Box pt={10}>
-                                <Button>Edit profile information</Button>
+                                <EditProfile />
                                 </Box>
                             </TabPanel>
                             <TabPanel>
@@ -94,3 +90,4 @@ const Profile = (props) => {
 };
 
 export default Profile;
+
