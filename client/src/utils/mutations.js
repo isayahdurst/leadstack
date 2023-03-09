@@ -147,9 +147,9 @@ export const ADD_EMAIL = gql`
     mutation AddEmail(
         $subject: String
         $text: String
-        $date: String!
-        $sales_person: ID!
-        $client: ID!
+        $date: String
+        $sales_person: ID
+        $client: ID
     ) {
         addEmail(
             subject: $subject
