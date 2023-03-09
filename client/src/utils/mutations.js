@@ -180,6 +180,26 @@ export const ADD_EMAIL = gql`
     }
 `;
 
+export const SEND_EMAIL = gql`
+    mutation SendEmail(
+        $from: String!
+        $to: String!
+        $subject: String!
+        $text: String!
+        $html: String
+        $auth: AuthInput!
+    ) {
+        sendEmail(
+            from: $from
+            to: $to
+            subject: $subject
+            text: $text
+            html: $html
+            auth: $auth
+        )
+    }
+`;
+
 export const ADD_SMS = gql`
     mutation AddSms(
         $body: String
@@ -218,18 +238,10 @@ export const ADD_SMS = gql`
 `;
 
 export const SEND_SMS = gql`
-    mutation SendSms(
-        $clientPhone: String!, 
-        $smsBody: String!
-        )
-        {
-            sendSms(
-                clientPhone: $clientPhone
-                smsBody: $smsBody
-            ){
-                id
-                smsBody
-            }
+    mutation SendSms($clientPhone: String!, $smsBody: String!) {
+        sendSms(clientPhone: $clientPhone, smsBody: $smsBody) {
+            id
+            smsBody
         }
+    }
 `;
-

@@ -4,6 +4,7 @@ const { signToken } = require('../utils/auth');
 const { GraphQLError } = require('graphql');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+const useEmail = require('../utils/useMail');
 /* const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
@@ -167,16 +168,19 @@ const resolvers = {
             const salesperson = await Salesperson.findOne({ email });
 
             if (!salesperson) {
-                throw new GraphQLError('No user found with this email address', {
-                    extensions: { code: 'NO_USER_FOUND'},
-                });
+                throw new GraphQLError(
+                    'No user found with this email address',
+                    {
+                        extensions: { code: 'NO_USER_FOUND' },
+                    }
+                );
             }
 
             const correctPw = await salesperson.isCorrectPassword(password);
 
             if (!correctPw) {
                 throw new GraphQLError('Incorrect credentials', {
-                    extensions: { code: 'INCORRECT_CREDENTIALS'},
+                    extensions: { code: 'INCORRECT_CREDENTIALS' },
                 });
             }
 
@@ -319,15 +323,14 @@ const resolvers = {
             }
         },
 
-        sendEmail: async (parent, { to, from, subject, text }) => {
-            this.addEmail({
-                subject,
-                body: text,
-                date: new Date(),
-                sales_person: from,
-                client: to,
-                received: false,
-            });
+        sendEmail: async (parent, args) => {
+            try {
+                await useEmail(args);
+                return 'Email sent successfully';
+            } catch (err) {
+                console.log(err);
+                return 'Email failed to send';
+            }
         },
     },
 };

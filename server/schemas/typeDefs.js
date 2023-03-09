@@ -120,16 +120,15 @@ const typeDefs = gql`
         ): Sms
 
         sendEmail(
-            subject: String
-            body: String
-            to: String
-            from: String
-        ): Email
+            from: String!
+            to: String!
+            subject: String!
+            text: String!
+            html: String
+            auth: AuthInput!
+        ): String!
 
-        sendSMS(
-            to: String
-            message: String
-        ): Sms
+        sendSMS(to: String, message: String): Sms
 
         replySMS(
             date: String
@@ -138,6 +137,11 @@ const typeDefs = gql`
             client: ID!
             received: Boolean!
         ): Sms
+    }
+
+    input AuthInput {
+        user: String!
+        pass: String!
     }
 `;
 

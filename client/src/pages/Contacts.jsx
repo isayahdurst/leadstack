@@ -49,7 +49,7 @@ const Contacts = () => {
                 <Flex flexGrow={1} flexDirection={'column'} gap={5}>
                     <InfoCard selectedClient={selectedClient} />
                     <Flex flexGrow={1} gap={5} overflow={'hidden'}>
-                        <EmailCard />
+                        <EmailCard selectedLead={selectedClient} />
                         <SMSCard />
                     </Flex>
                 </Flex>
