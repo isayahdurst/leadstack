@@ -1,18 +1,12 @@
 import {
-    CardFooter,
     Card,
-    CardHeader,
     CardBody,
-    Text,
-    Heading,
-    Button,
     useColorModeValue,
     List,
     ListItem
 } from '@chakra-ui/react';
 import { useQuery } from '@apollo/client';
 import { CLIENT_SMS } from '../../../utils/queries';
-import { gql } from 'graphql-tag';
 
 function RenderSMS({clientId}) {
   console.log(clientId);
@@ -34,7 +28,7 @@ function RenderSMS({clientId}) {
 
   return (
     <Card>
-        <CardBody>
+        <CardBody bg={useColorModeValue('gray.50', 'gray.800')}>
             <List>
             {data.allClientSms.map((sms) => (
                 <ListItem key={sms._id}>

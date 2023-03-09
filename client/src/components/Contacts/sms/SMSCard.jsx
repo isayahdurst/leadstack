@@ -5,8 +5,6 @@ import {
     Heading,
     Text,
     useColorModeValue,
-    List,
-    ListItem,
     useToast,
     Flex,
     Button,
@@ -20,19 +18,17 @@ import {
     ModalFooter,
     FormHelperText,
     Input,
+    HStack,
 } from '@chakra-ui/react';
 import { useMutation } from '@apollo/client'
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Auth from '@utils/auth';
 import RenderSMS from './RenderSMS';
 import { SEND_SMS } from '@utils/mutations';
 
-
-
 const SMSCard = ({selectedClientId}) => {
     const color = useColorModeValue('gray.100', 'gray.700');
-    const className = `client-card${selectedClientId ? ' active' : ''}`;
-    const btnRef = useRef();
+    
     const [isOpen, setIsOpen] = useState(false);
 
     const onClose = () => setIsOpen(false);
@@ -45,7 +41,6 @@ const SMSCard = ({selectedClientId}) => {
     // Define the mutation to send the SMS
     const [sendSMS, { loading, error }] = useMutation(SEND_SMS);
     
-
     //define function to handle sending sms
     const handleSendSMS = () => {
         sendSMS({
@@ -73,14 +68,16 @@ const SMSCard = ({selectedClientId}) => {
             flexShrink={0}
             flexBasis={'40%'}>
             <CardHeader>
-                <Heading>SMS: 
-                <Button onClick={onOpen} colorScheme={'red'} variant={'outline'}>Send SMS</Button>
-                </Heading>
+                <HStack>
+                    <Heading size={'lg'}>SMS: 
+                    <Button onClick={onOpen} colorScheme={'red'} variant={'outline'}>Send SMS</Button>
+                    </Heading>
+                </HStack>
             </CardHeader>
-            <CardBody>
-            <Flex height={'100%'} flexDirection={'column'} gap={2}>
-                <RenderSMS clientId={selectedClientId}/>
-            </Flex>
+            <CardBody overflowY={'scroll'} marginBottom={5}>
+                <Flex height={'100%'} flexDirection={'column'} gap={2}>
+                    <RenderSMS clientId={selectedClientId}/>
+                </Flex>
             </CardBody>
         </Card>
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -104,7 +101,6 @@ const SMSCard = ({selectedClientId}) => {
         </ModalContent>
         </Modal>
         </>
-        
     );
 };
 
