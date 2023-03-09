@@ -31,6 +31,7 @@ function App() {
                     
                 </Routes>
             </NavBar>
+            <Footer />
         </Router>
     );
 }

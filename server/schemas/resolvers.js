@@ -299,9 +299,17 @@ const resolvers = {
 
         addSMS: async (
             parent,
-            { body, date, sales_person, client, received }
+            { body, date, sales_person, client, received, to, from }
         ) => {
-            const sms = new Sms({ body, date, sales_person, client, received });
+            const sms = new Sms({
+                body,
+                date,
+                sales_person,
+                client,
+                received,
+                to,
+                from,
+            });
             try {
                 await sms.save();
                 return sms.populate('sales_person client');
@@ -352,6 +360,8 @@ const resolvers = {
                     from,
                     to,
                     received: false,
+                    client,
+                    sales_person,
                 });
                 await sms.save();
 
@@ -368,17 +378,13 @@ const resolvers = {
             }
         },
 
-        replySMS: async (
-            parent,
-            { body, sales_person_id, client_id },
-            { Salesperson, Client }
-        ) => {
+        replySMS: async (parent, { body, sales_person, client }) => {
             try {
                 // Find the sales person in the database
-                const salesperson = await Salesperson.findById(sales_person_id);
+                const salespersonObj = await Salesperson.findById(sales_person);
 
                 // Check if the sales person exists
-                if (!salesperson) {
+                if (!salespersonObj) {
                     return {
                         success: false,
                         message: 'Failed to send SMS: Sales person not found',
@@ -386,28 +392,34 @@ const resolvers = {
                 }
 
                 // Find the client in the database
-                const client = await Client.findById(client_id);
+                const clientObj = await Client.findById(client);
 
                 //Check if the client exists
-                if (!client) {
+                if (!clientObj) {
                     return {
                         success: false,
                         message: 'Failed to send SMS: Client not found',
                     };
                 }
-                const response = await client.messages.create({
-                    body: body,
-                    from: salesperson.phone_number,
-                    to: client.phone_number,
+
+                const from = salespersonObj.phone_number;
+                const to = clientObj.phone_number;
+
+                const response = await twilio.messages.create({
+                    body,
+                    from,
+                    to,
                 });
 
                 // Create a new Sms document and save it to the database
                 const sms = new Sms({
                     date: new Date(),
-                    body: body,
-                    from: from,
-                    to: to,
+                    body,
+                    from,
+                    to,
                     received: true,
+                    client,
+                    sales_person,
                 });
                 await sms.save();
 

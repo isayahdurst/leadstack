@@ -41,12 +41,15 @@
   color: #888;
 } */
 
-#root {
+html {
     min-height: 100vh;
 }
 
+#root {
+    min-height: 100%;
+}
+
 body {
-    max-height: 100vh;
     min-height: 100vh;
 }
 
@@ -62,4 +65,19 @@ body {
 
 .client-card.active {
     border: 0.2rem solid #c55253;
+}
+
+
+.footerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  position: sticky;
+  bottom:0;
+  align-content: center;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  background-color: #1a202c;
 }

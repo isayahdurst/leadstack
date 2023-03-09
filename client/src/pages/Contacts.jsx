@@ -54,10 +54,12 @@ const Contacts = () => {
                     </Card>
                     <Flex flexGrow={1} flexDirection={'column'} gap={5}>
                         <InfoCard selectedClient={selectedClient} />
-                        <Flex flexGrow={1} gap={5} overflow={'hidden'}>
-                            <EmailCard selectedLead={selectedClient} />
-                            <SMSCard selectedClientId={selectedClientId} />
-                        </Flex>
+                        {!!selectedClientId && (
+                            <Flex flexGrow={1} gap={5} overflow={'hidden'}>
+                                <EmailCard />
+                                <SMSCard selectedClientId={selectedClientId} />
+                            </Flex>
+                        )}
                     </Flex>
                 </Flex>
             </Flex>
