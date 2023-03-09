@@ -95,7 +95,10 @@ const SMSCard = ({selectedClientId}) => {
           </ModalBody>
           <ModalFooter>
             <Button variant='outline' mr={3} onClick={onClose}>Cancel</Button>
-            <Button onClick={handleSendSMS} disabled={loading} colorScheme={'red'} variant={'outline'}>Send</Button>
+            <Button onClick={()=> {
+              handleSendSMS();
+              onClose();
+            }} disabled={loading} colorScheme={'red'} variant={'outline'}>Send</Button>
             {error && <p>Error: {error.message}</p>}
           </ModalFooter>
         </ModalContent>
