@@ -8,6 +8,14 @@ const smsSchema = new Schema({
     body: {
         type: String,
     },
+    from: {
+        type: String,
+        required: true,
+    },
+    to: {
+        type: String,
+        required: true,
+    },
     sales_person: {
         type: Schema.Types.ObjectId,
         ref: "Salesperson",

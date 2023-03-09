@@ -18,7 +18,8 @@ import {
     ModalBody,
     FormControl,
     ModalFooter,
-    
+    FormHelperText,
+    Input,
 } from '@chakra-ui/react';
 import { useMutation } from '@apollo/client'
 import { useRef, useState } from 'react';
@@ -27,9 +28,9 @@ import SmsPreview from './smsPreview';
 import { SEND_SMS } from '@utils/mutations';
 
 
-const SMSCard = ({selected}) => {
+const SMSCard = ({selectedClientId}) => {
     const color = useColorModeValue('gray.100', 'gray.700');
-    const className = `client-card${selected ? ' active' : ''}`;
+    const className = `client-card${selectedClientId ? ' active' : ''}`;
     const btnRef = useRef();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -38,6 +39,7 @@ const SMSCard = ({selected}) => {
 
     const toast = useToast()
     const [body, setBody] = useState('')
+    const [clientPhoneNumber, setClientPhoneNumber] = useState('')
 
     // Define the mutation to send the SMS
     const [sendSMS, { loading, error }] = useMutation(SEND_SMS);
@@ -47,8 +49,9 @@ const SMSCard = ({selected}) => {
     const handleSendSMS = () => {
         sendSMS({
           variables: {
-            to: clientPhoneNumber,
-            body: smsBody,
+            client: selectedClientId,
+            salesPerson: Auth.getProfile().data._id,
+            body,
           },
         })
         .then(() => {
@@ -69,7 +72,9 @@ const SMSCard = ({selected}) => {
             flexShrink={0}
             flexBasis={'40%'}>
             <CardHeader>
-                <Heading>SMS</Heading>
+                <Heading>SMS: 
+                <Button onClick={onOpen} colorScheme={'red'} variant={'outline'}>Send SMS</Button>
+                </Heading>
             </CardHeader>
                 <CardBody>
                 <Flex height={'100%'} flexDirection={'column'} gap={2}>
@@ -83,7 +88,7 @@ const SMSCard = ({selected}) => {
                     <SmsPreview />
                     <SmsPreview />
                 </Flex>
-                <Button onClick={onOpen}>Send SMS</Button>
+                
             </CardBody>
         </Card>
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -92,18 +97,16 @@ const SMSCard = ({selected}) => {
           <ModalHeader>Compose SMS</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          {/*<Form>
             <FormControl>
                 <Text>Sales Person Phone Number: {Auth.getProfile().data.phone_number}</Text>
-                <Text>Client Phone Number: {selected.phone_number}</Text>
+                <Text>Client Phone Number: <Input value={clientPhoneNumber} onChange={(e) => setClientPhoneNumber(e.target.value)}/> </Text>
                 <FormHelperText>Enter Body of SMS</FormHelperText>
                 <Input value={body} onChange={(e) => setBody(e.target.value)} />
             </FormControl>
-            </Form>  */}
           </ModalBody>
           <ModalFooter>
             <Button variant='outline' mr={3} onClick={onClose}>Cancel</Button>
-            <Button onClick={handleSendSMS} disabled={loading}>Send Message</Button>
+            <Button onClick={handleSendSMS} disabled={loading} colorScheme={'red'} variant={'outline'}>Send</Button>
             {error && <p>Error: {error.message}</p>}
           </ModalFooter>
         </ModalContent>

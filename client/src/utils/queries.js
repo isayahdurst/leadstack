@@ -242,6 +242,8 @@ export const GET_ALL_CLIENT_SMS = gql`
         _id
         first_name
         last_name
+        phone_number
+        email
       }
     }
   }
