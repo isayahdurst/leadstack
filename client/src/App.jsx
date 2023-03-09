@@ -10,6 +10,7 @@ import Footer from 'components/Footer/Footer';
 import DrawerComp from 'components/Contacts/drawer/Drawer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import { AuthProvider } from '@contexts/AuthContext';
 
 function App() {
     return (

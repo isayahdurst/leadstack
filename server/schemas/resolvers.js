@@ -1,8 +1,10 @@
 const { Client, Salesperson, Email, Sms } = require('../models');
 const { ObjectId } = require('mongodb');
 const { signToken } = require('../utils/auth');
-const { GraphQLError } = require('graphql');
+const { GraphQLError, isLeafType } = require('graphql');
+const bcrypt = require('bcrypt');
 const path = require('path');
+const { constants } = require('perf_hooks');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 /* const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -158,8 +160,16 @@ const resolvers = {
                 const token = signToken(salesperson);
                 return { token: token, sales_person: salesperson };
             } catch (err) {
+                
+                // Check for email that's already in use.
+                console.log(err.message.includes('duplicate'));
+                if (err.message.includes('duplicate')) {
+                    throw new GraphQLError('Email already in use, please use another email.', {
+                        extensions: { code: 'NO_USER_FOUND'},
+                    });
+                }
                 console.error(err);
-                return null;
+                return err;
             }
         },
 
@@ -175,7 +185,7 @@ const resolvers = {
             const correctPw = await salesperson.isCorrectPassword(password);
 
             if (!correctPw) {
-                throw new GraphQLError('Incorrect credentials', {
+                throw new GraphQLError('Email/password combination incorrect. Please try again.', {
                     extensions: { code: 'INCORRECT_CREDENTIALS'},
                 });
             }
@@ -211,14 +221,43 @@ const resolvers = {
             // Extract the ID and fields to update from the input arguments
             const { id, ...fields } = args;
 
-            // Update the salesperson in the database
-            const updatedSalesperson = await Salesperson.findByIdAndUpdate(
-                id,
-                fields,
-                { new: true } // Return the updated document
-            );
+            let updatedSalesPerson;
 
-            return updatedSalesperson;
+            if('password' in args){
+                const saltRounds = 10;
+                const newPass = await bcrypt.hash(args.password, saltRounds);
+                fields.password = newPass;
+
+                updatedSalesperson = await Salesperson.findByIdAndUpdate(
+                    id,
+                    fields,
+                    { new: true } // Return the updated document
+                );
+    
+                
+    
+                const token = signToken(updatedSalesperson);
+                return { token: token, sales_person: updatedSalesperson };
+            } else {
+                console.log('no password');
+                // Update the salesperson in the database
+                updatedSalesperson = await Salesperson.findByIdAndUpdate(
+                    id,
+                    fields,
+                    { new: true } // Return the updated document,
+                     
+                );
+            }
+
+
+            
+            
+
+            
+
+            const token = signToken(updatedSalesperson);
+            return { token: token, sales_person: updatedSalesperson };
+
         },
 
         updateClient: async (parent, args, context) => {

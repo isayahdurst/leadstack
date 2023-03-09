@@ -11,13 +11,20 @@ import {
     TabList,
     TabPanel,
     TabPanels,
+    
 } from '@chakra-ui/react';
 
 import { PROFILE_QUERY } from './../utils/queries';
 import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
-import Login from '../components/Login/Login';
-import Signup from '../components/Signup/Signup';
+import Login from '@components/Login/Login';
+import Signup from '@components/Signup/Signup';
+import { createContext, useContext } from 'react'
+import EditProfile from '@components/EditProfile/EditProfile'
+import AuthContext from '@contexts/AuthContext';
+
+
+//export const ProfileContext = createContext(Auth.getProfile());
 
 const Profile = (props) => {
     /*const { loading, error, data } = useQuery(PROFILE_QUERY, {
@@ -35,6 +42,11 @@ const Profile = (props) => {
     const user = data.salespersonById[0];
     const initials =
         user.first_name.substring(0, 1) + user.last_name.substring(0, 1);
+    
+
+    const { profile } = useContext(AuthContext);
+
+        console.log(profile);
     */
     return (
         <Box p={6}>
@@ -53,8 +65,8 @@ const Profile = (props) => {
                                         size='lg'
                                         alt='avatar image'>
                                     </Avatar>
-                                    <VStack>
-                                        <Heading fontSize='xl' pt={4}>
+                                    <VStack align='left'>
+                                        <Heading fontSize='xl' pl={10} pt={4}>
                                             {Auth.getProfile().data.first_name} {Auth.getProfile().data.last_name}
                                         </Heading>
                                         <Text pl={10}>
@@ -64,7 +76,7 @@ const Profile = (props) => {
                                     </VStack>
                                 </HStack>
                                 <Box pt={10}>
-                                <Button>Edit profile information</Button>
+                                <EditProfile />
                                 </Box>
                             </TabPanel>
                             <TabPanel>
@@ -94,3 +106,4 @@ const Profile = (props) => {
 };
 
 export default Profile;
+
