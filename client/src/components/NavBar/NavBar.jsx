@@ -21,10 +21,10 @@ import Auth from '../../utils/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCubes } from '@fortawesome/free-solid-svg-icons';
 import { useState, useContext } from 'react';
-//import { AuthContext } from '@contexts/AuthContext';
+import { AuthContext } from '@contexts/AuthContext';
 
 const NavBar = ({ children }) => {
-    //const { loggedIn, updateAuth } = useContext(AuthContext);
+    const { loggedIn, updateAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const isDesktop = useBreakpointValue({
@@ -96,7 +96,7 @@ const NavBar = ({ children }) => {
                                     </Heading>
                                 </Link>
                                 {/* TODO: Add a search bar and ensure this menu is only visible when the user is logged in */}
-                                {Auth.loggedIn() && (
+                                {loggedIn && (
                                     <ButtonGroup
                                         variant='link'
                                         spacing='8'
@@ -133,13 +133,13 @@ const NavBar = ({ children }) => {
                                             )
                                         }
                                     />
-                                    {Auth.loggedIn() ? (
+                                    {loggedIn ? (
                                         <>
                                             <Button
                                                 colorScheme='red'
                                                 onClick={(event) => {
                                                     logout(event);
-                                                    Auth.loggedIn();
+                                                    updateAuth(Auth.loggedIn());
 
                                                     navToHome();
                                                 }}>
@@ -148,7 +148,7 @@ const NavBar = ({ children }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <Login loggedIn={Auth.loggedIn()} />
+                                            <Login loggedIn={loggedIn} />
                                             <Signup />
                                         </>
                                     )}

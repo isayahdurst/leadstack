@@ -1,47 +1,19 @@
-import { createContext, useState } from 'react';
+
+import React, { createContext, useState } from 'react';
 import Auth from '@utils/auth';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-export function AuthProvider( { children }) {
+export const AuthProvider = ({ children }) => {
+    const [loggedIn, setLoggedIn] = useState(Auth.loggedIn());
 
-    const [profile, setProfile] = useState({});
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [token, setToken] = useState('');
-
-   
-
-    const updateProfile = (authData) => {
-        const { first_name, last_name, phone_number, email, password } = authData;
-        
-        setProfile(
-            {...profile,
-                first_name,
-                last_name,
-                phone_number,
-                email,
-                password
-            }
-        )
-    }
-
-    const updateLogin = (loggedIn) => {
-        setLoggedIn(loggedIn);
+    const updateAuth = (state) => {
+        setLoggedIn(state);
     };
 
-    const updateToken = (token) => {
-        setToken(token);
-    };
-
-    const updateData = (data) => {
-        setProfile(Auth.getProfile());
-    }
-
-    return(
-        <AuthContext.Provider value={{profile, updateProfile, updateLogin, updateToken}}>
+    return (
+        <AuthContext.Provider value={{ loggedIn, updateAuth }}>
             {children}
         </AuthContext.Provider>
     );
-}
-
-export default AuthContext;
+};
