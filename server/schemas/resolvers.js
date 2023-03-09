@@ -296,9 +296,9 @@ const resolvers = {
 
         addSMS: async (
             parent,
-            { body, date, sales_person, client, received }
+            { body, date, sales_person, client, received, to, from }
         ) => {
-            const sms = new Sms({ body, date, sales_person, client, received });
+            const sms = new Sms({ body, date, sales_person, client, received, to, from });
             try {
                 await sms.save();
                 return sms.populate('sales_person client');

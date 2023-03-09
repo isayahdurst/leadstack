@@ -1,26 +1,42 @@
-import { ButtonGroup, Container, IconButton, Stack, Text } from '@chakra-ui/react'
+import { 
+    ButtonGroup, 
+    Container, 
+    IconButton, 
+    Stack, 
+    Text, 
+    Button, 
+    HStack,
+    Link
+} from '@chakra-ui/react'
 
 const Landing = () => {
     return (
-        <Container
-        as="footer"
-        role="contentinfo"
-        py={{ base: '12', md: '16' }}
-        maxW='100%'
-        style={{ borderTop:'1px solid black'}}
-    >
-        <Stack spacing={{ base: '4', md: '5' }}>
-            <Stack justify="space-between" direction="row" align="center">
+        <div className='footerContainer'>
+            
                 {/* <Logo /> */}
-                <ButtonGroup variant="ghost">
-               
-                </ButtonGroup>
-            </Stack>
-            <Text fontSize="sm" color="subtle">
-                &copy; {new Date().getFullYear()} Chakra UI Pro, Inc. All rights reserved.
-            </Text>
-        </Stack>
-    </Container>
+                    <HStack pr='20px' spacing='0px'>
+                        <Text fontSize="lg" fontWeight='bold' color='subtle'>
+                            Lead
+                        </Text>
+                        <Text fontSize="lg" color='red' fontWeight='bold'>
+                            Stack
+                        </Text>
+                    </HStack>
+                
+                
+                    <Link style={{ textDecoration: 'none' }} target="_blank" rel="noreferrer noopener" href='https://github.com/lunchtimewhee'><Button variant="ghost" size='sm' >Anthony Li</Button></Link>
+
+                    <Link style={{ textDecoration: 'none' }} target="_blank" rel="noreferrer noopener" href='https://github.com/elangworth'><Button variant="ghost" size='sm' >Emily Langworth</Button></Link>
+
+                    <Link style={{ textDecoration: 'none' }} target="_blank" rel="noreferrer noopener" href='https://github.com/frankmng'><Button variant="ghost" size='sm' >Frank Nguyen</Button></Link>
+
+                    <Link style={{ textDecoration: 'none' }} target="_blank" rel="noreferrer noopener" href='https://github.com/isayahdurst'><Button variant="ghost" size='sm' >Isayah Durst</Button></Link>
+
+                    <Link style={{ textDecoration: 'none' }} target="_blank" rel="noreferrer noopener" href='https://github.com/OlgaGav'><Button variant="ghost" size='sm' >Olga Gavrushenko</Button></Link>
+                
+            
+            
+    </div>
     
     )
 }
