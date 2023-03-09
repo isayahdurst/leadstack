@@ -24,8 +24,9 @@ import {
 import { useMutation } from '@apollo/client'
 import { useRef, useState } from 'react';
 import Auth from '@utils/auth';
-import SmsPreview from './smsPreview';
+import RenderSMS from './RenderSMS';
 import { SEND_SMS } from '@utils/mutations';
+
 
 
 const SMSCard = ({selectedClientId}) => {
@@ -76,19 +77,10 @@ const SMSCard = ({selectedClientId}) => {
                 <Button onClick={onOpen} colorScheme={'red'} variant={'outline'}>Send SMS</Button>
                 </Heading>
             </CardHeader>
-                <CardBody>
-                <Flex height={'100%'} flexDirection={'column'} gap={2}>
-                    <List>
-                        {/*<ListItem key={sms.id} onClick={() => setSelectedSMS(sms)}>
-                            {sms.message}
-                        </ListItem>*/}
-                    </List>
-                    <SmsPreview />
-                    <SmsPreview />
-                    <SmsPreview />
-                    <SmsPreview />
-                </Flex>
-                
+            <CardBody>
+            <Flex height={'100%'} flexDirection={'column'} gap={2}>
+                <RenderSMS clientId={selectedClientId}/>
+            </Flex>
             </CardBody>
         </Card>
         <Modal isOpen={isOpen} onClose={onClose}>
