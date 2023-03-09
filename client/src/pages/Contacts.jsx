@@ -27,7 +27,6 @@ const Contacts = () => {
         setSelectedClientId(clientId);
         setSelectedClient(client);
     };
-
     const color = useColorModeValue('gray.100', 'gray.700');
     return (
         <LeadProvider>
