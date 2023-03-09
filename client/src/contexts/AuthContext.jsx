@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(Auth.loggedIn());
-    const [profileData, setProfileData] = useState(Auth.getProfile());
+    const [profileData, setProfileData] = useState(Auth.getProfile().data);
 
     const updateAuth = (state) => {
         setLoggedIn(state);
