@@ -18,6 +18,7 @@ const EmailEditor = ({ setShowEditor }) => {
 
     const [sendEmail] = useMutation(SEND_EMAIL);
     const [loading, setLoading] = useState(false);
+    const [subject, setSubject] = useState('Enter Subject Here');
     const toast = useToast();
 
     const onSubmitHandler = async () => {
@@ -27,7 +28,7 @@ const EmailEditor = ({ setShowEditor }) => {
                 variables: {
                     from: 'leadstackucb@gmail.com',
                     to: 'durstisayah@gmail.com',
-                    subject: 'Hello from LeadStack!',
+                    subject: subject,
                     text: editorRef.current.getContent({ format: 'text' }),
                     html: editorRef.current.getContent(),
                     auth: {
@@ -73,9 +74,14 @@ const EmailEditor = ({ setShowEditor }) => {
                 <Editable
                     isPreviewFocusable={true}
                     selectAllOnFocus={true}
-                    defaultValue={'Enter Subject'}>
+                    defaultValue={subject}>
                     <EditablePreview />
-                    <Input p={2} as={EditableInput} />
+                    <Input
+                        p={2}
+                        as={EditableInput}
+                        onChange={(e) => setSubject(e.target.value)}
+                        value={subject}
+                    />
                 </Editable>
             </FormControl>
             <Editor
