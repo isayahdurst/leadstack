@@ -76,33 +76,36 @@ export const ADD_CLIENT = gql`
 
 export const UPDATE_SALESPERSON = gql`
     mutation UpdateSalesperson(
-        $salespersonId: ID!
-        $firstName: String
-        $lastName: String
-        $phoneNumber: String
+        $salesperson_id: ID!
+        $first_name: String
+        $last_name: String
+        $phone_number: String
         $email: String
         $password: String
-        $googlePassword: String
-        $googleEmail: String
+        $google_password: String
+        $google_email: String
     ) {
         updateSalesperson(
-            id: $salespersonId
-            first_name: $firstName
-            last_name: $lastName
-            phone_number: $phoneNumber
+            id: $salesperson_id
+            first_name: $first_name
+            last_name: $last_name
+            phone_number: $phone_number
             email: $email
             password: $password
-            google_password: $googlePassword
-            google_email: $googleEmail
+            google_password: $google_password
+            google_email: $google_email
         ) {
-            _id
-            email
-            first_name
-            last_name
-            phone_number
-            password
-            google_password
-            google_email
+            token
+            sales_person {
+                _id
+                email
+                first_name
+                last_name
+                phone_number
+                password
+                google_password
+                google_email
+            }
         }
     }
 `;
@@ -197,43 +200,6 @@ export const SEND_EMAIL = gql`
             html: $html
             auth: $auth
         )
-    }
-`;
-
-export const ADD_SMS = gql`
-    mutation AddSms(
-        $body: String
-        $date: String!
-        $received: Boolean!
-        $salesPerson: ID!
-        $client: ID!
-    ) {
-        addSms(
-            body: $body
-            date: $date
-            received: $received
-            sales_person: $salesPerson
-            client: $client
-        ) {
-            _id
-            body
-            date
-            received
-            client {
-                _id
-                email
-                first_name
-                last_name
-                phone_number
-            }
-            sales_person {
-                _id
-                email
-                first_name
-                last_name
-                phone_number
-            }
-        }
     }
 `;
 

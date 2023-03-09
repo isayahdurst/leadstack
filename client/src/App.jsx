@@ -12,6 +12,7 @@ import { useContext, useEffect } from 'react';
 import DrawerComp from 'components/Contacts/drawer/Drawer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import { AuthProvider } from '@contexts/AuthContext';
 
 function App() {
     const { loggedIn } = useContext(AuthContext);
@@ -27,6 +28,7 @@ function App() {
 
                     {loggedIn && <Route path='/' element={<Dashboard />} />}
                     {!loggedIn && <Route path='/' element={<Landing />} />}
+                    
                 </Routes>
             </NavBar>
         </Router>

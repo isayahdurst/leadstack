@@ -50,7 +50,7 @@ const Contacts = () => {
                     <InfoCard selectedClient={selectedClient} />
                     <Flex flexGrow={1} gap={5} overflow={'hidden'}>
                         <EmailCard selectedLead={selectedClient} />
-                        <SMSCard />
+                        <SMSCard selectedClientId={selectedClientId} />
                     </Flex>
                 </Flex>
             </Flex>
