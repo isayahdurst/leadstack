@@ -19,35 +19,19 @@ import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
 import Login from '@components/Login/Login';
 import Signup from '@components/Signup/Signup';
-import { createContext, useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import EditProfile from '@components/EditProfile/EditProfile'
-//import AuthContext from '@contexts/AuthContext';
+import {AuthContext} from '@contexts/AuthContext';
 
 
-//export const ProfileContext = createContext(Auth.getProfile());
+
+
+
 
 const Profile = (props) => {
-    /*const { loading, error, data } = useQuery(PROFILE_QUERY, {
-        variables: { id: props.id },
-    });
-
-    if (loading) return <p>Loading...</p>;
-    if (error) {
-        console.log(error.message);
-        return <p>Error :(</p>;
-    }
-    if (!data || !data.salespersonById || data.salespersonById.length === 0)
-        return <p>No user found</p>;
-
-    const user = data.salespersonById[0];
-    const initials =
-        user.first_name.substring(0, 1) + user.last_name.substring(0, 1);
     
+    const { updateProfileData, profileData} = useContext(AuthContext);
 
-    const { profile } = useContext(AuthContext);
-
-        console.log(profile);
-    */
     return (
         <Box p={6}>
             {Auth.loggedIn() ? (
@@ -67,12 +51,12 @@ const Profile = (props) => {
                                     </Avatar>
                                     <VStack align='left'>
                                         <Heading fontSize='xl' pl={10} pt={4}>
-                                            {Auth.getProfile().data.first_name} {Auth.getProfile().data.last_name}
+                                            {profileData.first_name} {profileData.last_name}
                                         </Heading>
                                         <Text pl={10}>
-                                            Phone number: {Auth.getProfile().data.phone_number}
+                                            Phone number: {profileData.phone_number}
                                         </Text>
-                                        <Text pl={10}>Email: {Auth.getProfile().data.email}</Text>
+                                        <Text pl={10}>Email: {profileData.email}</Text>
                                     </VStack>
                                 </HStack>
                                 <Box pt={10}>
