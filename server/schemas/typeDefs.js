@@ -122,6 +122,8 @@ const typeDefs = gql`
             sales_person: ID!
             client: ID!
             received: Boolean!
+            to: String
+            from: String
         ): Sms
 
         sendEmail(

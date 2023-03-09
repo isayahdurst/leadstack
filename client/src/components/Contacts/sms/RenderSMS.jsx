@@ -1,20 +1,15 @@
 import {
-    CardFooter,
     Card,
-    CardHeader,
     CardBody,
-    Text,
-    Heading,
-    Button,
     useColorModeValue,
     List,
+    ListItem
 } from '@chakra-ui/react';
 import { useQuery } from '@apollo/client';
 import { CLIENT_SMS } from '../../../utils/queries';
-import { gql } from 'graphql-tag';
 
-function renderSMS(props) {
-  const { clientId } = props;
+function RenderSMS({clientId}) {
+  console.log(clientId);
   const { loading, error, data } = useQuery(CLIENT_SMS, {
     variables: { clientId },
   });
@@ -33,15 +28,12 @@ function renderSMS(props) {
 
   return (
     <Card>
-        <CardBody>
+        <CardBody bg={useColorModeValue('gray.50', 'gray.800')}>
             <List>
             {data.allClientSms.map((sms) => (
                 <ListItem key={sms._id}>
-                <p>{sms.message}</p>
-                <p>
-                    Sent by {sms.sales_person.first_name} {sms.sales_person.last_name}{' '}
-                    on {new Date(sms.sent_at).toLocaleDateString()}
-                </p>
+                <p>{sms.body}</p>
+                <p>on: {new Date(Number(sms.date)).toLocaleDateString()}</p>
                 </ListItem>
             ))}
             </List>
@@ -50,4 +42,4 @@ function renderSMS(props) {
   );
 }
 
-export default renderSMS;
+export default RenderSMS;
