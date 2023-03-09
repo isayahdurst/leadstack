@@ -1,5 +1,5 @@
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext, useEffect } from 'react';
 import {
     Button,
     useToast,
@@ -10,24 +10,37 @@ import {
     FormLabel,
     Input,
 } from '@chakra-ui/react';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { SEND_EMAIL } from '@utils/mutations';
+import { LeadContext } from '@contexts/LeadContext';
+import { PROFILE_QUERY } from '@utils/queries';
+import Auth from '@utils/auth';
 
 const EmailEditor = ({ setShowEditor }) => {
+    const { lead } = useContext(LeadContext);
     const editorRef = useRef(null);
 
     const [sendEmail] = useMutation(SEND_EMAIL);
-    const [loading, setLoading] = useState(false);
-    const [subject, setSubject] = useState('Enter Subject Here');
+    const [sending, setSending] = useState(false);
+    const [subject, setSubject] = useState('');
+    const [email, setEmail] = useState('');
+    const salesID = Auth.getProfile().data._id;
+
+    useEffect(() => {
+        if (lead.email) {
+            setEmail(lead.email);
+        }
+    }, [lead]);
+
     const toast = useToast();
 
     const onSubmitHandler = async () => {
-        setLoading(true);
+        setSending(true);
         try {
             const data = await sendEmail({
                 variables: {
                     from: 'leadstackucb@gmail.com',
-                    to: 'durstisayah@gmail.com',
+                    to: email,
                     subject: subject,
                     text: editorRef.current.getContent({ format: 'text' }),
                     html: editorRef.current.getContent(),
@@ -56,33 +69,35 @@ const EmailEditor = ({ setShowEditor }) => {
                 position: 'bottom-left',
             });
         }
-        setLoading(false);
+        setSending(false);
     };
+
+    // Get sales profile data
+
+    const { loading, error, data } = useQuery(PROFILE_QUERY, {
+        variables: { id: salesID },
+    });
+    console.log(salesID);
+    console.log(data);
 
     return (
         <>
             <FormControl id='email'>
                 <FormLabel>To:</FormLabel>
-                <Editable defaultValue='durstisayah@gmail.com'>
-                    <EditablePreview />
-                    <Input p={2} as={EditableInput} />
-                </Editable>
+                <Input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
             </FormControl>
 
             <FormControl id='subject'>
                 <FormLabel>Subject:</FormLabel>
-                <Editable
-                    isPreviewFocusable={true}
-                    selectAllOnFocus={true}
-                    defaultValue={subject}>
-                    <EditablePreview />
-                    <Input
-                        p={2}
-                        as={EditableInput}
-                        onChange={(e) => setSubject(e.target.value)}
-                        value={subject}
-                    />
-                </Editable>
+                <Input
+                    p={2}
+                    onChange={(e) => setSubject(e.target.value)}
+                    value={subject}
+                    placeholder='Enter subject here'
+                />
             </FormControl>
             <Editor
                 onInit={(evt, editor) => (editorRef.current = editor)}
@@ -92,7 +107,7 @@ const EmailEditor = ({ setShowEditor }) => {
             <Button
                 colorScheme={'green'}
                 onClick={onSubmitHandler}
-                isLoading={loading}>
+                isLoading={sending}>
                 Send
             </Button>
             <Button colorScheme={'red'} onClick={() => setShowEditor(false)}>

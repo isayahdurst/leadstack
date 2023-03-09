@@ -1,18 +1,18 @@
 import React, { createContext, useState } from 'react';
-import Auth from '@utils/auth';
 
-export const AuthContext = createContext();
+export const LeadContext = createContext();
 
 export const LeadProvider = ({ children }) => {
-    const [lead, setLead] = useState(null);
+    const [lead, setLead] = useState({});
 
     const updateLead = (state) => {
-        setLead(lead);
+        console.log(`LeadContext.jsx: updateLead: state: ${state}`);
+        setLead({ ...state });
     };
 
     return (
-        <AuthContext.Provider value={{ lead, setLead }}>
+        <LeadContext.Provider value={{ lead, updateLead }}>
             {children}
-        </AuthContext.Provider>
+        </LeadContext.Provider>
     );
 };

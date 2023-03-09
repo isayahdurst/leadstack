@@ -43,6 +43,7 @@ const resolvers = {
             const user = await Salesperson.find({
                 _id: args.id,
             });
+            console.log(user);
             //return user;
             return user ? user._id : null;
         },
