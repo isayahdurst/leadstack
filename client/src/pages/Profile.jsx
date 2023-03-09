@@ -21,7 +21,7 @@ import Login from '@components/Login/Login';
 import Signup from '@components/Signup/Signup';
 import { createContext, useContext } from 'react'
 import EditProfile from '@components/EditProfile/EditProfile'
-import AuthContext from '@contexts/AuthContext';
+//import AuthContext from '@contexts/AuthContext';
 
 
 //export const ProfileContext = createContext(Auth.getProfile());
