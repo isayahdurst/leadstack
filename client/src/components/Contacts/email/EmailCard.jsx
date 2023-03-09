@@ -23,6 +23,7 @@ const EmailCard = ({ selectedLead }) => {
 
     const [sendEmail] = useMutation(SEND_EMAIL);
     const [loading, setLoading] = useState(false);
+    const [showEditor, setShowEditor] = useState(false);
 
     const handleSendEmail = async () => {
         setLoading(true);
@@ -56,18 +57,21 @@ const EmailCard = ({ selectedLead }) => {
             </CardHeader>
             <CardBody overflowY={'scroll'} marginBottom={5}>
                 <Flex height={'100%'} flexDirection={'column'} gap={2}>
-                    {/* <EmailPreview />
-                    <EmailPreview />
-                    <EmailPreview />
-                    <EmailPreview /> */}
+                    {!showEditor && <EmailPreview />}
 
-                    <EmailEditor />
+                    {showEditor && (
+                        <EmailEditor setShowEditor={setShowEditor} />
+                    )}
                 </Flex>
             </CardBody>
             <CardFooter>
-                <Button onClick={handleSendEmail} isLoading={loading}>
-                    New Email
-                </Button>
+                {!showEditor && (
+                    <Button
+                        onClick={() => setShowEditor(!showEditor)}
+                        isLoading={loading}>
+                        New Email
+                    </Button>
+                )}
             </CardFooter>
         </Card>
     );

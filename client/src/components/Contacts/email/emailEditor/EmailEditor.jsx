@@ -13,7 +13,7 @@ import {
 import { useMutation } from '@apollo/client';
 import { SEND_EMAIL } from '@utils/mutations';
 
-const EmailEditor = () => {
+const EmailEditor = ({ setShowEditor }) => {
     const editorRef = useRef(null);
 
     const [sendEmail] = useMutation(SEND_EMAIL);
@@ -83,10 +83,15 @@ const EmailEditor = () => {
                 init={{ height: 500 }}
                 apiKey={'fjsg14k79ghooz3jwbx4w135tv28rcx0uxw0r0nizqsqspmz'}
             />
-            <Button onClick={onSubmitHandler} isLoading={loading}>
+            <Button
+                colorScheme={'green'}
+                onClick={onSubmitHandler}
+                isLoading={loading}>
                 Send
             </Button>
-            <Button>Cancel</Button>
+            <Button colorScheme={'red'} onClick={() => setShowEditor(false)}>
+                Cancel
+            </Button>
         </>
     );
 };
