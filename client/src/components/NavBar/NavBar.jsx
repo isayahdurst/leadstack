@@ -57,7 +57,7 @@ const NavBar = ({ children }) => {
         Contacts: '/contacts',
         Profile: '/profile',
         Conversations: '/conversations',
-        Support: '/support',
+        // Support: '/support',
     };
 
     return (
@@ -114,7 +114,7 @@ const NavBar = ({ children }) => {
                                             'Dashboard',
                                             'Contacts',
                                             'Conversations',
-                                            'Support',
+                                            // 'Support',
                                             'Profile',
                                         ].map((item) => (
                                             <Link key={item} to={links[item]}>

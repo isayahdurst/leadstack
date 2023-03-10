@@ -14,6 +14,8 @@ function RenderSMS({clientId}) {
     variables: { clientId },
   });
 
+  const bgColor = useColorModeValue('gray.50', 'gray.800');
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -28,7 +30,7 @@ function RenderSMS({clientId}) {
 
   return (
     <Card>
-        <CardBody bg={useColorModeValue('gray.50', 'gray.800')}>
+        <CardBody bg={bgColor}>
             <List>
             {data.allClientSms.map((sms) => (
                 <ListItem key={sms._id}>

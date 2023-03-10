@@ -17,6 +17,14 @@ import React, { useState } from 'react';
 import { SALESPERSON_EMAILS } from '../../../utils/queries';
 import formatDate from '../../../utils/dateFormat';
 
+const breakpoints = {
+    sm: '30em',
+    md: '48em',
+    lg: '62em',
+    xl: '80em',
+    '2xl': '96em',
+  }
+
 const ClientsEmail = ({ salespersonId }) => {
     const { loading, error, data } = useQuery(SALESPERSON_EMAILS, {
         variables: { salespersonId: salespersonId },
@@ -41,7 +49,7 @@ const ClientsEmail = ({ salespersonId }) => {
             <Card mt={10} mb={5}>
                 <CardBody>
                     <Box>
-                        <Table variant='simple' style={{ width: '800px' }}>
+                        <Table variant='simple'/* style={{ width: '800px' }}*/>
                             <Thead>
                                 <Tr>
                                     <Th>Client</Th>

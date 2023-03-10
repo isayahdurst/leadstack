@@ -1,12 +1,14 @@
 import {
     Wrap,
     WrapItem,
-    Center
+    Center,
+    Box,
+    Flex
 } from '@chakra-ui/react';
 import React from 'react';
 import ClientsModule from '@components/Dashboard/Clients/ClientsModule';
 import ClientsEmail from '@components/Dashboard/Clients/ClientsEmail';
-import ClientsSms from '@components/Dashboard/Clients/ClientsSms';
+import ClientsSMS from '@components/Dashboard/Clients/ClientsSMS';
 import { useQuery, useMutation } from '@apollo/client';
 import { CLIENTS_BY_SALESPERSON } from '@utils/queries';
 
@@ -23,15 +25,14 @@ const Dashboard = () => {
     const clients = data?.clientsBySalesperson || [];
 
 return (
-      <Wrap spacing='30px' justify='center'>
-        <WrapItem>
+    <Flex spacing='30px' justify='center' wrap='wrap' gap='2' >
+        <Box w={[300, 400, 500]} h='350px'>
             <ClientsModule />
-        </WrapItem>
-        <WrapItem >
+        </Box>
+        <Box>
             <ClientsEmail salespersonId= {profileId} />
-        </WrapItem>
-       
-      </Wrap>
+        </Box>
+    </Flex>
     );
   };
 export default Dashboard;

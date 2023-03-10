@@ -57,7 +57,7 @@ const EmailCard = ({ selectedLead }) => {
                     {!clientEmails.length && 'No emails to this client'}
                     {!showEditor &&
                         clientEmails.map((email) => (
-                            <EmailPreview {...email} />
+                            <EmailPreview key={email._id} {...email} />
                         ))}
 
                     {showEditor && (
@@ -69,6 +69,8 @@ const EmailCard = ({ selectedLead }) => {
                 {!showEditor && (
                     <Button
                         onClick={() => setShowEditor(!showEditor)}
+                        colorScheme={'red'} 
+                        variant={'outline'}
                         isLoading={loading}>
                         New Email
                     </Button>

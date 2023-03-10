@@ -211,128 +211,130 @@ return (
             </Modal>
         </Flex>
 
-        <TableContainer >
-            <Table variant='simple'>
-                <Thead>
-                    <Tr>
-                        <Th>Client</Th>
-                        <Th>Email</Th>
-                        <Th>Phone</Th>
-                        <Th>Status</Th>
-                        <Th>Details</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {displayedClients.map((client) => (
-                        <Tr
-                            key={client._id}
-                            style={{ fontSize: '16px' }}
-                        >
-                            <Td>
-                                <HStack>
-                                    <Avatar
-                                        name={
-                                            client.first_name + ' ' + client.last_name
-                                        }
-                                        size='sm'
-                                        bg={colors[getColorIndex(client.first_name)]}
-                                        color='white'
-                                    />
-                                    <Text>
-                                        {client.first_name} {client.last_name}
-                                    </Text>
-                                </HStack>
-                            </Td>
-                            <Td>{client.email}</Td>
-                            <Td>{client.phone_number}</Td>
-                            <Td>
-                            <Tag 
-                            variant='solid'
-                            style={{
-                                fontSize: '0.85rem',
-                                fontWeight: '600',
-                                color: client.status === 'Inactive' ? '#e78b2f' : '#75CC68',
-                                backgroundColor: client.status === 'Inactive' ? '#FCF2E8' : '#EEFBEC',
-                            }}>
-                            {client.status}
-                        </Tag>
-                            </Td>
-                            <Td>
-                                <Popover>
-                                    <PopoverTrigger>
-                                        <Button
-                                            style={{
-                                                color: '#7E8299',
-                                                padding: '10px 40px',
-                                            }}>
-                                            View
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent
-                                        style={{ width: '125px' }}>
-                                        <PopoverArrow />
-                                        <PopoverHeader>
-                                        <span
-                                            style={{ cursor: 'pointer'}}
-                                            mb={4}
-                                            onClick={() => {
-                                                setSelectedClient(client);
-                                                setFormState({
-                                                    firstName: client.first_name,
-                                                    lastName: client.last_name,
-                                                    phoneNumber: client.phone_number,
-                                                    email: client.email,
-                                                    status: client.status,
-                                                });
-                                                onOpen();
-                                            }}>
-                                            Edit
-                                        </span><br></br>
-                                        <span
-                                            style={{ cursor: 'pointer' }}>
-                                            Delete
-                                        </span>
-                                        </PopoverHeader>
-                                    </PopoverContent>
-                                </Popover>
-                            </Td>
+        <Flex justify='space-between' wrap='wrap' gap='2'>
+            <TableContainer >
+                <Table variant='simple'>
+                    <Thead>
+                        <Tr>
+                            <Th>Client</Th>
+                            <Th>Email</Th>
+                            <Th>Phone</Th>
+                            <Th>Status</Th>
+                            <Th>Details</Th>
                         </Tr>
-                    ))}
-                </Tbody>
-            </Table>
-            <div style={{ position: 'relative', bottom: '0' }}>
-                {totalPages > 1 && (
-                    <Flex
-                        justify='left'
-                        alignItems='center'
-                        mt={8}
-                        style={{ marginBottom: '50px' }}>
-                        <ButtonGroup>
-                            <Button
-                                isDisabled={currentPage === 1}
-                                onClick={() => handlePageChange(currentPage - 1)}>
-                                Previous
-                            </Button>
-                        {Array.from({ length: totalPages }, (_, i) => (
-                            <Button
-                                key={i}
-                                variant={
-                                    currentPage === i + 1 ? 'solid' : 'outline'
-                                }
-                                onClick={() => handlePageChange(i + 1)}>
-                                {i + 1}
-                            </Button>
-                        ))}
-                            <Button
-                                isDisabled={currentPage === totalPages}
-                                onClick={() => handlePageChange(currentPage + 1)}>
-                                Next
-                            </Button>
-                        </ButtonGroup>
-                    </Flex>
-                )}
-            </div>
-        </TableContainer>
+                    </Thead>
+                        <Tbody>
+                            {displayedClients.map((client) => (
+                                <Tr
+                                    key={client._id}
+                                    style={{ fontSize: '16px' }}
+                                >
+                                    <Td>
+                                        <HStack>
+                                            <Avatar
+                                                name={
+                                                    client.first_name + ' ' + client.last_name
+                                                }
+                                                size='sm'
+                                                bg={colors[getColorIndex(client.first_name)]}
+                                                color='white'
+                                            />
+                                            <Text>
+                                                {client.first_name} {client.last_name}
+                                            </Text>
+                                        </HStack>
+                                    </Td>
+                                    <Td>{client.email}</Td>
+                                    <Td>{client.phone_number}</Td>
+                                    <Td>
+                                    <Tag 
+                                    variant='solid'
+                                    style={{
+                                        fontSize: '0.85rem',
+                                        fontWeight: '600',
+                                        color: client.status === 'Inactive' ? '#e78b2f' : '#75CC68',
+                                        backgroundColor: client.status === 'Inactive' ? '#FCF2E8' : '#EEFBEC',
+                                    }}>
+                                    {client.status}
+                                </Tag>
+                                    </Td>
+                                    <Td>
+                                        <Popover>
+                                            <PopoverTrigger>
+                                                <Button
+                                                    style={{
+                                                        color: '#7E8299',
+                                                        padding: '10px 40px',
+                                                    }}>
+                                                    View
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent
+                                                style={{ width: '125px' }}>
+                                                <PopoverArrow />
+                                                <PopoverHeader>
+                                                <span
+                                                    style={{ cursor: 'pointer'}}
+                                                    mb={4}
+                                                    onClick={() => {
+                                                        setSelectedClient(client);
+                                                        setFormState({
+                                                            firstName: client.first_name,
+                                                            lastName: client.last_name,
+                                                            phoneNumber: client.phone_number,
+                                                            email: client.email,
+                                                            status: client.status,
+                                                        });
+                                                        onOpen();
+                                                    }}>
+                                                    Edit
+                                                </span><br></br>
+                                                <span
+                                                    style={{ cursor: 'pointer' }}>
+                                                    Delete
+                                                </span>
+                                                </PopoverHeader>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </Td>
+                                </Tr>
+                            ))}
+                        </Tbody>
+                </Table>
+                <div style={{ position: 'relative', bottom: '0' }}>
+                    {totalPages > 1 && (
+                        <Flex
+                            justify='left'
+                            alignItems='center'
+                            mt={8}
+                            style={{ marginBottom: '50px' }}>
+                            <ButtonGroup>
+                                <Button
+                                    isDisabled={currentPage === 1}
+                                    onClick={() => handlePageChange(currentPage - 1)}>
+                                    Previous
+                                </Button>
+                            {Array.from({ length: totalPages }, (_, i) => (
+                                <Button
+                                    key={i}
+                                    variant={
+                                        currentPage === i + 1 ? 'solid' : 'outline'
+                                    }
+                                    onClick={() => handlePageChange(i + 1)}>
+                                    {i + 1}
+                                </Button>
+                            ))}
+                                <Button
+                                    isDisabled={currentPage === totalPages}
+                                    onClick={() => handlePageChange(currentPage + 1)}>
+                                    Next
+                                </Button>
+                            </ButtonGroup>
+                        </Flex>
+                    )}
+                </div>
+            </TableContainer>
+        </Flex>
         {selectedClient && (
             <ClientDetails
                 client={selectedClient}
