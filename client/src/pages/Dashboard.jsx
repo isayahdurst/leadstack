@@ -25,7 +25,7 @@ const Dashboard = () => {
     const clients = data?.clientsBySalesperson || [];
 
 return (
-    <Flex spacing='30px' justify='space-between' wrap='wrap' gap='2' m='50px'>
+    <Flex spacing='30px' justify='center' wrap='wrap' gap='2' >
         <Box w={[300, 400, 500]} h='350px'>
             <ClientsModule />
         </Box>
