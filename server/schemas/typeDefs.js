@@ -135,9 +135,17 @@ const typeDefs = gql`
             auth: AuthInput!
         ): String!
 
-        sendSMS(body: String!, sales_person: ID!, client: ID!): SendSMSResponse
+        sendSMS(
+            body: String!
+            sales_person: ID!
+            client: ID!
+        ): SendSMSResponse
 
-        replySMS(body: String!, sales_person: ID!, client: ID!): Sms
+        replySMS(
+            body: String!
+            sales_person: ID!
+            client: ID!
+        ): Sms
     }
 
     input AuthInput {
