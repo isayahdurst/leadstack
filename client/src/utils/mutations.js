@@ -201,10 +201,18 @@ export const SEND_EMAIL = gql`
 `;
 
 export const SEND_SMS = gql`
-    mutation SendSms($clientPhone: String!, $smsBody: String!) {
-        sendSms(clientPhone: $clientPhone, smsBody: $smsBody) {
-            id
-            smsBody
+    mutation SendSMS(
+        $body: String!
+        $salesPerson: ID!
+        $client: ID!
+    ) {
+        sendSMS(
+            body: $body
+            sales_person: $salesPerson
+            client: $client
+        ) {
+            success
+            error
         }
     }
 `;

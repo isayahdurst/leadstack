@@ -319,7 +319,10 @@ const resolvers = {
             }
         },
 
-        sendSMS: async (parent, { body, sales_person, client }) => {
+        sendSMS: async (
+            parent,
+            { body, sales_person, client}
+        ) => {
             try {
                 // Find the sales person in the database
                 const salespersonObj = await Salesperson.findById(sales_person);
