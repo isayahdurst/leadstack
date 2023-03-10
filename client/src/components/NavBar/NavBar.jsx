@@ -63,9 +63,10 @@ const NavBar = ({ children }) => {
     return (
         <Box
             as='section'
-            pb={{ base: '12', md: '24' }}
-            minHeight={'100vh'}
-            maxHeight={'100vh'}>
+            //pb={{ base: '12', md: '24' }}
+            //minHeight={'100vh'}
+            maxHeight={'100vh'}
+            className={'pageContainer'}>
             <Box
                 as='nav'
                 bg='bg-surface'
