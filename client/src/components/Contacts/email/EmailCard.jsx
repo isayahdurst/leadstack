@@ -57,7 +57,7 @@ const EmailCard = ({ selectedLead }) => {
                     {!clientEmails.length && 'No emails to this client'}
                     {!showEditor &&
                         clientEmails.map((email) => (
-                            <EmailPreview {...email} />
+                            <EmailPreview key={email._id} {...email} />
                         ))}
 
                     {showEditor && (

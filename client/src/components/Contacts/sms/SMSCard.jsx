@@ -25,6 +25,7 @@ import { useState } from 'react';
 import Auth from '@utils/auth';
 import RenderSMS from './RenderSMS';
 import { SEND_SMS } from '@utils/mutations';
+import { CLIENT_SMS } from '@utils/queries';
 
 const SMSCard = ({selectedClientId}) => {
     const color = useColorModeValue('gray.100', 'gray.700');
@@ -49,6 +50,11 @@ const SMSCard = ({selectedClientId}) => {
             salesPerson: Auth.getProfile().data._id,
             body,
           },
+          refetchQueries: [
+            {query: CLIENT_SMS, variables: {
+              clientId: selectedClientId,
+            }}
+          ]
         })
         .then(() => {
             toast({ title: 'message sent', status: 'success' });
@@ -59,10 +65,7 @@ const SMSCard = ({selectedClientId}) => {
         });
       };
 
-      //reload page function
-      function refreshPage() {
-        window.location.reload(false);
-      }
+
 
     return (
         <>
@@ -74,9 +77,8 @@ const SMSCard = ({selectedClientId}) => {
             flexBasis={'40%'}>
             <CardHeader>
                 <HStack>
-                    <Heading size={'lg'}>SMS: 
+                    <Heading size={'lg'}>SMS:</Heading>
                     <Button onClick={onOpen} colorScheme={'red'} variant={'outline'}>Send SMS</Button>
-                    </Heading>
                 </HStack>
             </CardHeader>
             <CardBody overflowY={'scroll'} marginBottom={5}>
@@ -103,7 +105,6 @@ const SMSCard = ({selectedClientId}) => {
             <Button onClick={()=> {
               handleSendSMS();
               onClose();
-              refreshPage();
             }} disabled={loading} colorScheme={'red'} variant={'outline'}>Send</Button>
             {error && <p>Error: {error.message}</p>}
           </ModalFooter>
