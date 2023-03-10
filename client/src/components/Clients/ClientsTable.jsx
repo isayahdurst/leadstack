@@ -9,6 +9,7 @@ import {
     Tbody,
     PopoverTrigger,
     PopoverContent,
+    Box,
     Flex,
     ButtonGroup,
     PopoverArrow,
@@ -22,11 +23,25 @@ import {
     HStack,
     Text,
     Tag,
-    PopoverFooter
+    PopoverFooter,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    FormControl,
+    FormLabel
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
 import ClientDetails from '@components/Clients/ClientDetails';
+import { AddIcon } from '@chakra-ui/icons'
+import { ADD_CLIENT } from '../../utils/mutations';
+import { useMutation } from '@apollo/client';
+import { useColorMode } from '@chakra-ui/react';
+import Auth from '@utils/auth';
+import '../../App.css';
 
 const ClientsTable = ({ clients }) => {
     // Handle page pagination
@@ -35,7 +50,8 @@ const ClientsTable = ({ clients }) => {
     const rowsPerPage = 8;
     const totalRows = clients.length;
     const totalPages = Math.ceil(totalRows / rowsPerPage);
-  
+    const { colorMode } = useColorMode();
+    
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
@@ -81,27 +97,121 @@ const ClientsTable = ({ clients }) => {
         salesPerson: '',
         status: '',
     });
+
+    // Add new client
+    const defaultStatus = 'Active'
+    const profileId = Auth.getProfile().data._id;
+
+    const [addClient] = useMutation(ADD_CLIENT);
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+  
+      try {
+        await addClient({
+          variables: {
+            first_name: formState.firstName,
+            last_name: formState.lastName,
+            phone_number: formState.phoneNumber,
+            email: formState.email,
+            sales_person: profileId,
+            status: defaultStatus
+          }
+        });
+        window.location.reload();
+        onClose();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+  
+      setFormState({
+        ...formState,
+        [name]: value
+      });
+    };
+
     
     
 return (
-    <div style={{ margin: '0 150px' }}>
-        <Flex justify='space-between' alignItems='center' mt={10}>
+    <div id='table 'style={{ margin: '0 65px' }} >
+       <Flex justify='flex-start' alignItems='center' mt={10} css={{ '@media (max-width: 768px)': { flexWrap: 'wrap' } }}>
             <InputGroup>
                 <InputLeftElement
-                    pointerEvents='none'
-                    children={<SearchIcon color='gray.300' />}
+                pointerEvents='none'
+                children={<SearchIcon color='gray.300' />}
                 />
                 <Input
-                    type='text'
-                    placeholder='Search by name, email, or phone'
-                    value={searchQuery}
-                    onChange={handleSearch}
-                    style={{ width: '35%' }}
-                    mb={4}
+                type='text'
+                placeholder='Search by name, email, or phone'
+                value={searchQuery}
+                onChange={handleSearch}
+                style={{ width: '450px' }}
+                mb={4}
                 />
             </InputGroup>
+            <Button
+                leftIcon={<AddIcon />}
+                colorScheme='gray'
+                color='#7E8299'
+                size='md'
+                ml='1'
+                mb={4}
+                flexShrink={0}
+                css={{ '@media (max-width: 768px)': { marginTop: '10px' } }}
+                onClick={onOpen}
+            >
+                Add Client
+            </Button>
+            <Modal isOpen={isOpen} onClose={onClose} size="xl">
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader mt={5}>Add New Client</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <form onSubmit={handleSubmit}>
+                            <FormControl isRequired>
+                                <FormLabel>First Name</FormLabel>
+                                    <Input name="firstName" value={formState.firstName} onChange={handleChange} />
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel>Last Name</FormLabel>
+                                <Input name="lastName" value={formState.lastName} onChange={handleChange} />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Phone Number</FormLabel>
+                                    <Input name="phoneNumber" value={formState.phoneNumber} onChange={handleChange} />
+                                </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel>Email</FormLabel>
+                                    <Input type="email" name="email" value={formState.email} onChange={handleChange} />
+                            </FormControl>
+                            <Button 
+                                type="submit" 
+                                colorScheme='blue' 
+                                mr={3} 
+                                mb={10}
+                                mt={2}>
+                                    Submit
+                            </Button>       
+                            <Button 
+                                onClick={onClose} 
+                                mb={10}
+                                mt={2}
+                                variant={
+                                    colorMode === 'light'? 'solid' : 'ghost'
+                                }>
+                                    Cancel
+                            </Button>
+                        </form>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </Flex>
-        <TableContainer>
+
+        <TableContainer >
             <Table variant='simple'>
                 <Thead>
                     <Tr>
@@ -117,7 +227,7 @@ return (
                         <Tr
                             key={client._id}
                             style={{ fontSize: '16px' }}
-                           >
+                        >
                             <Td>
                                 <HStack>
                                     <Avatar
@@ -136,18 +246,16 @@ return (
                             <Td>{client.email}</Td>
                             <Td>{client.phone_number}</Td>
                             <Td>
-                                <Tag 
-                                    variant='solid'
-                                    style={{
-                                        padding: '10px 20px',
-                                        width: '90px',
-                                        fontSize: '0.85rem',
-                                        fontWeight: '600',
-                                        color: client.status === 'Inactive' ? '#e78b2f' : '#75CC68',
-                                        backgroundColor: client.status === 'Inactive' ? '#FCF2E8' : '#EEFBEC',
-                                    }}>
-                                    {client.status}
-                                </Tag>
+                            <Tag 
+                            variant='solid'
+                            style={{
+                                fontSize: '0.85rem',
+                                fontWeight: '600',
+                                color: client.status === 'Inactive' ? '#e78b2f' : '#75CC68',
+                                backgroundColor: client.status === 'Inactive' ? '#FCF2E8' : '#EEFBEC',
+                            }}>
+                            {client.status}
+                        </Tag>
                             </Td>
                             <Td>
                                 <Popover>
@@ -164,27 +272,26 @@ return (
                                         style={{ width: '125px' }}>
                                         <PopoverArrow />
                                         <PopoverHeader>
-                                            <Button
-                                                style={{ cursor: 'pointer', padding: '0 35px', backgroundColor: '#FFF' }}
-                                                onClick={() => {
-                                                    setSelectedClient(client);
-                                                    setFormState({
-                                                        firstName: client.first_name,
-                                                        lastName: client.last_name,
-                                                        phoneNumber: client.phone_number,
-                                                        email: client.email,
-                                                        status: client.status,
-                                                    });
-                                                    onOpen();
-                                                }}>
-                                                Edit
-                                            </Button>
-                                            <PopoverFooter>
-                                            <Button
-                                                style={{ cursor: 'pointer', backgroundColor: '#FFF' }}>
-                                                Delete
-                                            </Button>
-                                            </PopoverFooter>
+                                        <span
+                                            style={{ cursor: 'pointer'}}
+                                            mb={4}
+                                            onClick={() => {
+                                                setSelectedClient(client);
+                                                setFormState({
+                                                    firstName: client.first_name,
+                                                    lastName: client.last_name,
+                                                    phoneNumber: client.phone_number,
+                                                    email: client.email,
+                                                    status: client.status,
+                                                });
+                                                onOpen();
+                                            }}>
+                                            Edit
+                                        </span><br></br>
+                                        <span
+                                            style={{ cursor: 'pointer' }}>
+                                            Delete
+                                        </span>
                                         </PopoverHeader>
                                     </PopoverContent>
                                 </Popover>
@@ -193,45 +300,45 @@ return (
                     ))}
                 </Tbody>
             </Table>
-        <div style={{ position: 'relative', bottom: '0' }}>
-            {totalPages > 1 && (
-                <Flex
-                    justify='left'
-                    alignItems='center'
-                    mt={8}
-                    style={{ marginBottom: '50px' }}>
-                    <ButtonGroup>
-                        <Button
-                            isDisabled={currentPage === 1}
-                            onClick={() => handlePageChange(currentPage - 1)}>
-                            Previous
-                        </Button>
-                    {Array.from({ length: totalPages }, (_, i) => (
-                        <Button
-                            key={i}
-                            variant={
-                                currentPage === i + 1 ? 'solid' : 'outline'
-                            }
-                            onClick={() => handlePageChange(i + 1)}>
-                            {i + 1}
-                        </Button>
-                    ))}
-                        <Button
-                            isDisabled={currentPage === totalPages}
-                            onClick={() => handlePageChange(currentPage + 1)}>
-                            Next
-                        </Button>
-                    </ButtonGroup>
-                </Flex>
-            )}
-        </div>
-    </TableContainer>
-      {selectedClient && (
-        <ClientDetails
-          client={selectedClient}
-          onClose={() => setSelectedClient(null)}
-        />
-      )}
+            <div style={{ position: 'relative', bottom: '0' }}>
+                {totalPages > 1 && (
+                    <Flex
+                        justify='left'
+                        alignItems='center'
+                        mt={8}
+                        style={{ marginBottom: '50px' }}>
+                        <ButtonGroup>
+                            <Button
+                                isDisabled={currentPage === 1}
+                                onClick={() => handlePageChange(currentPage - 1)}>
+                                Previous
+                            </Button>
+                        {Array.from({ length: totalPages }, (_, i) => (
+                            <Button
+                                key={i}
+                                variant={
+                                    currentPage === i + 1 ? 'solid' : 'outline'
+                                }
+                                onClick={() => handlePageChange(i + 1)}>
+                                {i + 1}
+                            </Button>
+                        ))}
+                            <Button
+                                isDisabled={currentPage === totalPages}
+                                onClick={() => handlePageChange(currentPage + 1)}>
+                                Next
+                            </Button>
+                        </ButtonGroup>
+                    </Flex>
+                )}
+            </div>
+        </TableContainer>
+        {selectedClient && (
+            <ClientDetails
+                client={selectedClient}
+                onClose={() => setSelectedClient(null)}
+            />
+        )}
     </div>
   );
 };

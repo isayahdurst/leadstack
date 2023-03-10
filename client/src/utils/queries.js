@@ -58,8 +58,6 @@ export const PROFILE_QUERY = gql`
             first_name
             last_name
             phone_number
-            google_email
-            google_password
         }
     }
 `;
@@ -135,12 +133,11 @@ export const CLIENT_SMS = gql`
 
 export const SALESPERSON_EMAILS = gql`
     query getAllEmailBySalespersonId($salespersonId: ID!) {
-        allSalespersonEmails(clientId: $salespersonId) {
+        allSalespersonEmails(salespersonId: $salespersonId) {
             _id
-            body
+            text
             subject
             date
-            received
             client {
                 _id
                 first_name

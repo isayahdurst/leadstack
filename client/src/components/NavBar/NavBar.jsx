@@ -8,12 +8,20 @@ import {
     IconButton,
     useBreakpointValue,
     Heading,
-    Text,
-    useColorModeValue,
+    Menu, 
+    MenuButton, 
+    MenuList, 
+    MenuItem,
+    useDisclosure,
     useColorMode,
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiMenu } from 'react-icons/fi';
+import {
+    HamburgerIcon,
+    CloseIcon,
+    ChevronDownIcon
+  } from "@chakra-ui/icons";
 import { ImCool, ImCool2 } from 'react-icons/im';
 import Signup from '../Signup/Signup';
 import Login from '../Login/Login';
@@ -24,7 +32,7 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '@contexts/AuthContext';
 
 const NavBar = ({ children }) => {
-    const { loggedIn, updateAuth, updateProfileData } = useContext(AuthContext);
+    const { loggedIn, updateAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const isDesktop = useBreakpointValue({
@@ -42,6 +50,7 @@ const NavBar = ({ children }) => {
     };
 
     const { colorMode, toggleColorMode } = useColorMode();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const links = {
         Dashboard: '/',
@@ -155,13 +164,23 @@ const NavBar = ({ children }) => {
                                 </HStack>
                             </Flex>
                         )}
-                        {!isDesktop && (
-                            <IconButton
-                                variant='ghost'
-                                icon={<FiMenu fontSize='1.5rem' />}
-                                aria-label='Open Menu'
-                            />
-                        )}
+                      <Menu>
+                           <MenuButton 
+                            size={"md"}
+                            aria-label={"Open Menu"}
+                            display={{ md: "none" }}
+                            >
+                                 <HamburgerIcon />
+                           </MenuButton>
+                           <MenuList>
+                                {Object.keys(links).map((item) => (
+                                <MenuItem key={item}  as={Link} to={links[item]}>
+                                    {item}
+                                </MenuItem>
+                                ))}
+                            </MenuList>
+                         </Menu>
+                   
                     </HStack>
                 </Container>
             </Box>

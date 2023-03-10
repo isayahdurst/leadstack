@@ -23,18 +23,28 @@ import {
 
 import { useQuery, useMutation } from '@apollo/client';
 import { useColorMode } from '@chakra-ui/react';
-import { CLIENTS } from '../../../utils/queries';
+import { CLIENTS_BY_SALESPERSON } from '@utils/queries';
 import ClientAvatar from '@components/Dashboard/Clients/ClientAvatar';
 import React, { useState } from 'react';
 import { ADD_CLIENT } from '../../../utils/mutations';
 import { Link } from 'react-router-dom';
+import Auth from '@utils/auth';
 
 const ClientsModule = () => {
     const { colorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { loading, data } = useQuery(CLIENTS);
-    const clients = data?.clients || [];
-    const clientCount = data?.clients.length;
+
+    const profileId = Auth.getProfile().data._id;
+    const { loading, error, data } = useQuery(CLIENTS_BY_SALESPERSON, {
+        variables: {
+            salespersonId: profileId,
+        },
+    });
+    
+
+    const clients = data ? [...data.clientsBySalesperson] : [];
+    const clientCount = data?.clientsBySalesperson ? data.clientsBySalesperson.length : 0;
+    const defaultStatus = 'Active'
 
     const [formState, setFormState] = useState({
         firstName: '',
@@ -48,34 +58,34 @@ const ClientsModule = () => {
       const [addClient] = useMutation(ADD_CLIENT);
     
       const handleSubmit = async (event) => {
-        event.preventDefault();
+         event.preventDefault();
     
         try {
-          await addClient({
-            variables: {
-              first_name: formState.firstName,
-              last_name: formState.lastName,
-              phone_number: formState.phoneNumber,
-              email: formState.email,
-              sales_person: formState.salesPerson,
-              status: formState.status
-            }
-          });
-          window.location.reload();
-          onClose();
+            await addClient({
+                variables: {
+                    first_name: formState.firstName,
+                    last_name: formState.lastName,
+                    phone_number: formState.phoneNumber,
+                    email: formState.email,
+                    sales_person: profileId,
+                    status: defaultStatus
+                }
+            });
+            window.location.reload();
+            onClose();
         } catch (error) {
-          console.error(error);
-        }
+              console.error(error);
+          }
       };
     
       const handleChange = (event) => {
         const { name, value } = event.target;
     
         setFormState({
-          ...formState,
-          [name]: value
-        });
-      };
+            ...formState,
+            [name]: value
+          });
+        };
 
     return (
         <Center w='400px' h='350px' >
@@ -131,14 +141,6 @@ const ClientsModule = () => {
                                             <FormControl isRequired>
                                                 <FormLabel>Email</FormLabel>
                                                     <Input type="email" name="email" value={formState.email} onChange={handleChange} />
-                                            </FormControl>
-                                            <FormControl isRequired>
-                                                <FormLabel>Sales Person</FormLabel>
-                                                <Input name="salesPerson" value={formState.salesPerson} onChange={handleChange} />
-                                            </FormControl>
-                                            <FormControl>
-                                                <FormLabel>Status</FormLabel>
-                                                <Input name="status" value={formState.status} onChange={handleChange} />
                                             </FormControl>
                                             <Button 
                                                 type="submit" 

@@ -34,6 +34,8 @@ const typeDefs = gql`
         sales_person: Salesperson
         client: Client
         received: Boolean
+        to: String
+        from: String
     }
 
     type SendSMSResponse {
