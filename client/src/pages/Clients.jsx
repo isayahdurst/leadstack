@@ -10,6 +10,7 @@ import {
     Tfoot,
     Wrap,
     WrapItem,
+    Flex,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { CLIENTS_BY_SALESPERSON } from '@utils/queries';
@@ -28,13 +29,13 @@ const Clients = () => {
     const clients = data ? [...data.clientsBySalesperson] : [];
 
     return (
-        <div>
+        <Flex>
             {loading ? (
                 <div></div>
             ) : (
                 <ClientsTable clients={clients} />
             )}
-        </div>
+        </Flex>
     );
 };
 export default Clients;

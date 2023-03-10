@@ -1,7 +1,9 @@
 import {
     Wrap,
     WrapItem,
-    Center
+    Center,
+    Box,
+    Flex
 } from '@chakra-ui/react';
 import React from 'react';
 import ClientsModule from '@components/Dashboard/Clients/ClientsModule';
@@ -23,15 +25,14 @@ const Dashboard = () => {
     const clients = data?.clientsBySalesperson || [];
 
 return (
-      <Wrap spacing='30px' justify='center'>
-        <WrapItem>
+    <Flex spacing='30px' justify='space-between' wrap='wrap' gap='2' m='50px'>
+        <Box w={[300, 400, 500]} h='350px'>
             <ClientsModule />
-        </WrapItem>
-        <WrapItem >
+        </Box>
+        <Box>
             <ClientsEmail salespersonId= {profileId} />
-        </WrapItem>
-       
-      </Wrap>
+        </Box>
+    </Flex>
     );
   };
 export default Dashboard;

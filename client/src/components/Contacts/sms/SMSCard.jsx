@@ -59,6 +59,11 @@ const SMSCard = ({selectedClientId}) => {
         });
       };
 
+      //reload page function
+      function refreshPage() {
+        window.location.reload(false);
+      }
+
     return (
         <>
         <Card
@@ -98,6 +103,7 @@ const SMSCard = ({selectedClientId}) => {
             <Button onClick={()=> {
               handleSendSMS();
               onClose();
+              refreshPage();
             }} disabled={loading} colorScheme={'red'} variant={'outline'}>Send</Button>
             {error && <p>Error: {error.message}</p>}
           </ModalFooter>

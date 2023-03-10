@@ -69,6 +69,8 @@ const EmailCard = ({ selectedLead }) => {
                 {!showEditor && (
                     <Button
                         onClick={() => setShowEditor(!showEditor)}
+                        colorScheme={'red'} 
+                        variant={'outline'}
                         isLoading={loading}>
                         New Email
                     </Button>
