@@ -68,7 +68,7 @@ body {
 }
 
 
-.footerContainer {
+/*.footerContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -80,4 +80,18 @@ body {
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
   background-color: #1a202c;
+}*/
+
+.footerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  position: sticky;
+  bottom:0;
+  align-content: center;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  background-color:useColorModeValue('white', 'gray.800');
 }
