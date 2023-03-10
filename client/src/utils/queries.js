@@ -87,10 +87,9 @@ export const CLIENT_EMAILS = gql`
     query getAllEmailByClientId($clientId: ID!) {
         allClientEmails(clientId: $clientId) {
             _id
-            body
+            text
             subject
             date
-            received
             client {
                 _id
                 first_name

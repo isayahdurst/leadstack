@@ -13,10 +13,12 @@ import {
 } from '@chakra-ui/react';
 import EmailIntegrationMenu from './EmailIntegrationMenu';
 import EmailPreview from './EmailPreview';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { SEND_EMAIL } from '@utils/mutations';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import EmailEditor from './emailEditor/EmailEditor';
+import { CLIENT_EMAILS } from '@utils/queries';
+import { LeadContext } from '@contexts/LeadContext';
 
 const EmailCard = ({ selectedLead }) => {
     const color = useColorModeValue('gray.100', 'gray.700');
@@ -25,27 +27,21 @@ const EmailCard = ({ selectedLead }) => {
     const [loading, setLoading] = useState(false);
     const [showEditor, setShowEditor] = useState(false);
 
-    const handleSendEmail = async () => {
-        setLoading(true);
-        try {
-            const data = await sendEmail({
-                variables: {
-                    from: 'leadstackucb@gmail.com',
-                    to: selectedLead.email,
-                    subject: 'Hello from LeadStack!',
-                    text: 'This is a test.',
-                    auth: {
-                        user: 'leadstackucb@gmail.com',
-                        pass: 'jolqrikqvczhaajj',
-                    },
-                },
-            });
-            console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
-        setLoading(false);
-    };
+    const { lead } = useContext(LeadContext);
+
+    const {
+        data,
+        loading: loadingEmails,
+        refetch,
+    } = useQuery(CLIENT_EMAILS, {
+        variables: { clientId: lead._id },
+    });
+
+    useEffect(() => {
+        refetch();
+    }, [lead]);
+
+    const clientEmails = data?.allClientEmails || [];
 
     return (
         <Card height={'100%'} flexGrow={1} flexBasis={'60%'} bg={color}>
@@ -57,7 +53,10 @@ const EmailCard = ({ selectedLead }) => {
             </CardHeader>
             <CardBody overflowY={'scroll'} marginBottom={5}>
                 <Flex height={'100%'} flexDirection={'column'} gap={2}>
-                    {!showEditor && <EmailPreview />}
+                    {!showEditor &&
+                        clientEmails.map((email) => (
+                            <EmailPreview {...email} />
+                        ))}
 
                     {showEditor && (
                         <EmailEditor setShowEditor={setShowEditor} />

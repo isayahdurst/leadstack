@@ -42,6 +42,7 @@ const EmailEditor = ({ setShowEditor }) => {
     });
 
     const salesProfile = data?.salespersonById[0];
+    console.log(typeof new Date().toString());
 
     const onSubmitHandler = async () => {
         setSending(true);
@@ -62,7 +63,7 @@ const EmailEditor = ({ setShowEditor }) => {
 
             // TODO: Add email to database.
 
-            /* const emailData = await addEmail({
+            const emailData = await addEmail({
                 variables: {
                     subject: subject,
                     text: editorRef.current.getContent({ format: 'text' }),
@@ -70,7 +71,7 @@ const EmailEditor = ({ setShowEditor }) => {
                     sales_person: salesProfile._id,
                     client: lead._id,
                 },
-            }); */
+            });
             toast({
                 title: 'Success!',
                 description: 'Email sent successfully.',
