@@ -6,7 +6,7 @@ import {
 import React from 'react';
 import ClientsModule from '@components/Dashboard/Clients/ClientsModule';
 import ClientsEmail from '@components/Dashboard/Clients/ClientsEmail';
-import ClientsSms from '@components/Dashboard/Clients/ClientsSMS';
+import ClientsSMS from '@components/Dashboard/Clients/ClientsSMS';
 import { useQuery, useMutation } from '@apollo/client';
 import { CLIENTS_BY_SALESPERSON } from '@utils/queries';
 
