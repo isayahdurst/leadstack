@@ -53,6 +53,7 @@ const EmailCard = ({ selectedLead }) => {
             </CardHeader>
             <CardBody overflowY={'scroll'} marginBottom={5}>
                 <Flex height={'100%'} flexDirection={'column'} gap={2}>
+                    {!clientEmails.length && 'No emails to this client'}
                     {!showEditor &&
                         clientEmails.map((email) => (
                             <EmailPreview {...email} />
