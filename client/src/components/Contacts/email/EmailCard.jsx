@@ -42,6 +42,7 @@ const EmailCard = ({ selectedLead }) => {
     }, [lead]);
 
     const clientEmails = data?.allClientEmails || [];
+    console.log(data);
 
     return (
         <Card height={'100%'} flexGrow={1} flexBasis={'60%'} bg={color}>
