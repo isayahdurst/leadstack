@@ -8,11 +8,11 @@ const path = require('path');
 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-/* const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const http = require('http');
-const MessagingResponse = require('twilio').twiml.MessagingResponse; */
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -32,6 +32,16 @@ if (process.env.NODE_ENV === 'production') {
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
+
+//handle receiving messages from twilio
+app.post('/sms', (req, res) => {
+    const twiml = new MessagingResponse();
+  
+    twiml.message('Thanks for your message!');
+  
+    res.writeHead(200, { 'Content-Type': 'text/xml' });
+    res.end(twiml.toString());
+  });
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => {
