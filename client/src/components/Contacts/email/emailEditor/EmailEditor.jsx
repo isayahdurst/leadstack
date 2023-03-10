@@ -62,6 +62,7 @@ const EmailEditor = ({ setShowEditor }) => {
             });
 
             // TODO: Add email to database.
+            // removed for now because it's not working
 
             const emailData = await addEmail({
                 variables: {
