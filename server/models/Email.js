@@ -5,11 +5,11 @@ const emailSchema = new Schema({
     subject: {
         type: String,
     },
-    body: {
+    text: {
         type: String,
     },
     date: {
-        type: Date,
+        type: String,
         required: true,
     },
     sales_person: {
@@ -20,37 +20,7 @@ const emailSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Client',
     },
-    received: {
-        type: Boolean,
-        required: true,
-    },
 });
-
-emailSchema.methods.sendEmail = async function () {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: '',
-            pass: '',
-        },
-    });
-
-    const mailOptions = {
-        from: this.sales_person.email,
-        to: this.client.email,
-        subject: this.subject,
-        text: this.body,
-    };
-
-    try {
-        const result = await transporter.sendMail(mailOptions);
-        console.log(result);
-        return 'Email sent successfully';
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-};
 
 const Email = model('Email', emailSchema);
 

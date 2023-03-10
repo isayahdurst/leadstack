@@ -96,17 +96,16 @@ export const UPDATE_SALESPERSON = gql`
             google_email: $google_email
         ) {
             token
-            sales_person{
-              _id
-              email
-              first_name
-              last_name
-              phone_number
-              password
-              google_password
-              google_email   
+            sales_person {
+                _id
+                email
+                first_name
+                last_name
+                phone_number
+                password
+                google_password
+                google_email
             }
-            
         }
     }
 `;
@@ -147,25 +146,22 @@ export const UPDATE_CLIENT = gql`
 export const ADD_EMAIL = gql`
     mutation AddEmail(
         $subject: String
-        $body: String
-        $date: String!
-        $received: Boolean!
-        $salesPerson: ID!
-        $client: ID!
+        $text: String
+        $date: String
+        $sales_person: ID
+        $client: ID
     ) {
         addEmail(
             subject: $subject
-            body: $body
+            text: $text
             date: $date
-            received: $received
-            sales_person: $salesPerson
+            sales_person: $sales_person
             client: $client
         ) {
             _id
             subject
-            body
+            text
             date
-            received
             client {
                 _id
                 email
@@ -184,19 +180,31 @@ export const ADD_EMAIL = gql`
     }
 `;
 
-export const SEND_SMS = gql`
-    mutation SendSMS(
-        $body: String!
-        $salesPerson: ID!
-        $client: ID!
+export const SEND_EMAIL = gql`
+    mutation SendEmail(
+        $from: String!
+        $to: String!
+        $subject: String!
+        $text: String!
+        $html: String
+        $auth: AuthInput!
     ) {
-        sendSMS(
-            body: $body
-            sales_person: $salesPerson
-            client: $client
-        ) {
-            success
-            error
+        sendEmail(
+            from: $from
+            to: $to
+            subject: $subject
+            text: $text
+            html: $html
+            auth: $auth
+        )
+    }
+`;
+
+export const SEND_SMS = gql`
+    mutation SendSms($clientPhone: String!, $smsBody: String!) {
+        sendSms(clientPhone: $clientPhone, smsBody: $smsBody) {
+            id
+            smsBody
         }
     }
 `;

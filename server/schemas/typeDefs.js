@@ -43,12 +43,11 @@ const typeDefs = gql`
 
     type Email {
         _id: ID!
+        text: String
         subject: String
-        body: String
         date: String
         sales_person: Salesperson
         client: Client
-        received: Boolean
     }
 
     type Query {
@@ -109,11 +108,10 @@ const typeDefs = gql`
 
         addEmail(
             subject: String
-            body: String
-            date: String!
-            sales_person: ID!
-            client: ID!
-            received: Boolean!
+            text: String
+            date: String
+            sales_person: ID
+            client: ID
         ): Email
 
         addSMS(
@@ -127,23 +125,22 @@ const typeDefs = gql`
         ): Sms
 
         sendEmail(
-            subject: String
-            body: String
-            to: String
-            from: String
-        ): Email
+            from: String!
+            to: String!
+            subject: String!
+            text: String!
+            html: String
+            auth: AuthInput!
+        ): String!
 
-        sendSMS(
-            body: String!
-            sales_person: ID!
-            client: ID!
-        ): SendSMSResponse
+        sendSMS(body: String!, sales_person: ID!, client: ID!): SendSMSResponse
 
-        replySMS(
-            body: String!
-            sales_person: ID!
-            client: ID!
-        ): Sms
+        replySMS(body: String!, sales_person: ID!, client: ID!): Sms
+    }
+
+    input AuthInput {
+        user: String!
+        pass: String!
     }
 `;
 

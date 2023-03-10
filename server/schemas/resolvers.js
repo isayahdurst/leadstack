@@ -6,6 +6,9 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 const { constants } = require('perf_hooks');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+
+const useEmail = require('../utils/useMail');
+
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilio = require('twilio')(accountSid, authToken);
@@ -40,8 +43,9 @@ const resolvers = {
             const user = await Salesperson.find({
                 _id: args.id,
             });
+            console.log(user);
             //return user;
-            return user ? user._id : null;
+            return user ? user : null;
         },
         clientById: async (paren, args) => {
             const client = await Client.find({
@@ -160,13 +164,15 @@ const resolvers = {
                 const token = signToken(salesperson);
                 return { token: token, sales_person: salesperson };
             } catch (err) {
-                
                 // Check for email that's already in use.
                 console.log(err.message.includes('duplicate'));
                 if (err.message.includes('duplicate')) {
-                    throw new GraphQLError('Email already in use, please use another email.', {
-                        extensions: { code: 'NO_USER_FOUND'},
-                    });
+                    throw new GraphQLError(
+                        'Email already in use, please use another email.',
+                        {
+                            extensions: { code: 'NO_USER_FOUND' },
+                        }
+                    );
                 }
                 console.error(err);
                 return err;
@@ -177,17 +183,23 @@ const resolvers = {
             const salesperson = await Salesperson.findOne({ email });
 
             if (!salesperson) {
-                throw new GraphQLError('No user found with this email address', {
-                    extensions: { code: 'NO_USER_FOUND'},
-                });
+                throw new GraphQLError(
+                    'No user found with this email address',
+                    {
+                        extensions: { code: 'NO_USER_FOUND' },
+                    }
+                );
             }
 
             const correctPw = await salesperson.isCorrectPassword(password);
 
             if (!correctPw) {
-                throw new GraphQLError('Email/password combination incorrect. Please try again.', {
-                    extensions: { code: 'INCORRECT_CREDENTIALS'},
-                });
+                throw new GraphQLError(
+                    'Email/password combination incorrect. Please try again.',
+                    {
+                        extensions: { code: 'INCORRECT_CREDENTIALS' },
+                    }
+                );
             }
 
             const token = signToken(salesperson);
@@ -223,7 +235,7 @@ const resolvers = {
 
             let updatedSalesPerson;
 
-            if('password' in args){
+            if ('password' in args) {
                 const saltRounds = 10;
                 const newPass = await bcrypt.hash(args.password, saltRounds);
                 fields.password = newPass;
@@ -233,9 +245,7 @@ const resolvers = {
                     fields,
                     { new: true } // Return the updated document
                 );
-    
-                
-    
+
                 const token = signToken(updatedSalesperson);
                 return { token: token, sales_person: updatedSalesperson };
             } else {
@@ -244,19 +254,11 @@ const resolvers = {
                     id,
                     fields,
                     { new: true } // Return the updated document,
-                     
                 );
             }
 
-
-            
-            
-
-            
-
             const token = signToken(updatedSalesperson);
             return { token: token, sales_person: updatedSalesperson };
-
         },
 
         updateClient: async (parent, args, context) => {
@@ -275,16 +277,17 @@ const resolvers = {
 
         addEmail: async (
             parent,
-            { subject, body, date, sales_person, client, received }
+            { subject, text, date, sales_person, client }
         ) => {
+            console.log('addEmail', subject, text, date, sales_person, client);
             const email = new Email({
                 subject,
-                body,
+                text,
                 date,
                 sales_person,
                 client,
-                received,
             });
+
             try {
                 await email.save();
                 return email.populate('sales_person client');
@@ -298,7 +301,15 @@ const resolvers = {
             parent,
             { body, date, sales_person, client, received, to, from }
         ) => {
-            const sms = new Sms({ body, date, sales_person, client, received, to, from });
+            const sms = new Sms({
+                body,
+                date,
+                sales_person,
+                client,
+                received,
+                to,
+                from,
+            });
             try {
                 await sms.save();
                 return sms.populate('sales_person client');
@@ -308,10 +319,7 @@ const resolvers = {
             }
         },
 
-        sendSMS: async (
-            parent,
-            { body, sales_person, client}
-        ) => {
+        sendSMS: async (parent, { body, sales_person, client }) => {
             try {
                 // Find the sales person in the database
                 const salespersonObj = await Salesperson.findById(sales_person);
@@ -320,7 +328,7 @@ const resolvers = {
                 if (!salespersonObj) {
                     return {
                         success: false,
-                        error: 'Failed to send SMS: Sales person not found'
+                        error: 'Failed to send SMS: Sales person not found',
                     };
                 }
 
@@ -331,7 +339,7 @@ const resolvers = {
                 if (!clientObj) {
                     return {
                         success: false,
-                        error: 'Failed to send SMS: Client not found'
+                        error: 'Failed to send SMS: Client not found',
                     };
                 }
 
@@ -341,10 +349,10 @@ const resolvers = {
                 const message = await twilio.messages.create({
                     body,
                     from,
-                    to
+                    to,
                 });
                 console.log(message.sid);
-        
+
                 // Create a new Sms document and save it to the database
                 const sms = new Sms({
                     date: new Date(),
@@ -353,27 +361,24 @@ const resolvers = {
                     to,
                     received: false,
                     client,
-                    sales_person
+                    sales_person,
                 });
                 await sms.save();
-        
+
                 return {
                     success: true,
-                    error: 'SMS sent successfully'
+                    error: 'SMS sent successfully',
                 };
             } catch (err) {
                 console.log(err);
                 return {
                     success: false,
-                    error: 'Failed to send SMS'
+                    error: 'Failed to send SMS',
                 };
             }
         },
 
-        replySMS: async (
-            parent,
-            { body, sales_person, client},
-        ) => {
+        replySMS: async (parent, { body, sales_person, client }) => {
             try {
                 // Find the sales person in the database
                 const salespersonObj = await Salesperson.findById(sales_person);
@@ -382,7 +387,7 @@ const resolvers = {
                 if (!salespersonObj) {
                     return {
                         success: false,
-                        message: 'Failed to send SMS: Sales person not found'
+                        message: 'Failed to send SMS: Sales person not found',
                     };
                 }
 
@@ -393,7 +398,7 @@ const resolvers = {
                 if (!clientObj) {
                     return {
                         success: false,
-                        message: 'Failed to send SMS: Client not found'
+                        message: 'Failed to send SMS: Client not found',
                     };
                 }
 
@@ -403,9 +408,9 @@ const resolvers = {
                 const response = await twilio.messages.create({
                     body,
                     from,
-                    to
+                    to,
                 });
-        
+
                 // Create a new Sms document and save it to the database
                 const sms = new Sms({
                     date: new Date(),
@@ -414,14 +419,16 @@ const resolvers = {
                     to,
                     received: true,
                     client,
-                    sales_person
+                    sales_person,
                 });
                 await sms.save();
-        
+
                 // Send TwiML auto-response message
                 const twiml = new twilio.twiml.MessagingResponse();
-                twiml.message('I received your message and will respond shortly.');
-        
+                twiml.message(
+                    'I received your message and will respond shortly.'
+                );
+
                 return twiml.toString();
             } catch (err) {
                 console.error(err);
@@ -429,15 +436,14 @@ const resolvers = {
             }
         },
 
-        sendEmail: async (parent, { to, from, subject, text }) => {
-            this.addEmail({
-                subject,
-                body: text,
-                date: new Date(),
-                sales_person: from,
-                client: to,
-                received: false,
-            });
+        sendEmail: async (parent, args) => {
+            try {
+                await useEmail(args);
+                return 'Email sent successfully';
+            } catch (err) {
+                console.log(err);
+                return 'Email failed to send';
+            }
         },
     },
 };
