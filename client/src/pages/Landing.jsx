@@ -57,7 +57,7 @@ const Landing = () => {
                     Connect and engage with your <span style={{color: '#3182ce'}}>customers everywhere</span>
                 </Heading>
                 <Text color={mode('gray.600', 'gray.400')} mt="4" fontSize="lg" fontWeight="medium">
-					More channels, more customers with Twilio integration. Communicate with potential customers across multiple channels and streamline your lead generation process.
+					More channels, more customers with Twilio/Nodemail integration. Communicate with potential customers across multiple channels and streamline your lead generation process.
                 </Text>
                 <Stack
                     direction={{
@@ -67,17 +67,9 @@ const Landing = () => {
                     spacing="4"
                     mt="8"
                 >
-                    <Button size="lg" minW="210px" colorScheme="blue" height="14" px="8">
-                    Get Started
-                    </Button>
-                    
+                
                 </Stack>
-                <Text mt="8" color={mode('gray.600', 'gray.400')}>
-                    Already have an account store?{' '}
-                    <Link href="#" textDecoration="underline">
-                    Log in
-                    </Link>
-                </Text>
+                
                 </Box>
                 <Box
                 pos="relative"
