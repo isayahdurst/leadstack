@@ -30,7 +30,7 @@ const Clients = () => {
     return (
         <div>
             {loading ? (
-                <div>Loading...</div>
+                <div></div>
             ) : (
                 <ClientsTable clients={clients} />
             )}

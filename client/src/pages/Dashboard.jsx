@@ -5,26 +5,33 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import ClientsModule from '@components/Dashboard/Clients/ClientsModule';
+import ClientsEmail from '@components/Dashboard/Clients/ClientsEmail';
+import ClientsSms from '@components/Dashboard/Clients/ClientsSms';
+import { useQuery, useMutation } from '@apollo/client';
+import { CLIENTS_BY_SALESPERSON } from '@utils/queries';
 
-
+import Auth from '@utils/auth';
 
 const Dashboard = () => {
-    return (
-            <Wrap spacing='30px' justify='center'>
-                <WrapItem>
-                    <ClientsModule />
-                </WrapItem>
-                <WrapItem>
-                    <Center w='400px' h='80px' bg='green.200'>
-                    Component 2
-                    </Center>
-                </WrapItem>
-                <WrapItem>
-                    <Center w='400px' h='80px' bg='tomato'>
-                    Component 3
-                    </Center>
-                </WrapItem>
-            </Wrap>
+    const profileId = Auth.getProfile().data._id;
+    const { loading, error, data } = useQuery(CLIENTS_BY_SALESPERSON, {
+        variables: {
+            salespersonId: profileId,
+        },
+    });
+
+    const clients = data?.clientsBySalesperson || [];
+
+return (
+      <Wrap spacing='30px' justify='center'>
+        <WrapItem>
+            <ClientsModule />
+        </WrapItem>
+        <WrapItem >
+            <ClientsEmail salespersonId= {profileId} />
+        </WrapItem>
+       
+      </Wrap>
     );
-};
+  };
 export default Dashboard;

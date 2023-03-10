@@ -34,20 +34,20 @@ export const SALESPEOPLE = gql`
 `;
 
 export const CLIENTS_BY_SALESPERSON = gql`
-    query ClientsBySalesperson($salespersonId: ID!) {
-        clientsBySalesperson(salespersonId: $salespersonId) {
-            _id
-            email
-            first_name
-            last_name
-            phone_number
-            status
-            sales_person {
-                _id
-                email
-            }
-        }
+query ClientsBySalesperson($salespersonId: ID!) {
+    clientsBySalesperson(salespersonId: $salespersonId) {
+      _id
+      email
+      first_name
+      last_name
+      phone_number
+      status
+      sales_person {
+        _id
+        email
+      }
     }
+  }
 `;
 
 export const PROFILE_QUERY = gql`
@@ -58,8 +58,6 @@ export const PROFILE_QUERY = gql`
             first_name
             last_name
             phone_number
-            google_email
-            google_password
         }
     }
 `;
@@ -87,9 +85,10 @@ export const CLIENT_EMAILS = gql`
     query getAllEmailByClientId($clientId: ID!) {
         allClientEmails(clientId: $clientId) {
             _id
-            text
+            body
             subject
             date
+            received
             client {
                 _id
                 first_name
@@ -135,7 +134,7 @@ export const CLIENT_SMS = gql`
 
 export const SALESPERSON_EMAILS = gql`
     query getAllEmailBySalespersonId($salespersonId: ID!) {
-        allSalespersonEmails(clientId: $salespersonId) {
+        allSalespersonEmails(salespersonId: $salespersonId) {
             _id
             body
             subject
@@ -234,18 +233,20 @@ export const SMS_BY_ID = gql`
 `;
 
 export const GET_ALL_CLIENT_SMS = gql`
-    query allClientSms($clientId: ID!) {
-        allClientSms(clientId: $clientId) {
-            _id
-            message
-            sent_at
-            sales_person {
-                _id
-                first_name
-                last_name
-                phone_number
-                email
-            }
-        }
+  query allClientSms($clientId: ID!) {
+    allClientSms(clientId: $clientId) {
+      _id
+      message
+      sent_at
+      sales_person {
+        _id
+        first_name
+        last_name
+        phone_number
+        email
+      }
     }
+  }
 `;
+
+
