@@ -2,6 +2,7 @@ import {
     Card,
     CardHeader,
     CardBody,
+    CardFooter,
     Heading,
     Text,
     useColorModeValue,
@@ -19,6 +20,7 @@ import {
     FormHelperText,
     Input,
     HStack,
+    VisuallyHidden,
 } from '@chakra-ui/react';
 import { useMutation } from '@apollo/client'
 import { useState } from 'react';
@@ -77,8 +79,11 @@ const SMSCard = ({selectedClientId}) => {
             flexBasis={'40%'}>
             <CardHeader>
                 <HStack>
-                    <Heading size={'lg'}>SMS:</Heading>
-                    <Button onClick={onOpen} colorScheme={'red'} variant={'outline'}>Send SMS</Button>
+                    <Heading size={'lg'}>SMS: 
+                    </Heading>
+                    {//Hidden button to keep the card size the same as the email card
+                    }
+                    <Button className={'hiddenButton'} disabled={'true'} colorScheme={'invisible'}></Button>
                 </HStack>
             </CardHeader>
             <CardBody overflowY={'scroll'} marginBottom={5}>
@@ -86,6 +91,9 @@ const SMSCard = ({selectedClientId}) => {
                     <RenderSMS clientId={selectedClientId}/>
                 </Flex>
             </CardBody>
+            <CardFooter>
+                <Button onClick={onOpen} >Send SMS</Button>
+            </CardFooter>
         </Card>
         <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
