@@ -30,17 +30,20 @@ const Contacts = () => {
     const color = useColorModeValue('gray.100', 'gray.700');
     return (
         <LeadProvider>
-            <Flex px={10} height={'90vh'} maxHeight={'90vh'}>
+            <Flex px={10} height={'85vh'} maxHeight={'90vh'} overflow={'hidden'}>
                 <Flex
                     height={'100%'}
                     justifyContent={'space-between'}
                     gap={5}
-                    flexGrow={1}>
+                    flexGrow={1}
+                    >
                     <Card
                         height={'100%'}
                         width={'20rem'}
                         flexShrink={0}
-                        bg={color}>
+                        bg={color}
+                        overflowY={'scroll'}
+                        >
                         <CardHeader>
                             <Heading>Contacts</Heading>
                         </CardHeader>
@@ -51,10 +54,10 @@ const Contacts = () => {
                             />
                         </CardBody>
                     </Card>
-                    <Flex flexGrow={1} flexDirection={'column'} gap={5}>
+                    <Flex flexGrow={1} flexDirection={'column'} gap={5} >
                         <InfoCard selectedClient={selectedClient} />
                         {!!selectedClientId && (
-                            <Flex flexGrow={1} gap={5} overflow={'hidden'}>
+                            <Flex flexGrow={1} gap={5} overflow={'hidden'} >
                                 <EmailCard />
                                 <SMSCard selectedClientId={selectedClientId} />
                             </Flex>

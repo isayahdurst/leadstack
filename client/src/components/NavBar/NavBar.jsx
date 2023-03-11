@@ -32,6 +32,15 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '@contexts/AuthContext';
 
 const NavBar = ({ children }) => {
+
+    const breakpoints = {
+        sm: '30em',
+        md: '48em',
+        lg: '62em',
+        xl: '80em',
+        '2xl': '96em',
+      };
+
     const { loggedIn, updateAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -66,124 +75,128 @@ const NavBar = ({ children }) => {
             pb={{ base: '12', md: '24' }}
             minHeight={'100vh'}
             maxHeight={'100vh'}>
-            <Box
-                as='nav'
-                bg='bg-surface'
-                boxShadow='sm'
-                px={5}
-                style={{ margin: '0 125px' }}
-                mb={{ base: '5', md: '5' }}>
-                <Container py={{ base: '4', lg: '5' }} maxWidth='full'>
-                    <HStack spacing='10' justify='space-between' mt={4}>
-                        {!isDesktop ? (
-                            <Flex justify='center' flex='1'>
-                                <Link to='/'>
-                                    <Heading>
-                                        <span>Lead</span>
-                                        <span style={{ color: 'red' }}>
-                                            Stack
-                                        </span>
-                                    </Heading>
-                                </Link>
-                            </Flex>
-                        ) : (
-                            <Flex justify='space-between' flex='1'>
-                                <Link to='/'>
-                                    <Heading style={{ fontSize: '1.8rem' }}>
-                                        <span>
-                                            <FontAwesomeIcon
-                                                style={{
-                                                    margin: '2px 2px 0 0',
-                                                }}
-                                                icon={faCubes}
-                                            />
-                                            Lead
-                                        </span>
-                                        <span style={{ color: 'red' }}>
-                                            Stack
-                                        </span>
-                                    </Heading>
-                                </Link>
-                                {/* TODO: Add a search bar and ensure this menu is only visible when the user is logged in */}
-                                {loggedIn && (
-                                    <ButtonGroup
-                                        variant='link'
-                                        spacing='8'
-                                        mt={2}>
-                                        {[
-                                            'Dashboard',
-                                            'Contacts',
-                                            'Conversations',
-                                            // 'Support',
-                                            'Profile',
-                                        ].map((item) => (
-                                            <Link key={item} to={links[item]}>
-                                                <Button>{item}</Button>
-                                            </Link>
-                                        ))}
-                                    </ButtonGroup>
-                                )}
-                                <HStack spacing='3'>
-                                    <IconButton
-                                        variant='ghost'
-                                        icon={
-                                            colorMode === 'light' ? (
-                                                <ImCool fontSize='1.25rem' />
-                                            ) : (
-                                                <ImCool fontSize='1.25rem' />
-                                            )
-                                        }
-                                        aria-label='Open Menu'
-                                        onClick={() =>
-                                            toggleColorMode(
-                                                colorMode === 'light'
-                                                    ? 'dark'
-                                                    : 'light'
-                                            )
-                                        }
-                                    />
-                                    {loggedIn ? (
-                                        <>
-                                            <Button
-                                                colorScheme='red'
-                                                onClick={(event) => {
-                                                    logout(event);
-                                                    updateAuth(Auth.loggedIn());
-
-                                                    navToHome();
-                                                }}>
-                                                Logout
-                                            </Button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Login loggedIn={loggedIn} />
-                                            <Signup />
-                                        </>
-                                    )}
-                                </HStack>
-                            </Flex>
-                        )}
-                      <Menu>
-                           <MenuButton 
-                            size={"md"}
-                            aria-label={"Open Menu"}
-                            display={{ md: "none" }}
+                <Box
+                    as='nav'
+                    bg='bg-surface'
+                    boxShadow='sm'
+                    px={5}
+                    style={{ margin: '0 125px' }}
+                    mb={{ base: '5', md: '5' }}>
+                    <Container py={{ base: '4', lg: '5' }} maxWidth='full'>
+                        <HStack spacing='10' justify='space-between' mt={4}>
+                            {!isDesktop ? (
+                                <Flex justify='center' flex='1'>
+                                    <Link to='/'>
+                                        <Heading>
+                                            <span>Lead</span>
+                                            <span style={{ color: 'red' }}>
+                                                Stack
+                                            </span>
+                                        </Heading>
+                                    </Link>
+                                </Flex>
+                            ) : (
+                                <Flex justify='space-between' flex='1'>
+                                    <Link to='/'>
+                                        <Heading style={{ fontSize: '1.8rem' }}>
+                                            <span>
+                                                <FontAwesomeIcon
+                                                    style={{
+                                                        margin: '2px 2px 0 0',
+                                                    }}
+                                                    icon={faCubes}
+                                                />
+                                                Lead
+                                            </span>
+                                            <span style={{ color: 'red' }}>
+                                                Stack
+                                            </span>
+                                        </Heading>
+                                    </Link>
+                                    {/* TODO: Add a search bar and ensure this menu is only visible when the user is logged in */}
+                                    <Flex 
+                                        display={['none','none','flex','flex']}
+                                    >
+                                        {loggedIn && (
+                                            <ButtonGroup
+                                                variant='link'
+                                                spacing='8'
+                                                mt={2}>
+                                                {[
+                                                    'Dashboard',
+                                                    'Contacts',
+                                                    'Conversations',
+                                                    // 'Support',
+                                                    'Profile',
+                                                ].map((item) => (
+                                                    <Link key={item} to={links[item]}>
+                                                        <Button>{item}</Button>
+                                                    </Link>
+                                                ))}
+                                            </ButtonGroup>
+                                        )}
+                                    </Flex>
+                                    <HStack spacing='3'>
+                                        <IconButton
+                                            variant='ghost'
+                                            icon={
+                                                colorMode === 'light' ? (
+                                                    <ImCool fontSize='1.25rem' />
+                                                ) : (
+                                                    <ImCool fontSize='1.25rem' />
+                                                )
+                                            }
+                                            aria-label='Open Menu'
+                                            onClick={() =>
+                                                toggleColorMode(
+                                                    colorMode === 'light'
+                                                        ? 'dark'
+                                                        : 'light'
+                                                )
+                                            }
+                                        />
+                                        {loggedIn ? (
+                                            <>
+                                                <Button
+                                                    colorScheme='red'
+                                                    onClick={(event) => {
+                                                        logout(event);
+                                                        updateAuth(Auth.loggedIn());
+                                                        navToHome();
+                                                    }}>
+                                                    Logout
+                                                </Button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Login loggedIn={loggedIn} />
+                                                <Signup />
+                                            </>
+                                        )}
+                                    </HStack>
+                                </Flex>
+                            )}
+                        <Menu>
+                            <MenuButton 
+                                size={"md"}
+                                mr={'2'}
+                                aria-label={"Open Menu"}
+                                // display={{ md: "none" }}
+                                display={['flex','flex','flex','none']}
                             >
-                                 <HamburgerIcon />
-                           </MenuButton>
-                           <MenuList>
+                                <HamburgerIcon />
+                            </MenuButton>
+                            <MenuList>
                                 {Object.keys(links).map((item) => (
-                                <MenuItem key={item}  as={Link} to={links[item]}>
-                                    {item}
-                                </MenuItem>
+                                    <MenuItem key={item}  as={Link} to={links[item]}>
+                                        {item}
+                                    </MenuItem>
                                 ))}
                             </MenuList>
-                         </Menu>
-                   
-                    </HStack>
-                </Container>
-            </Box>
+                        </Menu>
+                        </HStack>
+                    </Container>
+                </Box>
             {children}
         </Box>
     );
